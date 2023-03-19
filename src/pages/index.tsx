@@ -1,13 +1,32 @@
+import { Banner } from '@/components/Banner'
 import { Header } from '@/components/Header'
-import Head from 'next/head'
-import Image from 'next/image'
+import { SlideBunner } from './SlideBunner'
 
 
 export default function Home() {
   return (
     <>
       <Header />
-      <h1 className='text-8xl text-purple-600'>hello cinclo</h1>
+      <Banner />
+      <SexSwitch />
+      <SlideBunner />
     </>
+  )
+}
+
+const SexSwitch = () => {
+  return(
+    <div className='flex justify-center py-5'>
+      <div className='pr-4'>
+        <button>
+          MEN
+        </button>
+      </div>
+      <div className='pl-4'>
+        <button>
+          WOMEM
+        </button>
+      </div>
+    </div>
   )
 }
