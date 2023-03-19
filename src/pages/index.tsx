@@ -1,6 +1,8 @@
 import { Banner } from '@/components/Banner'
 import { Header } from '@/components/Header'
+import { HomeItemsContainer } from '@/components/HomeItemsContainer'
 import { SlideBunner } from '@/components/SlideBunner'
+import { Item } from '@/types/Item.type'
 
 
 export default function Home() {
@@ -11,6 +13,7 @@ export default function Home() {
       <SexSwitch />
       <SlideBunner />
       <div className='px-5'>
+        <Recommend />
         <NewArrival />
       </div>
     </>
@@ -20,80 +23,165 @@ export default function Home() {
 const SexSwitch = () => {
   return(
     <div className='flex justify-center py-5'>
-      <div className='pr-4'>
+      <div className='px-4'>
         <button>
-          MEN
+          ALL
         </button>
       </div>
-      <div className='pl-4'>
+      <div className='px-4'>
         <button>
           WOMEM
+        </button>
+      </div>
+      <div className='px-4'>
+        <button>
+          MEN
         </button>
       </div>
     </div>
   )
 }
 
-type NewItem = {
-  id: string;
-  name: string;
-  imageUrl: string;
-  price: number;
+const Recommend = () => {
+
+  const items: Item[] = [
+    {
+      id: "1",
+      category: "トップス",
+      name: "aaa",
+      brand: "BEAMS",
+      imageUrl: "",
+      basePrice: 32000,
+      currentPrice: 4500,
+      rentalCount: 5,
+    },
+    {
+      id: "2",
+      category: "ジャケット/スーツ",
+      name: "bbb",
+      brand: "BEAMS",
+      imageUrl: "",
+      basePrice: 18000,
+      currentPrice: 2000,
+      rentalCount: 6,
+    },
+    {
+      id: "3",
+      category: "パンツ",
+      name: "ccc",
+      brand: "BEAMS",
+      imageUrl: "",
+      basePrice: 12000,
+      currentPrice: 1000,
+      rentalCount: 8,
+    },
+    {
+      id: "4",
+      category: "スカート",
+      name: "ddd",
+      brand: "BEAMS",
+      imageUrl: "",
+      basePrice: 10000,
+      currentPrice: 2000,
+      rentalCount: 6,
+    },
+    {
+      id: "5",
+      category: "アウター",
+      name: "eee",
+      brand: "BEAMS",
+      imageUrl: "",
+      basePrice: 23000,
+      currentPrice: 14000,
+      rentalCount: 5,
+    },
+    {
+      id: "6",
+      category: "トップス",
+      name: "fff",
+      brand: "BEAMS",
+      imageUrl: "",
+      basePrice: 33000,
+      currentPrice: 18000,
+      rentalCount: 4,
+    }
+  ]
+
+  return(
+    <div className='py-7'>
+      <HomeItemsContainer items={items} title='おすすめ'/>
+    </div>
+  )
 }
 
 const NewArrival = () => {
 
-  const items: NewItem[] = [
+  const items: Item[] = [
     {
       id: "1",
+      category: "トップス",
       name: "aaa",
+      brand: "BEAMS",
       imageUrl: "",
-      price: 32000
+      basePrice: 32000,
+      currentPrice: 32000,
+      rentalCount: 0,
     },
     {
       id: "2",
+      category: "ジャケット/スーツ",
       name: "bbb",
+      brand: "BEAMS",
       imageUrl: "",
-      price: 18000
+      basePrice: 18000,
+      currentPrice: 18000,
+      rentalCount: 0,
     },
     {
       id: "3",
+      category: "パンツ",
       name: "ccc",
+      brand: "BEAMS",
       imageUrl: "",
-      price: 12000
+      basePrice: 12000,
+      currentPrice: 12000,
+      rentalCount: 0,
     },
     {
       id: "4",
+      category: "スカート",
       name: "ddd",
+      brand: "BEAMS",
       imageUrl: "",
-      price: 10000
+      basePrice: 10000,
+      currentPrice: 10000,
+      rentalCount: 0,
     },
     {
       id: "5",
+      category: "アウター",
       name: "eee",
+      brand: "BEAMS",
       imageUrl: "",
-      price: 23000
+      basePrice: 23000,
+      currentPrice: 23000,
+      rentalCount: 0,
+    },
+    {
+      id: "6",
+      category: "トップス",
+      name: "fff",
+      brand: "BEAMS",
+      imageUrl: "",
+      basePrice: 33000,
+      currentPrice: 33000,
+      rentalCount: 0,
     }
   ]
 
   return (
     <div className='py-7'>
-      <div className='pb-3'>新着アイテム</div>
-      <div className='flex flex-wrap justify-start'>
-        {items.map((item, index) => {
-          return (
-            <div key={index} style={{ width: "110px" }} className='ml-1'>
-              <div className='bg-gray-400' style={{ height: "150px" }}>{item.imageUrl}</div>
-              <div className='pt-2'>¥{item.price}</div>
-            </div>
-          )
-        })}
-      </div>
-      <div className='pt-4 text-center'>
-        <button>
-          <div className='rounded-none px-2 py-1' style={{border: "1px solid #111"}}>詳細を見る</div>
-        </button>
-      </div>
+      <HomeItemsContainer items={items} title='新着アイテム'/>
     </div>
   )
 }
