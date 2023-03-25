@@ -4,10 +4,19 @@ import type { AppProps } from 'next/app'
 // import Font Awesome CSS
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
+
+import { ApolloProvider } from '@apollo/client';
+import { useApollo } from '@/libs/apollo/apolloClient';
+
 // Tell Font Awesome to skip adding the CSS automatically 
 // since it's already imported above
 config.autoAddCss = false;
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const apolloClient = useApollo(pageProps);
+  return (
+    <ApolloProvider client={apolloClient}>
+      <Component {...pageProps} />
+    </ApolloProvider>
+  )
 }

@@ -4,8 +4,14 @@ import { HomeItemsContainer } from '@/components/HomeItemsContainer'
 import { SlideBunner } from '@/components/SlideBunner'
 import { Item } from '@/types/Item.type'
 
+import { gql } from '@apollo/client'
+import { useGetItemsTestQuery } from '../libs/apollo/graphql'
+
 
 export default function Home() {
+  const { data } = useGetItemsTestQuery();
+  console.log({data})
+
   return (
     <>
       <Header />
@@ -185,3 +191,12 @@ const NewArrival = () => {
     </div>
   )
 }
+
+gql`
+  query getItemsTest {
+    items {
+      id
+      name
+    }
+  }
+`
