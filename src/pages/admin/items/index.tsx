@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 import { useGetItemListByAdminContainerQuery } from '@/libs/apollo/graphql'
+import { getLayout } from '@/components/admin/layout';
 
 export default function AdminItemsContainer() {
 
@@ -52,3 +53,5 @@ gql`
     }
 }
 `
+
+AdminItemsContainer.getLayout = getLayout

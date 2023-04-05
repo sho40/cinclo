@@ -7,16 +7,29 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '@/libs/apollo/apolloClient';
+import { NextPage } from 'next';
+import { ReactElement, ReactNode } from 'react';
 
 // Tell Font Awesome to skip adding the CSS automatically 
 // since it's already imported above
 config.autoAddCss = false;
 
-export default function App({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement) => ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+export default function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page)
   const apolloClient = useApollo(pageProps);
   return (
-    <ApolloProvider client={apolloClient}>
-      <Component {...pageProps} />
-    </ApolloProvider>
+    getLayout(
+      <ApolloProvider client={apolloClient}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+    )
   )
 }
