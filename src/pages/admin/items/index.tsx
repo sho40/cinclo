@@ -1,6 +1,8 @@
 import { gql } from '@apollo/client'
 import { useGetItemListByAdminContainerQuery } from '@/libs/apollo/graphql'
 import { getLayout } from '@/components/admin/layout';
+import PageTitle from '@/components/admin/pageTitle/PageTitle';
+import ActionButtonArea from '@/components/admin/actionButtonArea/ActionButtonArea';
 
 export default function AdminItemsContainer() {
 
@@ -8,6 +10,8 @@ export default function AdminItemsContainer() {
 
   return (
     <>
+      <PageTitle title='アイテム一覧'/>
+      <ActionButtonArea><></></ActionButtonArea>
       {
         loading ?
           <div>...Loading</div>

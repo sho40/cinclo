@@ -6,11 +6,10 @@ type Props = {
 }
 
 export default function Layout({ children }: Props) {
-  console.log("Layout")
   return (
     <div className='flex min-h-screen bg-admin-palette-light-gray'>
       <SideMenuContainer />
-      <main>{children}</main>
+      <main className="p-7 w-full">{children}</main>
     </div>
   )
 }
