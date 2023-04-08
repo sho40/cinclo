@@ -3,8 +3,9 @@ import { useGetItemListByAdminContainerQuery } from '@/libs/apollo/graphql'
 import { getLayout } from '@/components/admin/layout';
 import PageTitle from '@/components/admin/pageTitle/PageTitle';
 import ActionButtonArea from '@/components/admin/actionButtonArea/ActionButtonArea';
+import ItemListTable from '@/components/admin/item-list/ItemListTable';
 
-export default function AdminItemsContainer() {
+export default function ItemListContainer() {
 
   const { data, loading } = useGetItemListByAdminContainerQuery();
 
@@ -21,20 +22,7 @@ export default function AdminItemsContainer() {
               data == null ? 
                 <div>データがありません</div>
                 :
-                <div>
-                  {
-                    data.items.map((item, index) => {
-                      return (
-                        <div key={index}>
-                          <ul>
-                            <li>商品名: {item.name}</li>
-                            <li>定価: {item.regular_price}</li>
-                          </ul>
-                        </div>
-                      )
-                    })
-                  }
-                </div>
+                <ItemListTable items={data.items}/>
             }
           </div>
       }
@@ -58,4 +46,4 @@ gql`
 }
 `
 
-AdminItemsContainer.getLayout = getLayout
+ItemListContainer.getLayout = getLayout
