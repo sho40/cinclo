@@ -1,5 +1,4 @@
 import { initializeApp, getApps, FirebaseApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 // Firestoreはログインやユーザー登録の実装には使わないが、今後のことを考えて入れておく
 import { getFirestore, Firestore } from 'firebase/firestore'
 import {

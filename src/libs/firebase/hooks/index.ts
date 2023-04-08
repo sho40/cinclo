@@ -21,7 +21,7 @@ export const logOut = async () => {
   .catch((error) => {
     alert('ログアウトに失敗しました')
 
-    // TODO: エラーハンドリング
+    // TODO エラーハンドリング
     console.log(error)
   })
 }

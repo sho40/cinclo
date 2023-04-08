@@ -4,8 +4,6 @@ import {
   sendEmailVerification,
   updateProfile,
 } from 'firebase/auth'
-import { NextPage } from 'next'
-import { FC } from 'react'
 import { FirebaseError } from 'firebase/app'
 import router from 'next/router'
 import { useForm } from 'react-hook-form'
