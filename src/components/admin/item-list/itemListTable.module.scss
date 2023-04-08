@@ -1,0 +1,21 @@
+$table-border: 1px solid rgba(55, 65, 81);
+
+.itemListTable {
+
+  table {
+    table-layout: auto;
+    width: 100%;
+    border: $table-border;
+  }
+
+  th {
+    padding: 20px 0;
+    border: $table-border;
+  }
+
+  td {
+    text-align: center;
+    padding: 20px 0;
+    border: $table-border;
+  }
+}
