@@ -1,7 +1,7 @@
 import { getAuth, getRedirectResult } from '@firebase/auth'
 import { AuthContextState, ReactNodeProps, User } from "@/types/user.types";
 import { createContext, useContext, useEffect, useState } from "react";
-import { firebaseApp } from "../../firebaseConfig";
+import { firebaseApp, auth } from "../../firebaseConfig";
 
 const FirebaseAuthContext = createContext<AuthContextState>({
   currentUser: undefined,
@@ -9,8 +9,6 @@ const FirebaseAuthContext = createContext<AuthContextState>({
 
 const FirebaseAuthProvider = ({children}: ReactNodeProps) => {
   const [currentUser, setCurrentUser] = useState<User | null | undefined>(undefined);
-
-  const auth = getAuth(firebaseApp)
 
   useEffect(() => {
 
@@ -34,7 +32,7 @@ const FirebaseAuthProvider = ({children}: ReactNodeProps) => {
       }
      })
 
-  }, [auth])
+  }, [])
 
   return (
     <FirebaseAuthContext.Provider value={{ currentUser: currentUser }}>
