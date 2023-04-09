@@ -12,7 +12,8 @@ export default function SideMenuContainer() {
         <SideMenuButton title="注文管理" url="/admin" selected={false}/>
         <SideMenuButton title="商品登録" url="/admin/item/new" selected={false}/>
         <SideMenuButton title="ブランド登録" url="/admin/register/brand" selected={false}/>
-
+        <SideMenuButton title="カテゴリー登録" url="/admin/register/category" selected={false}/>
+        <SideMenuButton title="子カテゴリー登録" url="/admin/register/category/child" selected={false}/>
       </div>
     </FirebaseAuthProvider>
   )

@@ -1,7 +1,7 @@
 import { getLayout } from '@/components/admin/layout';
 import PageTitle from '@/components/admin/pageTitle/PageTitle';
 import { gql } from '@apollo/client';
-import { useCreateItemMutation, CreateItemMutationVariables } from '@/libs/apollo/graphql';
+import { useCreateItemMutation, CreateItemMutationVariables, useGetChildCategoriesQuery, useGetBrandListQuery } from '@/libs/apollo/graphql';
 import styles from "./newItem.module.scss"
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router';
@@ -10,6 +10,10 @@ import { stringToDate } from '@/logic/dateFormatter';
 export default function ItemNew() {
   const router = useRouter()
 
+  const categoryListRes = useGetChildCategoriesQuery()
+  const categoryList = categoryListRes.data?.categories;
+  const brandListRes = useGetBrandListQuery()
+  const brandList = brandListRes.data?.brands;
   const [createItem] = useCreateItemMutation({refetchQueries: ["getItemListByAdminContainer"]});
 
   const {
@@ -94,22 +98,36 @@ export default function ItemNew() {
                       <tr>
                         <th>カテゴリ</th>
                         <td>
-                          {/* FIXME: データベースから取得して選択できるように */}
                           <select
                             {...register('category_id', { required: 'カテゴリを選択してください' })}
                           >
-                            <option value={1}>トップス</option>
+                            {
+                              categoryList?.map((category, index) => {
+                                return (
+                                  <option key={index} value={category.id}>
+                                    {category.name}
+                                  </option>
+                                )
+                              })
+                            }
                           </select>
                         </td>
                       </tr> 
                       <tr>
                         <th>ブランド</th>
                         <td>
-                          {/* FIXME: データベースから取得して選択できるように */}
                           <select
                             {...register('brand_id', { required: 'ブランドを選択してください' })}
                           >
-                            <option value={1}>BEAMS</option>
+                            {
+                              brandList?.map((brand, index) => {
+                                return (
+                                  <option key={index} value={brand.id}>
+                                    {brand.name}
+                                  </option>
+                                )
+                              })
+                            }
                           </select>
                         </td>
                       </tr> 

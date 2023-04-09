@@ -1942,6 +1942,89 @@ export type DeleteBrandMutation = (
   )> }
 );
 
+export type GetChildCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetChildCategoriesQuery = (
+  { __typename?: 'query_root' }
+  & { categories: Array<(
+    { __typename?: 'categories' }
+    & Pick<Categories, 'id' | 'name'>
+    & { sub_category?: Maybe<(
+      { __typename?: 'sub_categories' }
+      & Pick<Sub_Categories, 'id' | 'name'>
+    )> }
+  )> }
+);
+
+export type CreateNewChildCategoryMutationVariables = Exact<{
+  name?: InputMaybe<Scalars['String']>;
+  sub_category_id?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type CreateNewChildCategoryMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_categories_one?: Maybe<(
+    { __typename?: 'categories' }
+    & Pick<Categories, 'id' | 'name'>
+    & { sub_category?: Maybe<(
+      { __typename?: 'sub_categories' }
+      & Pick<Sub_Categories, 'id' | 'name'>
+    )> }
+  )> }
+);
+
+export type DeleteChildCategoryMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteChildCategoryMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_categories_by_pk?: Maybe<(
+    { __typename?: 'categories' }
+    & Pick<Categories, 'id' | 'name'>
+  )> }
+);
+
+export type GetSubCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetSubCategoriesQuery = (
+  { __typename?: 'query_root' }
+  & { sub_categories: Array<(
+    { __typename?: 'sub_categories' }
+    & Pick<Sub_Categories, 'id' | 'name'>
+  )> }
+);
+
+export type CreateNewSubCategoryMutationVariables = Exact<{
+  name?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type CreateNewSubCategoryMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_sub_categories_one?: Maybe<(
+    { __typename?: 'sub_categories' }
+    & Pick<Sub_Categories, 'id' | 'name'>
+  )> }
+);
+
+export type DeleteSubCategoryMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type DeleteSubCategoryMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_sub_categories_by_pk?: Maybe<(
+    { __typename?: 'sub_categories' }
+    & Pick<Sub_Categories, 'id' | 'name'>
+  )> }
+);
+
 export type GetItemsTestQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2241,6 +2324,221 @@ export function useDeleteBrandMutation(baseOptions?: Apollo.MutationHookOptions<
 export type DeleteBrandMutationHookResult = ReturnType<typeof useDeleteBrandMutation>;
 export type DeleteBrandMutationResult = Apollo.MutationResult<DeleteBrandMutation>;
 export type DeleteBrandMutationOptions = Apollo.BaseMutationOptions<DeleteBrandMutation, DeleteBrandMutationVariables>;
+export const GetChildCategoriesDocument = gql`
+    query GetChildCategories {
+  categories {
+    id
+    name
+    sub_category {
+      id
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetChildCategoriesQuery__
+ *
+ * To run a query within a React component, call `useGetChildCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetChildCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetChildCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetChildCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<GetChildCategoriesQuery, GetChildCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetChildCategoriesQuery, GetChildCategoriesQueryVariables>(GetChildCategoriesDocument, options);
+      }
+export function useGetChildCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetChildCategoriesQuery, GetChildCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetChildCategoriesQuery, GetChildCategoriesQueryVariables>(GetChildCategoriesDocument, options);
+        }
+export type GetChildCategoriesQueryHookResult = ReturnType<typeof useGetChildCategoriesQuery>;
+export type GetChildCategoriesLazyQueryHookResult = ReturnType<typeof useGetChildCategoriesLazyQuery>;
+export type GetChildCategoriesQueryResult = Apollo.QueryResult<GetChildCategoriesQuery, GetChildCategoriesQueryVariables>;
+export const CreateNewChildCategoryDocument = gql`
+    mutation CreateNewChildCategory($name: String, $sub_category_id: Int) {
+  insert_categories_one(object: {name: $name, sub_category_id: $sub_category_id}) {
+    id
+    name
+    sub_category {
+      id
+      name
+    }
+  }
+}
+    `;
+export type CreateNewChildCategoryMutationFn = Apollo.MutationFunction<CreateNewChildCategoryMutation, CreateNewChildCategoryMutationVariables>;
+
+/**
+ * __useCreateNewChildCategoryMutation__
+ *
+ * To run a mutation, you first call `useCreateNewChildCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNewChildCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNewChildCategoryMutation, { data, loading, error }] = useCreateNewChildCategoryMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      sub_category_id: // value for 'sub_category_id'
+ *   },
+ * });
+ */
+export function useCreateNewChildCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateNewChildCategoryMutation, CreateNewChildCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateNewChildCategoryMutation, CreateNewChildCategoryMutationVariables>(CreateNewChildCategoryDocument, options);
+      }
+export type CreateNewChildCategoryMutationHookResult = ReturnType<typeof useCreateNewChildCategoryMutation>;
+export type CreateNewChildCategoryMutationResult = Apollo.MutationResult<CreateNewChildCategoryMutation>;
+export type CreateNewChildCategoryMutationOptions = Apollo.BaseMutationOptions<CreateNewChildCategoryMutation, CreateNewChildCategoryMutationVariables>;
+export const DeleteChildCategoryDocument = gql`
+    mutation DeleteChildCategory($id: Int!) {
+  delete_categories_by_pk(id: $id) {
+    id
+    name
+  }
+}
+    `;
+export type DeleteChildCategoryMutationFn = Apollo.MutationFunction<DeleteChildCategoryMutation, DeleteChildCategoryMutationVariables>;
+
+/**
+ * __useDeleteChildCategoryMutation__
+ *
+ * To run a mutation, you first call `useDeleteChildCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteChildCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteChildCategoryMutation, { data, loading, error }] = useDeleteChildCategoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteChildCategoryMutation(baseOptions?: Apollo.MutationHookOptions<DeleteChildCategoryMutation, DeleteChildCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteChildCategoryMutation, DeleteChildCategoryMutationVariables>(DeleteChildCategoryDocument, options);
+      }
+export type DeleteChildCategoryMutationHookResult = ReturnType<typeof useDeleteChildCategoryMutation>;
+export type DeleteChildCategoryMutationResult = Apollo.MutationResult<DeleteChildCategoryMutation>;
+export type DeleteChildCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteChildCategoryMutation, DeleteChildCategoryMutationVariables>;
+export const GetSubCategoriesDocument = gql`
+    query GetSubCategories {
+  sub_categories {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useGetSubCategoriesQuery__
+ *
+ * To run a query within a React component, call `useGetSubCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSubCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSubCategoriesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetSubCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<GetSubCategoriesQuery, GetSubCategoriesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSubCategoriesQuery, GetSubCategoriesQueryVariables>(GetSubCategoriesDocument, options);
+      }
+export function useGetSubCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSubCategoriesQuery, GetSubCategoriesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSubCategoriesQuery, GetSubCategoriesQueryVariables>(GetSubCategoriesDocument, options);
+        }
+export type GetSubCategoriesQueryHookResult = ReturnType<typeof useGetSubCategoriesQuery>;
+export type GetSubCategoriesLazyQueryHookResult = ReturnType<typeof useGetSubCategoriesLazyQuery>;
+export type GetSubCategoriesQueryResult = Apollo.QueryResult<GetSubCategoriesQuery, GetSubCategoriesQueryVariables>;
+export const CreateNewSubCategoryDocument = gql`
+    mutation CreateNewSubCategory($name: String) {
+  insert_sub_categories_one(object: {name: $name}) {
+    id
+    name
+  }
+}
+    `;
+export type CreateNewSubCategoryMutationFn = Apollo.MutationFunction<CreateNewSubCategoryMutation, CreateNewSubCategoryMutationVariables>;
+
+/**
+ * __useCreateNewSubCategoryMutation__
+ *
+ * To run a mutation, you first call `useCreateNewSubCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNewSubCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNewSubCategoryMutation, { data, loading, error }] = useCreateNewSubCategoryMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useCreateNewSubCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateNewSubCategoryMutation, CreateNewSubCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateNewSubCategoryMutation, CreateNewSubCategoryMutationVariables>(CreateNewSubCategoryDocument, options);
+      }
+export type CreateNewSubCategoryMutationHookResult = ReturnType<typeof useCreateNewSubCategoryMutation>;
+export type CreateNewSubCategoryMutationResult = Apollo.MutationResult<CreateNewSubCategoryMutation>;
+export type CreateNewSubCategoryMutationOptions = Apollo.BaseMutationOptions<CreateNewSubCategoryMutation, CreateNewSubCategoryMutationVariables>;
+export const DeleteSubCategoryDocument = gql`
+    mutation DeleteSubCategory($id: Int!) {
+  delete_sub_categories_by_pk(id: $id) {
+    id
+    name
+  }
+}
+    `;
+export type DeleteSubCategoryMutationFn = Apollo.MutationFunction<DeleteSubCategoryMutation, DeleteSubCategoryMutationVariables>;
+
+/**
+ * __useDeleteSubCategoryMutation__
+ *
+ * To run a mutation, you first call `useDeleteSubCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteSubCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteSubCategoryMutation, { data, loading, error }] = useDeleteSubCategoryMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteSubCategoryMutation(baseOptions?: Apollo.MutationHookOptions<DeleteSubCategoryMutation, DeleteSubCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteSubCategoryMutation, DeleteSubCategoryMutationVariables>(DeleteSubCategoryDocument, options);
+      }
+export type DeleteSubCategoryMutationHookResult = ReturnType<typeof useDeleteSubCategoryMutation>;
+export type DeleteSubCategoryMutationResult = Apollo.MutationResult<DeleteSubCategoryMutation>;
+export type DeleteSubCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteSubCategoryMutation, DeleteSubCategoryMutationVariables>;
 export const GetItemsTestDocument = gql`
     query getItemsTest {
   items {
