@@ -6,6 +6,7 @@ import router from 'next/router'
 import { useForm } from 'react-hook-form'
 import { LoginForm } from '@/types/loginForm.type'
 import { FirebaseAuthProvider } from '@/libs/firebase/utils/auth'
+import styles from './signIn.module.scss'
 
 export default function SignIn() {
   const [error, setError] = useState<string  | undefined>(undefined);
@@ -41,38 +42,42 @@ export default function SignIn() {
     <>
       <FirebaseAuthProvider>
         <div>
-          <div>Login</div>
+          <h1>Login</h1>
         </div>
-        <form onSubmit={handleSubmit(isValid)}>
-          <div>
-            <label>メールアドレス</label>
-            <input 
-              {...register('email', { required: 'メールアドレスを入力してください' })}
-              placeholder='your@email.com'
-              type={'email'}
-            />
-            <div>{errors.email?.message}</div>
-          </div>
-          <div>
-            <label>パスワード</label>
-            <input 
-              {...register('password', { required: 'パスワードを入力してください', minLength: { value: 6, message: '6文字以上入力してください' }, })}
-              placeholder='Password'
-              type={'password'}
-            />
-            <div>{errors.password?.message}</div>
-          </div>
-          <div>
-            <button
-              type='submit'
-            >
-              ログインする
-            </button>
-          </div>
-        </form>
-        <button onClick={() => router.push('/admin/sign-up')}>
-          Sign Up
-        </button>
+        <div className={`mt-4 mb-4 ${styles.form}`}>
+          <form onSubmit={handleSubmit(isValid)}>
+            <div>
+              <label>メールアドレス</label>
+              <input 
+                {...register('email', { required: 'メールアドレスを入力してください' })}
+                placeholder='your@email.com'
+                type={'email'}
+              />
+              <div>{errors.email?.message}</div>
+            </div>
+            <div>
+              <label>パスワード</label>
+              <input 
+                {...register('password', { required: 'パスワードを入力してください', minLength: { value: 6, message: '6文字以上入力してください' }, })}
+                placeholder='Password'
+                type={'password'}
+              />
+              <div>{errors.password?.message}</div>
+            </div>
+            <div className={`mt-4 ${styles.loginButton}`}>
+              <button
+                type='submit'
+              >
+                ログインする
+              </button>
+            </div>
+          </form>
+        </div>
+        <div >
+          <button onClick={() => router.push('/admin/sign-up')}>
+            Sign Up
+          </button>
+        </div>
         <div>{error != null ? <>{error}</> : <></>}</div>
       </FirebaseAuthProvider>
     </>
