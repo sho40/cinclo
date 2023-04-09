@@ -4,6 +4,8 @@ import { useDeleteItemMutation, useGetItemQuery } from '@/libs/apollo/graphql';
 import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { numberToPrice } from "@/logic/numberFormatter";
+import { formatDateYYYYMMDDHHmmss, formatDateYYYYMMDD } from "@/logic/dateFormatter"
+import { genderFormat } from "@/logic/genderFormatter"
 import styles from "./ItemDetail.module.scss"
 
 
@@ -62,15 +64,15 @@ export default function ItemDetail() {
                           </tr> 
                           <tr>
                             <th>性別</th>
-                            <td>{item.gender}</td>
+                            <td>{genderFormat(item.gender)}</td>
                           </tr> 
                           <tr>
                             <th>登録日</th>
-                            <td>{item.created_at}</td>
+                            <td>{formatDateYYYYMMDDHHmmss(item.created_at)}</td>
                           </tr> 
                           <tr>
                             <th>更新日</th>
-                            <td>{item.updated_at}</td>
+                            <td>{formatDateYYYYMMDDHHmmss(item.updated_at)}</td>
                           </tr> 
                         </tbody>
                       </table>
@@ -99,7 +101,7 @@ export default function ItemDetail() {
                           </tr>
                           <tr>
                             <th>次回貸出可能日</th>
-                            <td>{item.next_lending_date ?? '-'}</td>
+                            <td>{item.next_lending_date ? formatDateYYYYMMDD(item.next_lending_date) : '-'}</td>
                           </tr>
                           <tr>
                             <th>販売ステータス</th>
