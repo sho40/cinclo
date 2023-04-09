@@ -11,7 +11,7 @@ export default function ItemListContainer() {
 
   return (
     <>
-      <PageTitle title='アイテム一覧'/>
+      <PageTitle title='商品一覧'/>
       <ActionButtonArea><></></ActionButtonArea>
       {
         loading ?

@@ -1827,6 +1827,59 @@ export type GetItemListByAdminContainerQuery = (
   )> }
 );
 
+export type DeleteItemMutationVariables = Exact<{
+  itemId: Scalars['Int'];
+}>;
+
+
+export type DeleteItemMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_items_by_pk?: Maybe<(
+    { __typename?: 'items' }
+    & Pick<Items, 'id'>
+  )> }
+);
+
+export type GetItemQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetItemQuery = (
+  { __typename?: 'query_root' }
+  & { items_by_pk?: Maybe<(
+    { __typename?: 'items' }
+    & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale'>
+    & { brand?: Maybe<(
+      { __typename?: 'brands' }
+      & Pick<Brands, 'id' | 'name'>
+    )>, category?: Maybe<(
+      { __typename?: 'categories' }
+      & Pick<Categories, 'id' | 'name'>
+      & { sub_category?: Maybe<(
+        { __typename?: 'sub_categories' }
+        & Pick<Sub_Categories, 'id' | 'name'>
+      )> }
+    )> }
+  )> }
+);
+
+export type ItemDetailFragment = (
+  { __typename?: 'items' }
+  & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale'>
+  & { brand?: Maybe<(
+    { __typename?: 'brands' }
+    & Pick<Brands, 'id' | 'name'>
+  )>, category?: Maybe<(
+    { __typename?: 'categories' }
+    & Pick<Categories, 'id' | 'name'>
+    & { sub_category?: Maybe<(
+      { __typename?: 'sub_categories' }
+      & Pick<Sub_Categories, 'id' | 'name'>
+    )> }
+  )> }
+);
+
 export type GetItemsTestQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1838,7 +1891,34 @@ export type GetItemsTestQuery = (
   )> }
 );
 
-
+export const ItemDetailFragmentDoc = gql`
+    fragment ItemDetail on items {
+  brand {
+    id
+    name
+  }
+  category {
+    id
+    name
+    sub_category {
+      id
+      name
+    }
+  }
+  created_at
+  current_count
+  current_price
+  description
+  gender
+  id
+  is_rental_available
+  name
+  next_lending_date
+  regular_price
+  updated_at
+  can_sale
+}
+    `;
 export const GetItemListByAdminContainerDocument = gql`
     query getItemListByAdminContainer {
   items {
@@ -1881,6 +1961,74 @@ export function useGetItemListByAdminContainerLazyQuery(baseOptions?: Apollo.Laz
 export type GetItemListByAdminContainerQueryHookResult = ReturnType<typeof useGetItemListByAdminContainerQuery>;
 export type GetItemListByAdminContainerLazyQueryHookResult = ReturnType<typeof useGetItemListByAdminContainerLazyQuery>;
 export type GetItemListByAdminContainerQueryResult = Apollo.QueryResult<GetItemListByAdminContainerQuery, GetItemListByAdminContainerQueryVariables>;
+export const DeleteItemDocument = gql`
+    mutation DeleteItem($itemId: Int!) {
+  delete_items_by_pk(id: $itemId) {
+    id
+  }
+}
+    `;
+export type DeleteItemMutationFn = Apollo.MutationFunction<DeleteItemMutation, DeleteItemMutationVariables>;
+
+/**
+ * __useDeleteItemMutation__
+ *
+ * To run a mutation, you first call `useDeleteItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteItemMutation, { data, loading, error }] = useDeleteItemMutation({
+ *   variables: {
+ *      itemId: // value for 'itemId'
+ *   },
+ * });
+ */
+export function useDeleteItemMutation(baseOptions?: Apollo.MutationHookOptions<DeleteItemMutation, DeleteItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteItemMutation, DeleteItemMutationVariables>(DeleteItemDocument, options);
+      }
+export type DeleteItemMutationHookResult = ReturnType<typeof useDeleteItemMutation>;
+export type DeleteItemMutationResult = Apollo.MutationResult<DeleteItemMutation>;
+export type DeleteItemMutationOptions = Apollo.BaseMutationOptions<DeleteItemMutation, DeleteItemMutationVariables>;
+export const GetItemDocument = gql`
+    query getItem($id: Int!) {
+  items_by_pk(id: $id) {
+    ...ItemDetail
+  }
+}
+    ${ItemDetailFragmentDoc}`;
+
+/**
+ * __useGetItemQuery__
+ *
+ * To run a query within a React component, call `useGetItemQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetItemQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetItemQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetItemQuery(baseOptions: Apollo.QueryHookOptions<GetItemQuery, GetItemQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetItemQuery, GetItemQueryVariables>(GetItemDocument, options);
+      }
+export function useGetItemLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetItemQuery, GetItemQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetItemQuery, GetItemQueryVariables>(GetItemDocument, options);
+        }
+export type GetItemQueryHookResult = ReturnType<typeof useGetItemQuery>;
+export type GetItemLazyQueryHookResult = ReturnType<typeof useGetItemLazyQuery>;
+export type GetItemQueryResult = Apollo.QueryResult<GetItemQuery, GetItemQueryVariables>;
 export const GetItemsTestDocument = gql`
     query getItemsTest {
   items {

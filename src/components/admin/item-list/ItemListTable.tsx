@@ -1,5 +1,6 @@
 import { Items } from "@/libs/apollo/graphql";
 import styles from "./itemListTable.module.scss"
+import Router from 'next/router'
 
 interface ItemListTableProps {
   items: ({
@@ -9,6 +10,11 @@ interface ItemListTableProps {
 
 // FIXME: pagenation
 export default function ItemListTable({items}: ItemListTableProps) {
+
+  const goToDetail = (itemId: number) => {
+    Router.push(`/admin/item/detail/${itemId}`)
+  }
+
   return (
     <div className={styles.itemListTable}>
       <table>
@@ -39,7 +45,11 @@ export default function ItemListTable({items}: ItemListTableProps) {
                     <td>{item.is_rental_available ? "貸出可" : "貸出不可"}</td>
                     <td>{item.next_lending_date ?? "-"}</td>
                     <td>{item.can_sale ? "可" : "不可"}</td>
-                    <td>{"詳細"}</td>
+                    <td>
+                      <div className={styles.detailButton}>
+                        <button className='bg-gray-400 text-white' onClick={() => goToDetail(item.id)}>詳細</button>
+                      </div>
+                    </td>
                   </tr>
                 )
               })
