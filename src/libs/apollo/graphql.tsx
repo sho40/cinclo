@@ -1880,6 +1880,31 @@ export type ItemDetailFragment = (
   )> }
 );
 
+export type CreateItemMutationVariables = Exact<{
+  next_lending_date?: InputMaybe<Scalars['timestamptz']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  regular_price?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  brand_id?: InputMaybe<Scalars['Int']>;
+  category_id?: InputMaybe<Scalars['Int']>;
+  current_count?: InputMaybe<Scalars['Int']>;
+  current_price?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  gender?: InputMaybe<Scalars['Int']>;
+  is_rental_available?: InputMaybe<Scalars['Boolean']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  can_sale?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type CreateItemMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_items_one?: Maybe<(
+    { __typename?: 'items' }
+    & Pick<Items, 'id'>
+  )> }
+);
+
 export type GetItemsTestQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2029,6 +2054,53 @@ export function useGetItemLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetItemQueryHookResult = ReturnType<typeof useGetItemQuery>;
 export type GetItemLazyQueryHookResult = ReturnType<typeof useGetItemLazyQuery>;
 export type GetItemQueryResult = Apollo.QueryResult<GetItemQuery, GetItemQueryVariables>;
+export const CreateItemDocument = gql`
+    mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean) {
+  insert_items_one(
+    object: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, regular_price: $regular_price, next_lending_date: $next_lending_date, updated_at: $updated_at, name: $name, description: $description, gender: $gender, is_rental_available: $is_rental_available, created_at: $created_at}
+  ) {
+    id
+  }
+}
+    `;
+export type CreateItemMutationFn = Apollo.MutationFunction<CreateItemMutation, CreateItemMutationVariables>;
+
+/**
+ * __useCreateItemMutation__
+ *
+ * To run a mutation, you first call `useCreateItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createItemMutation, { data, loading, error }] = useCreateItemMutation({
+ *   variables: {
+ *      next_lending_date: // value for 'next_lending_date'
+ *      updated_at: // value for 'updated_at'
+ *      regular_price: // value for 'regular_price'
+ *      name: // value for 'name'
+ *      brand_id: // value for 'brand_id'
+ *      category_id: // value for 'category_id'
+ *      current_count: // value for 'current_count'
+ *      current_price: // value for 'current_price'
+ *      description: // value for 'description'
+ *      gender: // value for 'gender'
+ *      is_rental_available: // value for 'is_rental_available'
+ *      created_at: // value for 'created_at'
+ *      can_sale: // value for 'can_sale'
+ *   },
+ * });
+ */
+export function useCreateItemMutation(baseOptions?: Apollo.MutationHookOptions<CreateItemMutation, CreateItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument, options);
+      }
+export type CreateItemMutationHookResult = ReturnType<typeof useCreateItemMutation>;
+export type CreateItemMutationResult = Apollo.MutationResult<CreateItemMutation>;
+export type CreateItemMutationOptions = Apollo.BaseMutationOptions<CreateItemMutation, CreateItemMutationVariables>;
 export const GetItemsTestDocument = gql`
     query getItemsTest {
   items {

@@ -15,12 +15,8 @@ export default function ItemDetail() {
   const {data} = useGetItemQuery({variables: {id: itemId}});
   const item = data?.items_by_pk;
 
-  console.log("ItemDetail", data?.items_by_pk)
-
-
-
   // TODO: 動作確認
-  const [deleteItem] = useDeleteItemMutation({variables: {itemId: itemId}});
+  const [deleteItem] = useDeleteItemMutation({variables: {itemId: itemId}, refetchQueries: ["getItemListByAdminContainer"]});
   const onDelete = () => {
     const confirm = window.confirm("削除してよろしいですか？")
     if(confirm) {

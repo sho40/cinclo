@@ -1,0 +1,93 @@
+.container {
+
+  .imageArea {
+    width: 80%;
+    height: 250px;
+    line-height: 250px;
+    text-align: center;
+    color: chocolate;
+    margin: auto;
+
+    border-radius: 10px;
+    background-image : linear-gradient(to right, chocolate 5px, transparent 5px),linear-gradient(to bottom, chocolate 5px, transparent 2px),linear-gradient(to left, chocolate 5px, transparent 2px),linear-gradient(to top, chocolate 5px, transparent 2px);
+    background-size: 8px 2px,2px 8px,8px 2px,2px 8px;
+    background-repeat: repeat-x,repeat-y,repeat-x,repeat-y;
+    background-position: left top,right 0px,3px bottom,left 7px;
+  }
+
+  .basicInfoArea, .rentalInfoArea {
+    padding-top: 20px;
+
+    table {
+      width: 100%;
+
+      tr {
+        height: 50px;
+        padding: 10px 0;
+        text-align: left;
+
+        th, td {
+          border: 2px solid #fff;
+        }
+
+        th{
+          padding-left: 20px;
+        }
+
+        th {
+          width: 300px
+        }
+
+        td {
+          padding: 10px 20px
+        }
+
+        td input {
+          height: 50px;
+          width: 100%;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"] {
+          padding-left: 5px;
+        }
+
+        textarea {
+          padding: 5px;
+          width: 100%;
+        }
+
+        td select {
+          width: 100%;
+          height: 50px;
+        }
+      }
+    }
+    
+
+    caption {
+      text-align: left;
+      font-size: 24px;
+      height: 50px;
+      line-height: 50px;
+    }
+  }
+
+  .register {
+    padding: 20px 0 0 0;
+    text-align: center;
+
+    button {
+      width: 250px;
+      height: 60px;
+      background-color: #219DDD;
+      color: #fff;
+      border: 2px solid #219DDD;
+      border-radius: 5px;
+
+      &:hover {
+        opacity: 0.5;
+        cursor: pointer;
+      }
+    }
+  }
+}

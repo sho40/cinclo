@@ -1,6 +1,7 @@
 import { Items } from "@/libs/apollo/graphql";
 import styles from "./itemListTable.module.scss"
 import Router from 'next/router'
+import { numberToPrice } from "@/logic/numberFormatter";
 
 interface ItemListTableProps {
   items: ({
@@ -40,8 +41,8 @@ export default function ItemListTable({items}: ItemListTableProps) {
                   <tr key={index}>
                     <td>{item.name}</td>
                     <td>{item.gender}</td>
-                    <td>{item.current_price}</td>
-                    <td>{item.regular_price}</td>
+                    <td>{item.current_price && numberToPrice(item.current_price)}</td>
+                    <td>{item.regular_price && numberToPrice(item.regular_price)}</td>
                     <td>{item.is_rental_available ? "貸出可" : "貸出不可"}</td>
                     <td>{item.next_lending_date ?? "-"}</td>
                     <td>{item.can_sale ? "可" : "不可"}</td>
