@@ -1827,6 +1827,84 @@ export type GetItemListByAdminContainerQuery = (
   )> }
 );
 
+export type DeleteItemMutationVariables = Exact<{
+  itemId: Scalars['Int'];
+}>;
+
+
+export type DeleteItemMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_items_by_pk?: Maybe<(
+    { __typename?: 'items' }
+    & Pick<Items, 'id'>
+  )> }
+);
+
+export type GetItemQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetItemQuery = (
+  { __typename?: 'query_root' }
+  & { items_by_pk?: Maybe<(
+    { __typename?: 'items' }
+    & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale'>
+    & { brand?: Maybe<(
+      { __typename?: 'brands' }
+      & Pick<Brands, 'id' | 'name'>
+    )>, category?: Maybe<(
+      { __typename?: 'categories' }
+      & Pick<Categories, 'id' | 'name'>
+      & { sub_category?: Maybe<(
+        { __typename?: 'sub_categories' }
+        & Pick<Sub_Categories, 'id' | 'name'>
+      )> }
+    )> }
+  )> }
+);
+
+export type ItemDetailFragment = (
+  { __typename?: 'items' }
+  & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale'>
+  & { brand?: Maybe<(
+    { __typename?: 'brands' }
+    & Pick<Brands, 'id' | 'name'>
+  )>, category?: Maybe<(
+    { __typename?: 'categories' }
+    & Pick<Categories, 'id' | 'name'>
+    & { sub_category?: Maybe<(
+      { __typename?: 'sub_categories' }
+      & Pick<Sub_Categories, 'id' | 'name'>
+    )> }
+  )> }
+);
+
+export type CreateItemMutationVariables = Exact<{
+  next_lending_date?: InputMaybe<Scalars['timestamptz']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+  regular_price?: InputMaybe<Scalars['Int']>;
+  name?: InputMaybe<Scalars['String']>;
+  brand_id?: InputMaybe<Scalars['Int']>;
+  category_id?: InputMaybe<Scalars['Int']>;
+  current_count?: InputMaybe<Scalars['Int']>;
+  current_price?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  gender?: InputMaybe<Scalars['Int']>;
+  is_rental_available?: InputMaybe<Scalars['Boolean']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  can_sale?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type CreateItemMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_items_one?: Maybe<(
+    { __typename?: 'items' }
+    & Pick<Items, 'id'>
+  )> }
+);
+
 export type GetItemsTestQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1838,7 +1916,34 @@ export type GetItemsTestQuery = (
   )> }
 );
 
-
+export const ItemDetailFragmentDoc = gql`
+    fragment ItemDetail on items {
+  brand {
+    id
+    name
+  }
+  category {
+    id
+    name
+    sub_category {
+      id
+      name
+    }
+  }
+  created_at
+  current_count
+  current_price
+  description
+  gender
+  id
+  is_rental_available
+  name
+  next_lending_date
+  regular_price
+  updated_at
+  can_sale
+}
+    `;
 export const GetItemListByAdminContainerDocument = gql`
     query getItemListByAdminContainer {
   items {
@@ -1881,6 +1986,121 @@ export function useGetItemListByAdminContainerLazyQuery(baseOptions?: Apollo.Laz
 export type GetItemListByAdminContainerQueryHookResult = ReturnType<typeof useGetItemListByAdminContainerQuery>;
 export type GetItemListByAdminContainerLazyQueryHookResult = ReturnType<typeof useGetItemListByAdminContainerLazyQuery>;
 export type GetItemListByAdminContainerQueryResult = Apollo.QueryResult<GetItemListByAdminContainerQuery, GetItemListByAdminContainerQueryVariables>;
+export const DeleteItemDocument = gql`
+    mutation DeleteItem($itemId: Int!) {
+  delete_items_by_pk(id: $itemId) {
+    id
+  }
+}
+    `;
+export type DeleteItemMutationFn = Apollo.MutationFunction<DeleteItemMutation, DeleteItemMutationVariables>;
+
+/**
+ * __useDeleteItemMutation__
+ *
+ * To run a mutation, you first call `useDeleteItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteItemMutation, { data, loading, error }] = useDeleteItemMutation({
+ *   variables: {
+ *      itemId: // value for 'itemId'
+ *   },
+ * });
+ */
+export function useDeleteItemMutation(baseOptions?: Apollo.MutationHookOptions<DeleteItemMutation, DeleteItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteItemMutation, DeleteItemMutationVariables>(DeleteItemDocument, options);
+      }
+export type DeleteItemMutationHookResult = ReturnType<typeof useDeleteItemMutation>;
+export type DeleteItemMutationResult = Apollo.MutationResult<DeleteItemMutation>;
+export type DeleteItemMutationOptions = Apollo.BaseMutationOptions<DeleteItemMutation, DeleteItemMutationVariables>;
+export const GetItemDocument = gql`
+    query getItem($id: Int!) {
+  items_by_pk(id: $id) {
+    ...ItemDetail
+  }
+}
+    ${ItemDetailFragmentDoc}`;
+
+/**
+ * __useGetItemQuery__
+ *
+ * To run a query within a React component, call `useGetItemQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetItemQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetItemQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetItemQuery(baseOptions: Apollo.QueryHookOptions<GetItemQuery, GetItemQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetItemQuery, GetItemQueryVariables>(GetItemDocument, options);
+      }
+export function useGetItemLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetItemQuery, GetItemQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetItemQuery, GetItemQueryVariables>(GetItemDocument, options);
+        }
+export type GetItemQueryHookResult = ReturnType<typeof useGetItemQuery>;
+export type GetItemLazyQueryHookResult = ReturnType<typeof useGetItemLazyQuery>;
+export type GetItemQueryResult = Apollo.QueryResult<GetItemQuery, GetItemQueryVariables>;
+export const CreateItemDocument = gql`
+    mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean) {
+  insert_items_one(
+    object: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, regular_price: $regular_price, next_lending_date: $next_lending_date, updated_at: $updated_at, name: $name, description: $description, gender: $gender, is_rental_available: $is_rental_available, created_at: $created_at}
+  ) {
+    id
+  }
+}
+    `;
+export type CreateItemMutationFn = Apollo.MutationFunction<CreateItemMutation, CreateItemMutationVariables>;
+
+/**
+ * __useCreateItemMutation__
+ *
+ * To run a mutation, you first call `useCreateItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createItemMutation, { data, loading, error }] = useCreateItemMutation({
+ *   variables: {
+ *      next_lending_date: // value for 'next_lending_date'
+ *      updated_at: // value for 'updated_at'
+ *      regular_price: // value for 'regular_price'
+ *      name: // value for 'name'
+ *      brand_id: // value for 'brand_id'
+ *      category_id: // value for 'category_id'
+ *      current_count: // value for 'current_count'
+ *      current_price: // value for 'current_price'
+ *      description: // value for 'description'
+ *      gender: // value for 'gender'
+ *      is_rental_available: // value for 'is_rental_available'
+ *      created_at: // value for 'created_at'
+ *      can_sale: // value for 'can_sale'
+ *   },
+ * });
+ */
+export function useCreateItemMutation(baseOptions?: Apollo.MutationHookOptions<CreateItemMutation, CreateItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateItemMutation, CreateItemMutationVariables>(CreateItemDocument, options);
+      }
+export type CreateItemMutationHookResult = ReturnType<typeof useCreateItemMutation>;
+export type CreateItemMutationResult = Apollo.MutationResult<CreateItemMutation>;
+export type CreateItemMutationOptions = Apollo.BaseMutationOptions<CreateItemMutation, CreateItemMutationVariables>;
 export const GetItemsTestDocument = gql`
     query getItemsTest {
   items {

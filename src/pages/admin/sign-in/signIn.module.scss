@@ -1,0 +1,26 @@
+
+.form {
+  input {
+    border: 1px solid #666;
+  }
+
+  label {
+    width: 200px;
+  }
+}
+
+.loginButton {
+  button {
+    width: 250px;
+    height: 60px;
+    background-color: #219DDD;
+    color: #fff;
+    border: 2px solid #219DDD;
+    border-radius: 5px;
+
+    &:hover {
+      opacity: 0.5;
+      cursor: pointer;
+    }
+  }
+}
