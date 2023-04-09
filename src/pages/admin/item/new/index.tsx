@@ -1,7 +1,7 @@
 import { getLayout } from '@/components/admin/layout';
 import PageTitle from '@/components/admin/pageTitle/PageTitle';
 import { gql } from '@apollo/client';
-import { useCreateItemMutation, useGetItemQuery, CreateItemMutationVariables } from '@/libs/apollo/graphql';
+import { useCreateItemMutation, CreateItemMutationVariables } from '@/libs/apollo/graphql';
 import styles from "./newItem.module.scss"
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router';
