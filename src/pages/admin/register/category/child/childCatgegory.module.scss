@@ -1,0 +1,92 @@
+.formContainer {
+  min-height: 170px;
+
+  table {
+    caption {
+      text-align: left;
+      font-size: 24px;
+      height: 40px;
+      line-height: 40px;
+    }
+
+    tr {
+      height: 40px;
+
+      th, td {
+        border: 2px solid #fff;
+      }
+      th {
+        padding: 10px 20px;
+      }
+      td {
+        padding: 10px 5px;
+        height: 50px;
+      }
+
+      input[type="text"] {
+        padding-left: 5px;
+        width: 500px;
+        height: 50px;
+      }
+
+      .register {
+        text-align: center;
+        padding: 0 30px;
+
+        button {
+          width: 70px;
+          height: 50px;
+          background-color: #219DDD;
+          color: #fff;
+          border: 2px solid #219DDD;
+          border-radius: 5px;
+    
+          &:hover {
+            opacity: 0.5;
+            cursor: pointer;
+          }
+        }
+      }
+
+    }
+  }
+}
+
+.listContainer {
+
+  table {
+    width: 100%;
+
+    tr {
+      height: 30px;
+      text-align: center;
+
+      th {
+        padding: 10px 0;
+      }
+
+      td {
+        padding: 5px 0;
+      }
+
+      th, td {
+        border: 1px solid ;
+      }
+    }
+
+    .delete {
+
+      button {
+        width: 100px;
+        height: 40px;
+        color: #fff;
+        border-radius: 5px;
+  
+        &:hover {
+          opacity: 0.5;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
