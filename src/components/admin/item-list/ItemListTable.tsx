@@ -57,10 +57,8 @@ export default function ItemListTable({items}: ItemListTableProps) {
                   <tr key={index}>
                     <td>
                       {
-                        // FIXME: Imageタグを使えるようにする。 同じ画像名で保存すると上書きされてしまうので対処する。
                         item.images && item.images?.length > 0 && item.images[0] != null && isValidUrl(item.images[0].url) ? 
-                          <img src={item.images[0].url} alt="" width={"70px"} height={"70px"}/>
-                          // <Image src={item.images[0].url} alt="" width={100} height={100}/>
+                          <Image src={item.images[0].url} alt="" width={70} height={70}/>
                           :
                           <div style={{
                             height: "70px"
