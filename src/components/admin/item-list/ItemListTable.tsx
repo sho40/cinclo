@@ -4,11 +4,11 @@ import Router from 'next/router'
 import { numberToPrice } from "@/logic/numberFormatter";
 import { formatDateYYYYMMDD } from "@/logic/dateFormatter"
 import { genderFormat } from "@/logic/genderFormatter"
+import Image from 'next/image';
+
 
 interface ItemListTableProps {
-  items: ({
-      __typename?: "items" | undefined;
-  } & Pick<Items, "id" | "name" | "regular_price" | "current_price" | "current_count" | "gender" | "can_sale" | "is_rental_available" | "next_lending_date">)[]
+  items: Partial<Items>[]
 }
 
 // FIXME: pagenation
@@ -18,11 +18,25 @@ export default function ItemListTable({items}: ItemListTableProps) {
     Router.push(`/admin/item/detail/${itemId}`)
   }
 
+  const isValidUrl = (url: string | undefined | null) => {
+    try {
+      if (url == null) {
+        return false
+      }
+
+      new URL(url)
+      return true
+    } catch(error) {
+      return false
+    }
+  }
+
   return (
     <div className={styles.itemListTable}>
       <table>
         <thead>
           <tr className="bg-gray-700 text-white">
+            <th>画像</th>
             <th>商品名</th>
             <th>性別</th>
             <th>現在価格</th>
@@ -41,8 +55,18 @@ export default function ItemListTable({items}: ItemListTableProps) {
               items.map((item, index) => {
                 return (
                   <tr key={index}>
+                    <td>
+                      {
+                        item.images && item.images?.length > 0 && item.images[0] != null && isValidUrl(item.images[0].url) ? 
+                          <Image src={item.images[0].url} alt="" width={70} height={70}/>
+                          :
+                          <div style={{
+                            height: "70px"
+                          }} />
+                      }
+                    </td>
                     <td>{item.name}</td>
-                    <td>{genderFormat(item.gender)}</td>
+                    <td>{genderFormat(item.gender!) /* notnullなので必ずある */}</td>
                     <td>{item.current_price && numberToPrice(item.current_price)}</td>
                     <td>{item.regular_price && numberToPrice(item.regular_price)}</td>
                     <td>{item.is_rental_available ? "貸出可" : "貸出不可"}</td>
@@ -50,7 +74,7 @@ export default function ItemListTable({items}: ItemListTableProps) {
                     <td>{item.can_sale ? "可" : "不可"}</td>
                     <td>
                       <div className={styles.detailButton}>
-                        <button className='bg-gray-400 text-white' onClick={() => goToDetail(item.id)}>詳細</button>
+                        <button className='bg-gray-400 text-white' onClick={() => goToDetail(item.id!) /* notnullなので必ずある */}>詳細</button>
                       </div>
                     </td>
                   </tr>

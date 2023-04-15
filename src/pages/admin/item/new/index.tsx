@@ -20,7 +20,7 @@ export default function ItemNew() {
   const brandListRes = useGetBrandListQuery()
   const brandList = brandListRes.data?.brands;
   const [createItem] = useCreateItemMutation({refetchQueries: ["getItemListByAdminContainer"]});
-
+  
   // ブラウザ表示用のpaths
   const [previewImagePaths, setPreviewImagePathes] = useState<string[]>([]);
 
@@ -37,6 +37,7 @@ export default function ItemNew() {
   }
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
   const storage = getStorage();
+
 
   const {
     register,
@@ -69,7 +70,6 @@ export default function ItemNew() {
       }
       const next_lending_date = stringToDate(data.next_lending_date);
       
-
       const now = new Date;
       const payload: CreateItemMutationVariables = await {
         ...data, 
@@ -99,6 +99,11 @@ export default function ItemNew() {
     
   }
 
+  const handleItemDelete = () => {
+    setPreviewImagePathes([]);
+    setFiles([]);
+  }
+
   return (
     <>
       <PageTitle title='商品登録'/>
@@ -106,26 +111,28 @@ export default function ItemNew() {
         <div className={styles.container}>
           <div>
             <div>
-              <div {...getRootProps({className: `${styles.imageArea}`})}>
-                <input {...getInputProps()}/>
-                <p>ドラッグ&ドロップ</p>
-              </div>
-              {/* <div className={styles.imageArea}>
-                <h1>ドラッグ&ドロップ実装予定(画像追加は未実装)</h1>
-              </div> */}
               {
-                previewImagePaths.length > 0 ? 
-                  previewImagePaths.map((imagePath, index) => {
-                    return (
-                      <div key={index}>
-                        <Image src={imagePath} alt="" width={64} height={64}/>
-                      </div>
-                    )
-                  }) 
-                  : 
-                  <></>
+                previewImagePaths.length < 1 ? 
+                  <div {...getRootProps({className: `${styles.uploadBox}`})}>
+                    <input {...getInputProps()}/>
+                    <p>ドラッグ&ドロップで画像を追加</p>
+                  </div>
+                  :
+                  <>
+                    <div className={styles.selectedImageArea}>
+                      {previewImagePaths.map((imagePath, index) => {
+                        return (
+                          <div key={index}>
+                            <Image src={imagePath} alt="" width={100} height={100}/>
+                          </div>
+                        )
+                      })}
+                    </div>
+                    <div className={styles.deleteButton}>
+                      <button onClick={() => handleItemDelete()}>全て削除</button>
+                    </div>
+                  </>
               }
-              {/* <button onClick={onFirebaseUpload}>upload</button> */}
             </div>
             
             <form onSubmit={handleSubmit(handleCreateItem)}>
@@ -232,10 +239,10 @@ export default function ItemNew() {
                         </td>
                       </tr>
                       <tr>
-                        <th>次回貸出可能日</th>
+                        <th>次回貸出可能日(任意)</th>
                         <td>
                           <input
-                            {...register('next_lending_date', { required: '次回貸出可能日を入力してください' })}
+                            {...register('next_lending_date')}
                             type='date'
                           />
                         </td>

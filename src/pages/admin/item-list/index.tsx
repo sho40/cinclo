@@ -42,6 +42,11 @@ gql`
       can_sale
       is_rental_available
       next_lending_date
+      images {
+        url
+        id
+        item_id
+      }
     }
 }
 `
