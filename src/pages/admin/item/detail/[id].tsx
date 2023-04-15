@@ -166,6 +166,11 @@ gql`
     regular_price
     updated_at
     can_sale
+    images {
+      url
+      id
+      item_id
+    }
   }
 `
 

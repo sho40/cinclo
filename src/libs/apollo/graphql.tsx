@@ -466,8 +466,6 @@ export type Categories_Variance_Fields = {
 export type Images = {
   __typename?: 'images';
   id: Scalars['Int'];
-  /** An object relationship */
-  item?: Maybe<Items>;
   item_id?: Maybe<Scalars['Int']>;
   strage_id?: Maybe<Scalars['String']>;
   url: Scalars['String'];
@@ -544,7 +542,6 @@ export type Images_Bool_Exp = {
   _not?: InputMaybe<Images_Bool_Exp>;
   _or?: InputMaybe<Array<Images_Bool_Exp>>;
   id?: InputMaybe<Int_Comparison_Exp>;
-  item?: InputMaybe<Items_Bool_Exp>;
   item_id?: InputMaybe<Int_Comparison_Exp>;
   strage_id?: InputMaybe<String_Comparison_Exp>;
   url?: InputMaybe<String_Comparison_Exp>;
@@ -565,7 +562,6 @@ export type Images_Inc_Input = {
 /** input type for inserting data into table "images" */
 export type Images_Insert_Input = {
   id?: InputMaybe<Scalars['Int']>;
-  item?: InputMaybe<Items_Obj_Rel_Insert_Input>;
   item_id?: InputMaybe<Scalars['Int']>;
   strage_id?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
@@ -624,7 +620,6 @@ export type Images_On_Conflict = {
 /** Ordering options when selecting data from "images". */
 export type Images_Order_By = {
   id?: InputMaybe<Order_By>;
-  item?: InputMaybe<Items_Order_By>;
   item_id?: InputMaybe<Order_By>;
   strage_id?: InputMaybe<Order_By>;
   url?: InputMaybe<Order_By>;
@@ -950,13 +945,6 @@ export type Items_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Items>;
-};
-
-/** input type for inserting object relation for remote table "items" */
-export type Items_Obj_Rel_Insert_Input = {
-  data: Items_Insert_Input;
-  /** upsert condition */
-  on_conflict?: InputMaybe<Items_On_Conflict>;
 };
 
 /** on_conflict condition type for table "items" */
@@ -1949,6 +1937,10 @@ export type GetItemListByAdminContainerQuery = (
   & { items: Array<(
     { __typename?: 'items' }
     & Pick<Items, 'id' | 'name' | 'regular_price' | 'current_price' | 'current_count' | 'gender' | 'can_sale' | 'is_rental_available' | 'next_lending_date'>
+    & { images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'url' | 'id' | 'item_id'>
+    )> }
   )> }
 );
 
@@ -1985,6 +1977,9 @@ export type GetItemQuery = (
         { __typename?: 'sub_categories' }
         & Pick<Sub_Categories, 'id' | 'name'>
       )> }
+    )>, images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'url' | 'id' | 'item_id'>
     )> }
   )> }
 );
@@ -2002,6 +1997,9 @@ export type ItemDetailFragment = (
       { __typename?: 'sub_categories' }
       & Pick<Sub_Categories, 'id' | 'name'>
     )> }
+  )>, images: Array<(
+    { __typename?: 'images' }
+    & Pick<Images, 'url' | 'id' | 'item_id'>
   )> }
 );
 
@@ -2188,6 +2186,11 @@ export const ItemDetailFragmentDoc = gql`
   regular_price
   updated_at
   can_sale
+  images {
+    url
+    id
+    item_id
+  }
 }
     `;
 export const GetItemListByAdminContainerDocument = gql`
@@ -2202,6 +2205,11 @@ export const GetItemListByAdminContainerDocument = gql`
     can_sale
     is_rental_available
     next_lending_date
+    images {
+      url
+      id
+      item_id
+    }
   }
 }
     `;

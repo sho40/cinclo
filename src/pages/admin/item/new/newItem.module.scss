@@ -1,9 +1,9 @@
 .container {
 
-  .imageArea {
+  .uploadBox {
     width: 80%;
-    height: 250px;
     line-height: 250px;
+    height: 250px;
     text-align: center;
     color: chocolate;
     margin: auto;
@@ -13,6 +13,40 @@
     background-size: 8px 2px,2px 8px,8px 2px,2px 8px;
     background-repeat: repeat-x,repeat-y,repeat-x,repeat-y;
     background-position: left top,right 0px,3px bottom,left 7px;
+
+    & > p {
+      cursor: pointer;
+    }
+  }
+
+  .selectedImageArea {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 10px;
+
+    text-align: center;
+
+    img {
+      aspect-ratio: 5 / 6;
+      object-fit: cover;
+    }
+  }
+
+  .deleteButton {
+    margin-top: 20px;
+    text-align: right;
+
+    button {
+      border: 1px solid red;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      color: red;
+
+      &:hover {
+        opacity: .5;
+      }
+    }
   }
 
   .basicInfoArea, .rentalInfoArea {
