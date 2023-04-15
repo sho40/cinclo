@@ -9,7 +9,8 @@ import { stringToDate } from '@/logic/dateFormatter';
 import { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import Image from 'next/image';
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage } from "firebase/storage";
+import { onFirebaseUpload } from '@/logic/uploadFile';
 
 export default function ItemNew() {
   const router = useRouter()
@@ -34,60 +35,8 @@ export default function ItemNew() {
     const tempUrls = files.map((file) => URL.createObjectURL(file));
     setPreviewImagePathes(tempUrls);
   }
-
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
   const storage = getStorage();
-  const storageRef = ref(storage, 'item-images/');
-
-
-  const uploadFile = async (file: File) => {
-
-    try {
-      const uploadRef = ref(storageRef, file.name);
-      await uploadBytes(uploadRef, file)
-      const url = await getDownloadURL(uploadRef)
-      return url
-    } catch (error: any) {
-      console.log("upload failed >>>", error)
-
-      // @see https://firebase.google.com/docs/storage/web/handle-errors?hl=ja#handle_error_messages
-      switch (error.code) {
-        case 'storage/unauthorized':
-          // User doesn't have permission to access the object
-          console.error('許可がありません');
-          break;
-
-        case 'storage/canceled':
-          console.error('アップロードがキャンセルされました');
-          // User canceled the upload
-          break;
-
-        case 'storage/unknown':
-          console.error('予期せぬエラーが発生しました');
-          // Unknown error occurred, inspect error.serverResponse
-        break;
-      }
-    }
-  }
-
-  const onFirebaseUpload: () => Promise<string[] | undefined> = async () => {
-
-    const imageUrls: string[] = [];
-    
-    try {
-      for(const file of files) {
-        const url = await uploadFile(file);
-        if (url != null) {
-          imageUrls.push(url)
-        }
-      }
-      return imageUrls;
-      
-    } catch(error: any) {
-      console.log("upload failed >>>", error)
-    }
-  }
 
   const {
     register,
@@ -96,11 +45,11 @@ export default function ItemNew() {
   } = useForm<CreateItemMutationVariables>()
 
   const handleCreateItem = async (data: CreateItemMutationVariables) => {
+    console.log("on handleCreateItem")
 
     try {
-
       // 画像をfirebasenにuploadしURLを取得
-      const imageUrls = await onFirebaseUpload();
+      const imageUrls = await onFirebaseUpload(files, storage);
     
       // 取得したURLをdataに追加
       const images: Images_Insert_Input[] = imageUrls != null ? imageUrls.map((imageUrl) => {
@@ -307,7 +256,7 @@ export default function ItemNew() {
                     {errors.is_rental_available?.message}
                   </li>
                   <li>
-                    {errors.next_lending_date != null ? "次回貸出可能日を入力してください" : ""　 /* エラーが出るのでこの書き方 */}
+                    {errors.next_lending_date != null ? "次回貸出可能日を入力してください" : "" /* エラーが出るのでこの書き方 */}
                   </li>
                 </ul>
               </div>
