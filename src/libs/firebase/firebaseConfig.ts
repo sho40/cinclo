@@ -16,14 +16,16 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_APPID
 };
 
-let firebaseApp: FirebaseApp
-let auth: Auth;
-let firestore: Firestore;
+const firebaseApp: FirebaseApp = initializeApp(firebaseConfig);
+const auth: Auth = getAuth();
+const firestore: Firestore = getFirestore();
 
+// NOTE: 下記だと画面遷移後のプリレンダリング時にエラーが起きるのでコメントアウト。
 // サーバーサイドでレンダリングするときにエラーが起きないようにするための記述
-if (typeof window !== "undefined" && !getApps().length) {
-  firebaseApp = initializeApp(firebaseConfig);
-  auth = getAuth();
-  firestore = getFirestore();
-}
+// if (typeof window !== "undefined" && !getApps().length) {
+//   firebaseApp = initializeApp(firebaseConfig);
+//   auth = getAuth();
+//   firestore = getFirestore();
+// }
+// export { firebaseApp, auth, firestore };
 export { firebaseApp, auth, firestore };

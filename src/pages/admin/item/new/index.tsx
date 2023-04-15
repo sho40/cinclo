@@ -1,11 +1,15 @@
 import { getLayout } from '@/components/admin/layout';
 import PageTitle from '@/components/admin/pageTitle/PageTitle';
 import { gql } from '@apollo/client';
-import { useCreateItemMutation, CreateItemMutationVariables, useGetChildCategoriesQuery, useGetBrandListQuery } from '@/libs/apollo/graphql';
+import { useCreateItemMutation, CreateItemMutationVariables, useGetChildCategoriesQuery, useGetBrandListQuery, Images_Insert_Input } from '@/libs/apollo/graphql';
 import styles from "./newItem.module.scss"
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router';
 import { stringToDate } from '@/logic/dateFormatter';
+import { useState } from 'react';
+import { useDropzone } from 'react-dropzone';
+import Image from 'next/image';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export default function ItemNew() {
   const router = useRouter()
@@ -16,48 +20,134 @@ export default function ItemNew() {
   const brandList = brandListRes.data?.brands;
   const [createItem] = useCreateItemMutation({refetchQueries: ["getItemListByAdminContainer"]});
 
+  // ブラウザ表示用のpaths
+  const [previewImagePaths, setPreviewImagePathes] = useState<string[]>([]);
+
+  // upload用のfiles
+  const [files, setFiles] = useState<File[]>([]);
+
+  const onDrop = (files: File[]) => {
+    // upload用のstateへsetする
+    setFiles(files);
+
+    // ブラウザで画像を表示させるための、一時的なURLをメモリに生成する
+    const tempUrls = files.map((file) => URL.createObjectURL(file));
+    setPreviewImagePathes(tempUrls);
+  }
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
+  const storage = getStorage();
+  const storageRef = ref(storage, 'item-images/');
+
+
+  const uploadFile = async (file: File) => {
+
+    try {
+      const uploadRef = ref(storageRef, file.name);
+      await uploadBytes(uploadRef, file)
+      const url = await getDownloadURL(uploadRef)
+      return url
+    } catch (error: any) {
+      console.log("upload failed >>>", error)
+
+      // @see https://firebase.google.com/docs/storage/web/handle-errors?hl=ja#handle_error_messages
+      switch (error.code) {
+        case 'storage/unauthorized':
+          // User doesn't have permission to access the object
+          console.error('許可がありません');
+          break;
+
+        case 'storage/canceled':
+          console.error('アップロードがキャンセルされました');
+          // User canceled the upload
+          break;
+
+        case 'storage/unknown':
+          console.error('予期せぬエラーが発生しました');
+          // Unknown error occurred, inspect error.serverResponse
+        break;
+      }
+    }
+  }
+
+  const onFirebaseUpload: () => Promise<string[] | undefined> = async () => {
+
+    const imageUrls: string[] = [];
+    
+    try {
+      for(const file of files) {
+        const url = await uploadFile(file);
+        if (url != null) {
+          imageUrls.push(url)
+        }
+      }
+      return imageUrls;
+      
+    } catch(error: any) {
+      console.log("upload failed >>>", error)
+    }
+  }
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<CreateItemMutationVariables>()
 
-  const handleCreateItem = (data: CreateItemMutationVariables) => {
+  const handleCreateItem = async (data: CreateItemMutationVariables) => {
 
-    const category_id = Number(data.category_id)
-    const brand_id = Number(data.brand_id)
-    const gender = Number(data.gender)
-    const regular_price = Number(data.regular_price)
-    const current_price = Number(data.current_price)
-    if (Number.isNaN(category_id) || Number.isNaN(brand_id) || Number.isNaN(regular_price) || Number.isNaN(current_price)) {
-      alert('データ作成に失敗しました')
-      return
-    }
-    const next_lending_date = stringToDate(data.next_lending_date);
+    try {
+
+      // 画像をfirebasenにuploadしURLを取得
+      const imageUrls = await onFirebaseUpload();
     
+      // 取得したURLをdataに追加
+      const images: Images_Insert_Input[] = imageUrls != null ? imageUrls.map((imageUrl) => {
+        return {
+          url: imageUrl
+        }
+      }) : []
 
-    const now = new Date;
-    const payload: CreateItemMutationVariables = {
-      ...data, 
-      category_id: category_id,
-      brand_id,
-      gender,
-      created_at: now,
-      updated_at: now,
-      current_count: 1,
-      regular_price,
-      current_price,
-      is_rental_available: true,
-      next_lending_date,
-      can_sale: false
+      const category_id = Number(data.category_id)
+      const brand_id = Number(data.brand_id)
+      const gender = Number(data.gender)
+      const regular_price = Number(data.regular_price)
+      const current_price = Number(data.current_price)
+      if (Number.isNaN(category_id) || Number.isNaN(brand_id) || Number.isNaN(regular_price) || Number.isNaN(current_price)) {
+        alert('データ作成に失敗しました')
+        return
+      }
+      const next_lending_date = stringToDate(data.next_lending_date);
+      
+
+      const now = new Date;
+      const payload: CreateItemMutationVariables = await {
+        ...data, 
+        category_id: category_id,
+        brand_id,
+        gender,
+        created_at: now,
+        updated_at: now,
+        current_count: 1,
+        regular_price,
+        current_price,
+        is_rental_available: true,
+        next_lending_date,
+        can_sale: false,
+        images: {
+          data: images
+        }
+      }
+      console.log({payload})
+
+      await createItem({variables: payload})
+      router.push('/admin/item-list')
+
+    } catch(error) {
+      console.log("handleCreateItem failed")
     }
-
-    console.log({data})
-    console.log({payload})
-
-    // 画像をアップしurlを取得する。
-    createItem({variables: payload})
-    router.push('/admin/item-list')
+    
   }
 
   return (
@@ -66,9 +156,29 @@ export default function ItemNew() {
       <div>
         <div className={styles.container}>
           <div>
-            <div className={styles.imageArea}>
-              <h1>ドラッグ&ドロップ実装予定(画像追加は未実装)</h1>
+            <div>
+              <div {...getRootProps({className: `${styles.imageArea}`})}>
+                <input {...getInputProps()}/>
+                <p>ドラッグ&ドロップ</p>
+              </div>
+              {/* <div className={styles.imageArea}>
+                <h1>ドラッグ&ドロップ実装予定(画像追加は未実装)</h1>
+              </div> */}
+              {
+                previewImagePaths.length > 0 ? 
+                  previewImagePaths.map((imagePath, index) => {
+                    return (
+                      <div key={index}>
+                        <Image src={imagePath} alt="" width={64} height={64}/>
+                      </div>
+                    )
+                  }) 
+                  : 
+                  <></>
+              }
+              {/* <button onClick={onFirebaseUpload}>upload</button> */}
             </div>
+            
             <form onSubmit={handleSubmit(handleCreateItem)}>
               <div className={styles.basicInfoArea}>
                 <div className='bg-gray-200'>
@@ -216,8 +326,8 @@ export default function ItemNew() {
 }
 
 gql`
-  mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean) {
-    insert_items_one(object: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, regular_price: $regular_price, next_lending_date: $next_lending_date, updated_at: $updated_at, name: $name, description: $description, gender: $gender, is_rental_available: $is_rental_available, created_at: $created_at}) {
+  mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean, $images: images_arr_rel_insert_input) {
+    insert_items_one(object: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, regular_price: $regular_price, next_lending_date: $next_lending_date, updated_at: $updated_at, name: $name, description: $description, gender: $gender, is_rental_available: $is_rental_available, created_at: $created_at, images: $images}) {
       id
     }
   }

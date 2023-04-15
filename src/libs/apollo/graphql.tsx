@@ -466,6 +466,9 @@ export type Categories_Variance_Fields = {
 export type Images = {
   __typename?: 'images';
   id: Scalars['Int'];
+  /** An object relationship */
+  item?: Maybe<Items>;
+  item_id?: Maybe<Scalars['Int']>;
   strage_id?: Maybe<Scalars['String']>;
   url: Scalars['String'];
 };
@@ -500,10 +503,39 @@ export type Images_Aggregate_FieldsCountArgs = {
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
+/** order by aggregate values of table "images" */
+export type Images_Aggregate_Order_By = {
+  avg?: InputMaybe<Images_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Images_Max_Order_By>;
+  min?: InputMaybe<Images_Min_Order_By>;
+  stddev?: InputMaybe<Images_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Images_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Images_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Images_Sum_Order_By>;
+  var_pop?: InputMaybe<Images_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Images_Var_Samp_Order_By>;
+  variance?: InputMaybe<Images_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "images" */
+export type Images_Arr_Rel_Insert_Input = {
+  data: Array<Images_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Images_On_Conflict>;
+};
+
 /** aggregate avg on columns */
 export type Images_Avg_Fields = {
   __typename?: 'images_avg_fields';
   id?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "images" */
+export type Images_Avg_Order_By = {
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "images". All fields are combined with a logical 'AND'. */
@@ -512,6 +544,8 @@ export type Images_Bool_Exp = {
   _not?: InputMaybe<Images_Bool_Exp>;
   _or?: InputMaybe<Array<Images_Bool_Exp>>;
   id?: InputMaybe<Int_Comparison_Exp>;
+  item?: InputMaybe<Items_Bool_Exp>;
+  item_id?: InputMaybe<Int_Comparison_Exp>;
   strage_id?: InputMaybe<String_Comparison_Exp>;
   url?: InputMaybe<String_Comparison_Exp>;
 };
@@ -525,11 +559,14 @@ export enum Images_Constraint {
 /** input type for incrementing numeric columns in table "images" */
 export type Images_Inc_Input = {
   id?: InputMaybe<Scalars['Int']>;
+  item_id?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "images" */
 export type Images_Insert_Input = {
   id?: InputMaybe<Scalars['Int']>;
+  item?: InputMaybe<Items_Obj_Rel_Insert_Input>;
+  item_id?: InputMaybe<Scalars['Int']>;
   strage_id?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
 };
@@ -538,16 +575,34 @@ export type Images_Insert_Input = {
 export type Images_Max_Fields = {
   __typename?: 'images_max_fields';
   id?: Maybe<Scalars['Int']>;
+  item_id?: Maybe<Scalars['Int']>;
   strage_id?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "images" */
+export type Images_Max_Order_By = {
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+  strage_id?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Images_Min_Fields = {
   __typename?: 'images_min_fields';
   id?: Maybe<Scalars['Int']>;
+  item_id?: Maybe<Scalars['Int']>;
   strage_id?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "images" */
+export type Images_Min_Order_By = {
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+  strage_id?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
 };
 
 /** response of any mutation on the table "images" */
@@ -569,6 +624,8 @@ export type Images_On_Conflict = {
 /** Ordering options when selecting data from "images". */
 export type Images_Order_By = {
   id?: InputMaybe<Order_By>;
+  item?: InputMaybe<Items_Order_By>;
+  item_id?: InputMaybe<Order_By>;
   strage_id?: InputMaybe<Order_By>;
   url?: InputMaybe<Order_By>;
 };
@@ -583,6 +640,8 @@ export enum Images_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  ItemId = 'item_id',
+  /** column name */
   StrageId = 'strage_id',
   /** column name */
   Url = 'url'
@@ -591,6 +650,7 @@ export enum Images_Select_Column {
 /** input type for updating data in table "images" */
 export type Images_Set_Input = {
   id?: InputMaybe<Scalars['Int']>;
+  item_id?: InputMaybe<Scalars['Int']>;
   strage_id?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
 };
@@ -599,30 +659,60 @@ export type Images_Set_Input = {
 export type Images_Stddev_Fields = {
   __typename?: 'images_stddev_fields';
   id?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "images" */
+export type Images_Stddev_Order_By = {
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Images_Stddev_Pop_Fields = {
   __typename?: 'images_stddev_pop_fields';
   id?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "images" */
+export type Images_Stddev_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Images_Stddev_Samp_Fields = {
   __typename?: 'images_stddev_samp_fields';
   id?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "images" */
+export type Images_Stddev_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
 export type Images_Sum_Fields = {
   __typename?: 'images_sum_fields';
   id?: Maybe<Scalars['Int']>;
+  item_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "images" */
+export type Images_Sum_Order_By = {
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "images" */
 export enum Images_Update_Column {
   /** column name */
   Id = 'id',
+  /** column name */
+  ItemId = 'item_id',
   /** column name */
   StrageId = 'strage_id',
   /** column name */
@@ -633,18 +723,39 @@ export enum Images_Update_Column {
 export type Images_Var_Pop_Fields = {
   __typename?: 'images_var_pop_fields';
   id?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "images" */
+export type Images_Var_Pop_Order_By = {
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Images_Var_Samp_Fields = {
   __typename?: 'images_var_samp_fields';
   id?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "images" */
+export type Images_Var_Samp_Order_By = {
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Images_Variance_Fields = {
   __typename?: 'images_variance_fields';
   id?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "images" */
+export type Images_Variance_Order_By = {
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "items" */
@@ -663,12 +774,35 @@ export type Items = {
   description?: Maybe<Scalars['String']>;
   gender: Scalars['Int'];
   id: Scalars['Int'];
-  image_id?: Maybe<Scalars['Int']>;
+  /** An array relationship */
+  images: Array<Images>;
+  /** An aggregate relationship */
+  images_aggregate: Images_Aggregate;
   is_rental_available: Scalars['Boolean'];
   name: Scalars['String'];
   next_lending_date?: Maybe<Scalars['timestamptz']>;
   regular_price?: Maybe<Scalars['Int']>;
   updated_at: Scalars['timestamptz'];
+};
+
+
+/** columns and relationships of "items" */
+export type ItemsImagesArgs = {
+  distinct_on?: InputMaybe<Array<Images_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Images_Order_By>>;
+  where?: InputMaybe<Images_Bool_Exp>;
+};
+
+
+/** columns and relationships of "items" */
+export type ItemsImages_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Images_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Images_Order_By>>;
+  where?: InputMaybe<Images_Bool_Exp>;
 };
 
 /** aggregated selection of "items" */
@@ -710,7 +844,6 @@ export type Items_Avg_Fields = {
   current_price?: Maybe<Scalars['Float']>;
   gender?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-  image_id?: Maybe<Scalars['Float']>;
   regular_price?: Maybe<Scalars['Float']>;
 };
 
@@ -730,7 +863,7 @@ export type Items_Bool_Exp = {
   description?: InputMaybe<String_Comparison_Exp>;
   gender?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
-  image_id?: InputMaybe<Int_Comparison_Exp>;
+  images?: InputMaybe<Images_Bool_Exp>;
   is_rental_available?: InputMaybe<Boolean_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   next_lending_date?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -752,7 +885,6 @@ export type Items_Inc_Input = {
   current_price?: InputMaybe<Scalars['Int']>;
   gender?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
-  image_id?: InputMaybe<Scalars['Int']>;
   regular_price?: InputMaybe<Scalars['Int']>;
 };
 
@@ -769,7 +901,7 @@ export type Items_Insert_Input = {
   description?: InputMaybe<Scalars['String']>;
   gender?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
-  image_id?: InputMaybe<Scalars['Int']>;
+  images?: InputMaybe<Images_Arr_Rel_Insert_Input>;
   is_rental_available?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   next_lending_date?: InputMaybe<Scalars['timestamptz']>;
@@ -788,7 +920,6 @@ export type Items_Max_Fields = {
   description?: Maybe<Scalars['String']>;
   gender?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  image_id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   next_lending_date?: Maybe<Scalars['timestamptz']>;
   regular_price?: Maybe<Scalars['Int']>;
@@ -806,7 +937,6 @@ export type Items_Min_Fields = {
   description?: Maybe<Scalars['String']>;
   gender?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  image_id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   next_lending_date?: Maybe<Scalars['timestamptz']>;
   regular_price?: Maybe<Scalars['Int']>;
@@ -820,6 +950,13 @@ export type Items_Mutation_Response = {
   affected_rows: Scalars['Int'];
   /** data from the rows affected by the mutation */
   returning: Array<Items>;
+};
+
+/** input type for inserting object relation for remote table "items" */
+export type Items_Obj_Rel_Insert_Input = {
+  data: Items_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Items_On_Conflict>;
 };
 
 /** on_conflict condition type for table "items" */
@@ -842,7 +979,7 @@ export type Items_Order_By = {
   description?: InputMaybe<Order_By>;
   gender?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
-  image_id?: InputMaybe<Order_By>;
+  images_aggregate?: InputMaybe<Images_Aggregate_Order_By>;
   is_rental_available?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   next_lending_date?: InputMaybe<Order_By>;
@@ -876,8 +1013,6 @@ export enum Items_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  ImageId = 'image_id',
-  /** column name */
   IsRentalAvailable = 'is_rental_available',
   /** column name */
   Name = 'name',
@@ -900,7 +1035,6 @@ export type Items_Set_Input = {
   description?: InputMaybe<Scalars['String']>;
   gender?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
-  image_id?: InputMaybe<Scalars['Int']>;
   is_rental_available?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   next_lending_date?: InputMaybe<Scalars['timestamptz']>;
@@ -917,7 +1051,6 @@ export type Items_Stddev_Fields = {
   current_price?: Maybe<Scalars['Float']>;
   gender?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-  image_id?: Maybe<Scalars['Float']>;
   regular_price?: Maybe<Scalars['Float']>;
 };
 
@@ -930,7 +1063,6 @@ export type Items_Stddev_Pop_Fields = {
   current_price?: Maybe<Scalars['Float']>;
   gender?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-  image_id?: Maybe<Scalars['Float']>;
   regular_price?: Maybe<Scalars['Float']>;
 };
 
@@ -943,7 +1075,6 @@ export type Items_Stddev_Samp_Fields = {
   current_price?: Maybe<Scalars['Float']>;
   gender?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-  image_id?: Maybe<Scalars['Float']>;
   regular_price?: Maybe<Scalars['Float']>;
 };
 
@@ -956,7 +1087,6 @@ export type Items_Sum_Fields = {
   current_price?: Maybe<Scalars['Int']>;
   gender?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
-  image_id?: Maybe<Scalars['Int']>;
   regular_price?: Maybe<Scalars['Int']>;
 };
 
@@ -981,8 +1111,6 @@ export enum Items_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  ImageId = 'image_id',
-  /** column name */
   IsRentalAvailable = 'is_rental_available',
   /** column name */
   Name = 'name',
@@ -1003,7 +1131,6 @@ export type Items_Var_Pop_Fields = {
   current_price?: Maybe<Scalars['Float']>;
   gender?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-  image_id?: Maybe<Scalars['Float']>;
   regular_price?: Maybe<Scalars['Float']>;
 };
 
@@ -1016,7 +1143,6 @@ export type Items_Var_Samp_Fields = {
   current_price?: Maybe<Scalars['Float']>;
   gender?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-  image_id?: Maybe<Scalars['Float']>;
   regular_price?: Maybe<Scalars['Float']>;
 };
 
@@ -1029,7 +1155,6 @@ export type Items_Variance_Fields = {
   current_price?: Maybe<Scalars['Float']>;
   gender?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-  image_id?: Maybe<Scalars['Float']>;
   regular_price?: Maybe<Scalars['Float']>;
 };
 
@@ -1338,9 +1463,9 @@ export type Query_Root = {
   categories_aggregate: Categories_Aggregate;
   /** fetch data from the table: "categories" using primary key columns */
   categories_by_pk?: Maybe<Categories>;
-  /** fetch data from the table: "images" */
+  /** An array relationship */
   images: Array<Images>;
-  /** fetch aggregated fields from the table: "images" */
+  /** An aggregate relationship */
   images_aggregate: Images_Aggregate;
   /** fetch data from the table: "images" using primary key columns */
   images_by_pk?: Maybe<Images>;
@@ -1668,9 +1793,9 @@ export type Subscription_Root = {
   categories_aggregate: Categories_Aggregate;
   /** fetch data from the table: "categories" using primary key columns */
   categories_by_pk?: Maybe<Categories>;
-  /** fetch data from the table: "images" */
+  /** An array relationship */
   images: Array<Images>;
-  /** fetch aggregated fields from the table: "images" */
+  /** An aggregate relationship */
   images_aggregate: Images_Aggregate;
   /** fetch data from the table: "images" using primary key columns */
   images_by_pk?: Maybe<Images>;
@@ -1894,6 +2019,7 @@ export type CreateItemMutationVariables = Exact<{
   is_rental_available?: InputMaybe<Scalars['Boolean']>;
   created_at?: InputMaybe<Scalars['timestamptz']>;
   can_sale?: InputMaybe<Scalars['Boolean']>;
+  images?: InputMaybe<Images_Arr_Rel_Insert_Input>;
 }>;
 
 
@@ -2175,9 +2301,9 @@ export type GetItemQueryHookResult = ReturnType<typeof useGetItemQuery>;
 export type GetItemLazyQueryHookResult = ReturnType<typeof useGetItemLazyQuery>;
 export type GetItemQueryResult = Apollo.QueryResult<GetItemQuery, GetItemQueryVariables>;
 export const CreateItemDocument = gql`
-    mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean) {
+    mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean, $images: images_arr_rel_insert_input) {
   insert_items_one(
-    object: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, regular_price: $regular_price, next_lending_date: $next_lending_date, updated_at: $updated_at, name: $name, description: $description, gender: $gender, is_rental_available: $is_rental_available, created_at: $created_at}
+    object: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, regular_price: $regular_price, next_lending_date: $next_lending_date, updated_at: $updated_at, name: $name, description: $description, gender: $gender, is_rental_available: $is_rental_available, created_at: $created_at, images: $images}
   ) {
     id
   }
@@ -2211,6 +2337,7 @@ export type CreateItemMutationFn = Apollo.MutationFunction<CreateItemMutation, C
  *      is_rental_available: // value for 'is_rental_available'
  *      created_at: // value for 'created_at'
  *      can_sale: // value for 'can_sale'
+ *      images: // value for 'images'
  *   },
  * });
  */
