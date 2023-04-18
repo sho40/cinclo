@@ -2,8 +2,16 @@
 
   .imageArea {
     width: 100%;
-    height: 200px;
-    background-color: chocolate; // FIXME: 仮
+    display: flex;
+  }
+
+  .imageContainer {
+    margin-right: 5px;
+
+    img {
+      aspect-ratio: 5/6;
+      object-fit: cover;
+    }
   }
 
   .basicInfoArea, .rentalInfoArea {
@@ -22,11 +30,35 @@
         }
 
         th, td{
-          padding-left: 20px;
+          padding: 5px;
         }
 
         th {
           width: 300px
+        }
+
+        td input {
+          height: 50px;
+          width: 100%;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"] {
+          padding-left: 5px;
+        }
+
+        textarea {
+          padding: 5px;
+          width: 100%;
+        }
+
+        .description {
+          padding: 5px;
+
+          & > div {
+            min-height: 200px;
+            background-color: #fff;
+            padding: 5px;
+          }
         }
       }
     }
@@ -40,20 +72,86 @@
     }
   }
 
-  .delete {
-    padding: 20px 0 0 20px;
+  .buttons {
+    display: flex;
+    justify-content: center;
 
-    button {
-      width: 100px;
-      height: 50px;
-      color: red;
-      border: 2px solid red;
-      border-radius: 5px;
+    .delete {
+      padding: 20px 0 0 0;
+      text-align: center;
+  
+      button {
+        width: 250px;
+        height: 60px;
+        color: #fff;
+        border: 2px solid red;
+        background-color: red;
+        border-radius: 5px;
+  
+        &:hover {
+          opacity: 0.5;
+          cursor: pointer;
+        }
+      }
+    }
 
-      &:hover {
-        opacity: 0.5;
-        cursor: pointer;
-        background-color: bisque;
+    .space {
+      width: 20px;
+    }
+  
+    .edit {
+      padding: 20px 0 0 0;
+      text-align: center;
+  
+      div {
+        width: 250px;
+        height: 60px;
+        line-height: 60px;
+        background-color: #219DDD;
+        color: #fff;
+        border-radius: 5px;
+  
+        &:hover {
+          opacity: 0.5;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .save {
+      padding: 20px 0 0 0;
+      text-align: center;
+  
+      button {
+        width: 250px;
+        height: 60px;
+        background-color: #1B813E;
+        color: #fff;
+        border-radius: 5px;
+  
+        &:hover {
+          opacity: 0.5;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .editCancel {
+      padding: 20px 0 0 0;
+      text-align: center;
+  
+      div {
+        width: 250px;
+        height: 60px;
+        line-height: 60px;
+        background-color: #815a1b;
+        color: #fff;
+        border-radius: 5px;
+  
+        &:hover {
+          opacity: 0.5;
+          cursor: pointer;
+        }
       }
     }
   }
