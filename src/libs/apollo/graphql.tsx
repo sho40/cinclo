@@ -2003,6 +2003,45 @@ export type ItemDetailFragment = (
   )> }
 );
 
+export type EditItemsMutationVariables = Exact<{
+  id: Scalars['Int'];
+  brand_id?: InputMaybe<Scalars['Int']>;
+  can_sale?: InputMaybe<Scalars['Boolean']>;
+  category_id?: InputMaybe<Scalars['Int']>;
+  current_count?: InputMaybe<Scalars['Int']>;
+  current_price?: InputMaybe<Scalars['Int']>;
+  description?: InputMaybe<Scalars['String']>;
+  gender?: InputMaybe<Scalars['Int']>;
+  is_rental_available?: InputMaybe<Scalars['Boolean']>;
+  name?: InputMaybe<Scalars['String']>;
+  next_lending_date?: InputMaybe<Scalars['timestamptz']>;
+  regular_price?: InputMaybe<Scalars['Int']>;
+  updated_at?: InputMaybe<Scalars['timestamptz']>;
+}>;
+
+
+export type EditItemsMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_items_by_pk?: Maybe<(
+    { __typename?: 'items' }
+    & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale'>
+    & { brand?: Maybe<(
+      { __typename?: 'brands' }
+      & Pick<Brands, 'id' | 'name'>
+    )>, category?: Maybe<(
+      { __typename?: 'categories' }
+      & Pick<Categories, 'id' | 'name'>
+      & { sub_category?: Maybe<(
+        { __typename?: 'sub_categories' }
+        & Pick<Sub_Categories, 'id' | 'name'>
+      )> }
+    )>, images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'url' | 'id' | 'item_id'>
+    )> }
+  )> }
+);
+
 export type CreateItemMutationVariables = Exact<{
   next_lending_date?: InputMaybe<Scalars['timestamptz']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
@@ -2308,6 +2347,54 @@ export function useGetItemLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetItemQueryHookResult = ReturnType<typeof useGetItemQuery>;
 export type GetItemLazyQueryHookResult = ReturnType<typeof useGetItemLazyQuery>;
 export type GetItemQueryResult = Apollo.QueryResult<GetItemQuery, GetItemQueryVariables>;
+export const EditItemsDocument = gql`
+    mutation EditItems($id: Int!, $brand_id: Int, $can_sale: Boolean, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $name: String, $next_lending_date: timestamptz, $regular_price: Int, $updated_at: timestamptz) {
+  update_items_by_pk(
+    pk_columns: {id: $id}
+    _set: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, description: $description, gender: $gender, is_rental_available: $is_rental_available, name: $name, next_lending_date: $next_lending_date, regular_price: $regular_price, updated_at: $updated_at}
+  ) {
+    ...ItemDetail
+  }
+}
+    ${ItemDetailFragmentDoc}`;
+export type EditItemsMutationFn = Apollo.MutationFunction<EditItemsMutation, EditItemsMutationVariables>;
+
+/**
+ * __useEditItemsMutation__
+ *
+ * To run a mutation, you first call `useEditItemsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useEditItemsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [editItemsMutation, { data, loading, error }] = useEditItemsMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      brand_id: // value for 'brand_id'
+ *      can_sale: // value for 'can_sale'
+ *      category_id: // value for 'category_id'
+ *      current_count: // value for 'current_count'
+ *      current_price: // value for 'current_price'
+ *      description: // value for 'description'
+ *      gender: // value for 'gender'
+ *      is_rental_available: // value for 'is_rental_available'
+ *      name: // value for 'name'
+ *      next_lending_date: // value for 'next_lending_date'
+ *      regular_price: // value for 'regular_price'
+ *      updated_at: // value for 'updated_at'
+ *   },
+ * });
+ */
+export function useEditItemsMutation(baseOptions?: Apollo.MutationHookOptions<EditItemsMutation, EditItemsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<EditItemsMutation, EditItemsMutationVariables>(EditItemsDocument, options);
+      }
+export type EditItemsMutationHookResult = ReturnType<typeof useEditItemsMutation>;
+export type EditItemsMutationResult = Apollo.MutationResult<EditItemsMutation>;
+export type EditItemsMutationOptions = Apollo.BaseMutationOptions<EditItemsMutation, EditItemsMutationVariables>;
 export const CreateItemDocument = gql`
     mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean, $images: images_arr_rel_insert_input) {
   insert_items_one(

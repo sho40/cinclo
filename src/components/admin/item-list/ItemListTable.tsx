@@ -5,6 +5,7 @@ import { numberToPrice } from "@/logic/numberFormatter";
 import { formatDateYYYYMMDD } from "@/logic/dateFormatter"
 import { genderFormat } from "@/logic/genderFormatter"
 import Image from 'next/image';
+import { isValidUrl } from "@/logic/checkUrl";
 
 
 interface ItemListTableProps {
@@ -16,19 +17,6 @@ export default function ItemListTable({items}: ItemListTableProps) {
 
   const goToDetail = (itemId: number) => {
     Router.push(`/admin/item/detail/${itemId}`)
-  }
-
-  const isValidUrl = (url: string | undefined | null) => {
-    try {
-      if (url == null) {
-        return false
-      }
-
-      new URL(url)
-      return true
-    } catch(error) {
-      return false
-    }
   }
 
   return (

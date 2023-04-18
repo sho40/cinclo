@@ -1,29 +1,115 @@
 import { getLayout } from '@/components/admin/layout';
 import PageTitle from '@/components/admin/pageTitle/PageTitle';
-import { useDeleteItemMutation, useGetItemQuery } from '@/libs/apollo/graphql';
+import { EditItemsMutationVariables, useDeleteItemMutation, useGetItemQuery, useEditItemsMutation, Items, GetItemQuery, Maybe, Brands, Categories, Sub_Categories, Images, useGetChildCategoriesQuery, useGetBrandListQuery } from '@/libs/apollo/graphql';
 import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { numberToPrice } from "@/logic/numberFormatter";
-import { formatDateYYYYMMDDHHmmss, formatDateYYYYMMDD } from "@/logic/dateFormatter"
+import { formatDateYYYYMMDDHHmmss, formatDateYYYYMMDD, stringToDate, formatDateYYYYMMDDForDateForm } from "@/logic/dateFormatter"
 import { genderFormat } from "@/logic/genderFormatter"
 import styles from "./ItemDetail.module.scss"
+import { isValidUrl } from '@/logic/checkUrl';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form'
 
+type ItemDetailType = Maybe<(
+  { __typename?: 'items' }
+  & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale'>
+  & { brand?: Maybe<(
+    { __typename?: 'brands' }
+    & Pick<Brands, 'id' | 'name'>
+  )>, category?: Maybe<(
+    { __typename?: 'categories' }
+    & Pick<Categories, 'id' | 'name'>
+    & { sub_category?: Maybe<(
+      { __typename?: 'sub_categories' }
+      & Pick<Sub_Categories, 'id' | 'name'>
+    )> }
+  )>, images: Array<(
+    { __typename?: 'images' }
+    & Pick<Images, 'url' | 'id' | 'item_id'>
+  )> }
+)>
 
 export default function ItemDetail() {
   const router = useRouter();
-
-  // 安全にnumberに変換できるようにする。
   const itemId = Number(router.query.id);
-  const {data} = useGetItemQuery({variables: {id: itemId}});
-  const item = data?.items_by_pk;
+  const [item, setItem] = useState<ItemDetailType | undefined>(undefined);
+  const [isEditMode, setEditMode] = useState<boolean>(false);
+  const categoryListRes = useGetChildCategoriesQuery()
+  const categoryList = categoryListRes.data?.categories;
+  const brandListRes = useGetBrandListQuery()
+  const brandList = brandListRes.data?.brands;
 
-  // TODO: 動作確認
+  // form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<EditItemsMutationVariables>()
+
+  useGetItemQuery({variables: {id: itemId}, onCompleted: ({items_by_pk}) => {
+    if (items_by_pk == null) return;
+    setItem(items_by_pk)
+  }});
+
+  // 削除
   const [deleteItem] = useDeleteItemMutation({variables: {itemId: itemId}, refetchQueries: ["getItemListByAdminContainer"]});
   const onDelete = () => {
     const confirm = window.confirm("削除してよろしいですか？")
     if(confirm) {
       deleteItem();
       router.push('/admin/item-list/')
+    }
+  }
+
+  const escapeDescription = (description: string) => {
+    const text = description.split(/(\n)/).map((item, index) => {
+      return (
+        <div key={index}>
+          {item.match(/\n/) ? <br /> : item}
+        </div>
+      );
+    })
+    return <div>{text}</div>
+  }
+
+  const date = item?.next_lending_date != null ? new Date(item?.next_lending_date) : new Date();
+  const dafaultDateStr = formatDateYYYYMMDDForDateForm(date);
+
+  // 編集
+  const [editItem] = useEditItemsMutation()
+  const handleEditItem = async (data: EditItemsMutationVariables) => {
+    const now = new Date;
+
+    // formから送られてくる値はstringなため強制上書き
+    const is_rental_available = data.is_rental_available as unknown === "TRUE" ? true : false;
+    const can_sale = data.can_sale as unknown === "TRUE" ? true : false;
+
+    const next_lending_date = stringToDate(data.next_lending_date);
+
+    try {
+      console.log({data})
+      const payload: EditItemsMutationVariables = {
+        id: itemId,
+        brand_id: data.brand_id ?? item?.brand?.id,
+        can_sale: can_sale ?? item?.can_sale,
+        category_id: data.category_id ?? item?.category?.id,
+        current_count: data.current_count ?? item?.current_count,
+        current_price: data.current_price ?? item?.current_price,
+        description: data.description ?? item?.description,
+        gender: data.gender ?? item?.gender,
+        is_rental_available: is_rental_available ?? item?.is_rental_available,
+        name: data.name ?? item?.name,
+        next_lending_date: next_lending_date ?? item?.next_lending_date,
+        regular_price: data.regular_price ?? item?.regular_price,
+        updated_at: now
+      }
+      console.log("payload", payload)
+      await editItem({variables: payload})
+      setEditMode(false)
+    } catch (error) {
+      console.log("edit item failed", error)
     }
   }
 
@@ -36,86 +122,263 @@ export default function ItemDetail() {
             <div>商品が見つかりませんでした</div>
           ) : (
             <>
-              <div>
+              <form onSubmit={handleSubmit(handleEditItem)}>
                 <div>
-                  <div className={styles.imageArea}>
-                    <div>商品画像</div>
-                  </div>
-                  <div className={styles.basicInfoArea}>
-                    <div className='bg-gray-200'>
-                      <table>
-                        <caption className='bg-gray-700 text-white pl-2'>基本情報</caption>
-                        <tbody>
-                          <tr>
-                            <th>商品名</th>
-                            <td>{item.name}</td>
-                          </tr>
-                          <tr>
-                            <th>説明</th>
-                            <td>{item.description}</td>
-                          </tr>
-                          <tr>
-                            <th>カテゴリ</th>
-                            <td>{item.category?.name}</td>
-                          </tr> 
-                          <tr>
-                            <th>ブランド</th>
-                            <td>{item.brand?.name}</td>
-                          </tr> 
-                          <tr>
-                            <th>性別</th>
-                            <td>{genderFormat(item.gender)}</td>
-                          </tr> 
-                          <tr>
-                            <th>登録日</th>
-                            <td>{formatDateYYYYMMDDHHmmss(item.created_at)}</td>
-                          </tr> 
-                          <tr>
-                            <th>更新日</th>
-                            <td>{formatDateYYYYMMDDHHmmss(item.updated_at)}</td>
-                          </tr> 
-                        </tbody>
-                      </table>
+                  <div>
+                    <div className={styles.imageArea}>
+                      {item.images != null && item.images.length > 0 ? item.images.map((image, index) => {
+                        if(!isValidUrl(image.url)) {
+                          return <></>
+                        }
+                        return (
+                          <div key={index} className={styles.imageContainer}>
+                            <Image src={image.url} alt="" width={160} height={200}/>
+                          </div>
+                        )
+                      }): <></>}
                     </div>
-                  </div>
-                  <div className={styles.rentalInfoArea}>
-                    <div className='bg-gray-200'>
-                      <table>
-                        <caption className='bg-gray-700 text-white pl-2'>レンタル情報</caption>
-                        <tbody>
-                          <tr>
-                            <th>定価</th>
-                            <td>{item.regular_price != null ? numberToPrice(item.regular_price) : '定価不明'}</td>
-                          </tr>
-                          <tr>
-                            <th>現在価格</th>
-                            <td>{item.regular_price != null ? numberToPrice(item.current_price!) : '不明'}</td>
-                          </tr>
-                          <tr>
-                            <th>貸出回数</th>
-                            <td>{`${item.current_count}回目`}</td>
-                          </tr>
-                          <tr>
-                            <th>レンタルステータス</th>
-                            <td>{item.is_rental_available ? 'レンタル可能' : '貸出中'}</td>
-                          </tr>
-                          <tr>
-                            <th>次回貸出可能日</th>
-                            <td>{item.next_lending_date ? formatDateYYYYMMDD(item.next_lending_date) : '-'}</td>
-                          </tr>
-                          <tr>
-                            <th>販売ステータス</th>
-                            <td>{item.can_sale ? '販売可能' : '-'}</td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div className={styles.basicInfoArea}>
+                      <div className='bg-gray-200'>
+                        <table>
+                          <caption className='bg-gray-700 text-white pl-2'>基本情報</caption>
+                          <tbody>
+                            <tr>
+                              <th>商品名</th>
+                              <td>
+                                {isEditMode ? (
+                                  <input
+                                    {...register('name', { required: '商品名を入力してください' })}
+                                    type='text'
+                                    placeholder='商品名を入力'
+                                    defaultValue={item.name}
+                                  />
+                                ) : (
+                                  <>{item.name}</>
+                                )}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>説明</th>
+                              <td className={styles.description}>
+                                {isEditMode ? (
+                                  <textarea
+                                    {...register('description')}
+                                    rows={10}
+                                    placeholder='説明を入力'
+                                    defaultValue={item.description ?? ""}
+                                  />
+                                ): (
+                                  <>{item.description != null ? escapeDescription(item.description) : ""}</>
+                                )}
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>カテゴリ</th>
+                              <td>
+                                {isEditMode ? (
+                                  <select
+                                    {...register('category_id', { required: 'カテゴリを選択してください' })}
+                                    defaultValue={categoryList?.find(category => category.id === item.category?.id)?.id}
+                                  >
+                                    {
+                                      categoryList?.map((category, index) => {
+                                        return (
+                                          <option key={index} value={category.id}>
+                                            {category.name}
+                                          </option>
+                                        )
+                                      })
+                                    }
+                                  </select>
+                                ) : (
+                                  <>{item.category?.name}</>
+                                ) }
+                              </td>
+                            </tr> 
+                            <tr>
+                              <th>ブランド</th>
+                              <td>
+                                {
+                                  isEditMode ? (
+                                    <select
+                                      {...register('brand_id', { required: 'ブランドを選択してください' })}
+                                      defaultValue={brandList?.find(brand => brand.id === item.brand?.id)?.id}
+                                    >
+                                      {
+                                        brandList?.map((brand, index) => {
+                                          return (
+                                            <option key={index} value={brand.id}>
+                                              {brand.name}
+                                            </option>
+                                          )
+                                        })
+                                      }
+                                    </select>
+                                  ) : (
+                                    <>{item.brand?.name}</>
+                                  ) 
+                                }
+                              </td>
+                            </tr> 
+                            <tr>
+                              <th>性別</th>
+                              <td>
+                                {
+                                  isEditMode ? (
+                                    <select
+                                      {...register('gender', { required: '性別を選択してください' })}
+                                    >
+                                      <option value={1}>メンズ</option>
+                                      <option value={2}>レディース</option>
+                                      <option value={3}>ユニセックス</option>
+                                    </select>
+                                  ) : (
+                                    <>{genderFormat(item.gender)}</>
+                                  )
+                                }
+                              </td>
+                            </tr> 
+                            <tr>
+                              <th>登録日</th>
+                              <td>{formatDateYYYYMMDDHHmmss(item.created_at)}</td>
+                            </tr> 
+                            <tr>
+                              <th>更新日</th>
+                              <td>{formatDateYYYYMMDDHHmmss(item.updated_at)}</td>
+                            </tr> 
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <div className={styles.rentalInfoArea}>
+                      <div className='bg-gray-200'>
+                        <table>
+                          <caption className='bg-gray-700 text-white pl-2'>レンタル情報</caption>
+                          <tbody>
+                            <tr>
+                              <th>定価</th>
+                              <td>
+                                {
+                                  isEditMode ? (
+                                    <>
+                                      <input
+                                        {...register('regular_price', { required: '定価を入力してください' })}
+                                        type='number'
+                                        placeholder='ex. 10000'
+                                        defaultValue={item.regular_price ?? 0}
+                                      />
+                                    </>
+                                  ) : (
+                                    <>{item.regular_price != null ? numberToPrice(item.regular_price) : '定価不明'}</>
+                                  )
+                                }
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>現在価格</th>
+                              <td>
+                                {
+                                  isEditMode ? (
+                                    <input
+                                      {...register('current_price', { required: '現在価格を入力してください' })}
+                                      type='number'
+                                      placeholder='ex. 6500'
+                                      defaultValue={item.regular_price ?? 0}
+                                    />
+                                  ) : (
+                                    <>{item.regular_price != null ? numberToPrice(item.current_price!) : '不明'}</>
+                                  )
+                                }
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>貸出回数</th>
+                              <td>{`${item.current_count}回目`}</td>
+                            </tr>
+                            <tr>
+                              <th>レンタルステータス</th>
+                              <td>
+                                {
+                                  isEditMode ? (
+                                    <select
+                                      {...register('is_rental_available')}
+                                      defaultValue={item.is_rental_available ? "TRUE" : "FALSE"}
+                                    >
+                                      <option value={"TRUE"}>レンタル可能</option>
+                                      <option value={"FALSE"}>貸出中</option>
+                                    </select>
+                                  ) : (
+                                    <>{item.is_rental_available ? 'レンタル可能' : '貸出中'}</>
+                                  )
+                                }
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>次回貸出可能日</th>
+                              <td>
+                                {
+                                  isEditMode ? (
+                                    <input
+                                      {...register('next_lending_date')}
+                                      type='date'
+                                      defaultValue={dafaultDateStr}
+                                    />
+                                  ) : (
+                                    <>{item.next_lending_date ? formatDateYYYYMMDD(item.next_lending_date) : '-'}</>
+                                  )
+                                }
+                              </td>
+                            </tr>
+                            <tr>
+                              <th>販売ステータス</th>
+                              <td>
+                                {
+                                  isEditMode ? (
+                                    <select
+                                      {...register('can_sale')}
+                                      defaultValue={item.can_sale ? "TRUE" : "FALSE"}
+                                    >
+                                      <option value={"TRUE"}>販売可能</option>
+                                      <option value={"FALSE"}>-</option>
+                                    </select>
+                                  ) : (
+                                    <>{item.can_sale ? '販売可能' : '-'}</>
+                                  )
+                                }
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className={styles.delete}>
-                <button onClick={() => onDelete()}>削除</button>
-              </div>
+                <div className={styles.buttons}>
+                  {isEditMode ? 
+                    (
+                      <div className={styles.save}>
+                        <button type='submit'>保存する</button>
+                      </div>
+                    ) : (
+                      <div className={styles.edit}>
+                        <div onClick={() => {setEditMode(true)}}>編集</div>
+                      </div>
+                    )
+                  }
+                  <div className={styles.space} />
+                  {isEditMode ? 
+                    (
+                      <div className={styles.editCancel}>
+                        <div onClick={() => setEditMode(false)}>キャンセル</div>
+                      </div>
+                    ) : (
+                      <div className={styles.delete}>
+                        <button onClick={() => onDelete()}>削除</button>
+                      </div>
+                    )
+                  }
+                </div>
+              </form>
             </>
           )
         }
@@ -170,6 +433,14 @@ gql`
       url
       id
       item_id
+    }
+  }
+`
+
+gql`
+  mutation EditItems($id: Int!, $brand_id: Int, $can_sale: Boolean, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $name: String, $next_lending_date: timestamptz, $regular_price: Int, $updated_at: timestamptz) {
+    update_items_by_pk(pk_columns: {id: $id}, _set: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, description: $description, gender: $gender, is_rental_available: $is_rental_available, name: $name, next_lending_date: $next_lending_date, regular_price: $regular_price, updated_at: $updated_at}) {
+      ...ItemDetail
     }
   }
 `

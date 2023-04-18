@@ -46,11 +46,12 @@ export default function ItemNew() {
   } = useForm<CreateItemMutationVariables>()
 
   const handleCreateItem = async (data: CreateItemMutationVariables) => {
-    console.log("on handleCreateItem")
 
     try {
+      console.log("on handleCreateItem")
+
       // 画像をfirebasenにuploadしURLを取得
-      const imageUrls = await onFirebaseUpload(files, storage);
+      const imageUrls = files.length > 0 ? await onFirebaseUpload(files, storage) : [];
     
       // 取得したURLをdataに追加
       const images: Images_Insert_Input[] = imageUrls != null ? imageUrls.map((imageUrl) => {
@@ -71,8 +72,8 @@ export default function ItemNew() {
       const next_lending_date = stringToDate(data.next_lending_date);
       
       const now = new Date;
-      const payload: CreateItemMutationVariables = await {
-        ...data, 
+      const payload: CreateItemMutationVariables = {
+        ...data,
         category_id: category_id,
         brand_id,
         gender,
@@ -134,7 +135,22 @@ export default function ItemNew() {
                   </>
               }
             </div>
-            
+            <div className={styles.errorMessage}>
+                <ul>
+                  <li>
+                    {errors.name?.message}
+                  </li>
+                  <li>
+                    {errors.current_price?.message}
+                  </li>
+                  <li>
+                    {errors.is_rental_available?.message}
+                  </li>
+                  <li>
+                    {errors.next_lending_date != null ? "次回貸出可能日を入力してください" : "" /* エラーが出るのでこの書き方 */}
+                  </li>
+                </ul>
+              </div>
             <form onSubmit={handleSubmit(handleCreateItem)}>
               <div className={styles.basicInfoArea}>
                 <div className='bg-gray-200'>
@@ -251,29 +267,12 @@ export default function ItemNew() {
                   </table>
                 </div>
               </div>
-              <div>
-                <ul>
-                  <li>
-                    {errors.name?.message}
-                  </li>
-                  <li>
-                    {errors.current_price?.message}
-                  </li>
-                  <li>
-                    {errors.is_rental_available?.message}
-                  </li>
-                  <li>
-                    {errors.next_lending_date != null ? "次回貸出可能日を入力してください" : "" /* エラーが出るのでこの書き方 */}
-                  </li>
-                </ul>
-              </div>
               <div className={styles.register}>
                 <button type='submit'>
                   登録
                 </button>
               </div>
             </form>
-            
           </div>
         </div>
       </div>
