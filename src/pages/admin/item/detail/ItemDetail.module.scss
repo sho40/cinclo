@@ -5,12 +5,83 @@
     display: flex;
   }
 
+  .editImageArea {
+    margin-top: 20px;
+
+    .uploadBox {
+      width: 100%;
+      line-height: 250px;
+      height: 250px;
+      text-align: center;
+      color: chocolate;
+      margin: auto;
+  
+      border-radius: 10px;
+      background-image : linear-gradient(to right, chocolate 5px, transparent 5px),linear-gradient(to bottom, chocolate 5px, transparent 2px),linear-gradient(to left, chocolate 5px, transparent 2px),linear-gradient(to top, chocolate 5px, transparent 2px);
+      background-size: 8px 2px,2px 8px,8px 2px,2px 8px;
+      background-repeat: repeat-x,repeat-y,repeat-x,repeat-y;
+      background-position: left top,right 0px,3px bottom,left 7px;
+  
+      & > p {
+        cursor: pointer;
+      }
+    }
+
+    .selectedImageArea {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 10px;
+  
+      text-align: center;
+  
+      img {
+        aspect-ratio: 5 / 6;
+        object-fit: cover;
+      }
+    }
+
+    .deleteButton {
+      margin-top: 20px;
+      text-align: right;
+  
+      button {
+        border: 1px solid red;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        color: red;
+  
+        &:hover {
+          opacity: .5;
+        }
+      }
+    }
+  }
+
   .imageContainer {
     margin-right: 5px;
 
     img {
       aspect-ratio: 5/6;
       object-fit: cover;
+    }
+
+    .deleteImage {
+      text-align: center;
+      border: 1px solid red;
+      border-radius: 3px;
+      padding: 3px 5px;
+      width: fit-content;
+      color: red;
+      font-size: 12px;
+      font-size: 12px;
+      margin: 5px auto;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.5;
+      }
     }
   }
 

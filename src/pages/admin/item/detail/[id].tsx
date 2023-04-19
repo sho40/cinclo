@@ -1,6 +1,6 @@
 import { getLayout } from '@/components/admin/layout';
 import PageTitle from '@/components/admin/pageTitle/PageTitle';
-import { EditItemsMutationVariables, useDeleteItemMutation, useGetItemQuery, useEditItemsMutation, Items, GetItemQuery, Maybe, Brands, Categories, Sub_Categories, Images, useGetChildCategoriesQuery, useGetBrandListQuery } from '@/libs/apollo/graphql';
+import { EditItemsMutationVariables, useDeleteItemMutation, useGetItemQuery, useEditItemsMutation, Items, GetItemQuery, Maybe, Brands, Categories, Sub_Categories, Images, useGetChildCategoriesQuery, useGetBrandListQuery, Images_Insert_Input, useInsertImagesMutation, useDeleteImageMutation } from '@/libs/apollo/graphql';
 import { gql } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { numberToPrice } from "@/logic/numberFormatter";
@@ -11,6 +11,10 @@ import { isValidUrl } from '@/logic/checkUrl';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form'
+import { useDropzone } from 'react-dropzone';
+import { getStorage } from 'firebase/storage';
+import { onFirebaseUpload } from '@/logic/uploadFile';
+import React from 'react';
 
 type ItemDetailType = Maybe<(
   { __typename?: 'items' }
@@ -53,13 +57,23 @@ export default function ItemDetail() {
     setItem(items_by_pk)
   }});
 
-  // 削除
+  // アイテム削除
   const [deleteItem] = useDeleteItemMutation({variables: {itemId: itemId}, refetchQueries: ["getItemListByAdminContainer"]});
   const onDelete = () => {
     const confirm = window.confirm("削除してよろしいですか？")
     if(confirm) {
       deleteItem();
       router.push('/admin/item-list/')
+    }
+  }
+
+  // 画像削除
+  const [deleteImage] = useDeleteImageMutation()
+  const onImageDelete = (imageId: number) => {
+    const confirm = window.confirm("削除してよろしいですか？")
+    if(confirm) {
+      // FIXME: 削除後に画面に即反映する
+      deleteImage({variables: {id: imageId}});
     }
   }
 
@@ -77,18 +91,55 @@ export default function ItemDetail() {
   const date = item?.next_lending_date != null ? new Date(item?.next_lending_date) : new Date();
   const dafaultDateStr = formatDateYYYYMMDDForDateForm(date);
 
+  // 画像追加処理まわり
+
+  const [createImages] = useInsertImagesMutation();
+
+  // ブラウザ表示用のpaths
+  const [previewImagePaths, setPreviewImagePathes] = useState<string[]>([]);
+  // upload用のfiles
+  const [files, setFiles] = useState<File[]>([]);
+  const onDrop = (newFiles: File[]) => {
+    // upload用のstateへsetする
+    const allFiles = files.concat(newFiles);
+    setFiles(allFiles);
+
+    // ブラウザで画像を表示させるための、一時的なURLをメモリに生成する
+    const newTempUrls = newFiles.map((file) => URL.createObjectURL(file));
+    const allUrls = previewImagePaths.concat(newTempUrls);
+    setPreviewImagePathes(allUrls);
+  }
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const storage = getStorage();
+
+  const handleItemDelete = () => {
+    setPreviewImagePathes([]);
+    setFiles([]);
+  }
+
   // 編集
   const [editItem] = useEditItemsMutation()
   const handleEditItem = async (data: EditItemsMutationVariables) => {
     const now = new Date;
-
     // formから送られてくる値はstringなため強制上書き
     const is_rental_available = data.is_rental_available as unknown === "TRUE" ? true : false;
     const can_sale = data.can_sale as unknown === "TRUE" ? true : false;
-
     const next_lending_date = stringToDate(data.next_lending_date);
 
     try {
+
+      // 画像をfirebasenにuploadしURLを取得
+      const imageUrls = files.length > 0 ? await onFirebaseUpload(files, storage) : [];
+      
+      // 取得したURLをdataに追加
+      const images: Images_Insert_Input[] = imageUrls != null ? imageUrls.map((imageUrl) => {
+        return {
+          url: imageUrl,
+          item_id: itemId
+        }
+      }) : []
+      await createImages({variables: {images}})
+
       console.log({data})
       const payload: EditItemsMutationVariables = {
         id: itemId,
@@ -108,10 +159,14 @@ export default function ItemDetail() {
       console.log("payload", payload)
       await editItem({variables: payload})
       setEditMode(false)
+      handleItemDelete()
     } catch (error) {
       console.log("edit item failed", error)
+      setEditMode(false)
+      handleItemDelete()
     }
   }
+
 
   return (
     <>
@@ -128,14 +183,55 @@ export default function ItemDetail() {
                     <div className={styles.imageArea}>
                       {item.images != null && item.images.length > 0 ? item.images.map((image, index) => {
                         if(!isValidUrl(image.url)) {
-                          return <></>
+                          return <React.Fragment key={index}></React.Fragment>
                         }
                         return (
                           <div key={index} className={styles.imageContainer}>
                             <Image src={image.url} alt="" width={160} height={200}/>
+                            {
+                              isEditMode ? (
+                                <div>
+                                  <div className={styles.deleteImage} onClick={() => onImageDelete(image.id)}>削除</div>
+                                </div>
+                              ) : (
+                                <></>
+                              )
+                            }
                           </div>
                         )
                       }): <></>}
+                    </div>
+                    <div className={styles.editImageArea}>
+                      {
+                        isEditMode ? (
+                          <div>
+                            <div {...getRootProps({className: `${styles.uploadBox}`})}>
+                              <input {...getInputProps()}/>
+                              <p>ドラッグ&ドロップで画像を追加</p>
+                            </div>
+                            <div className={styles.selectedImageArea}>
+                            {previewImagePaths.map((imagePath, index) => {
+                              return (
+                                <div key={index}>
+                                  <Image src={imagePath} alt="" width={100} height={100}/>
+                                </div>
+                              )
+                            })}
+                          </div>
+                          {
+                            previewImagePaths.length > 0 ?
+                            (
+                              <div className={styles.deleteButton}>
+                                <button onClick={() => handleItemDelete()}>取り消し</button>
+                              </div>
+                            ) : (
+                              <></>
+                            )
+                          }
+                          
+                        </div>
+                        ) : (<></>)
+                      }
                     </div>
                     <div className={styles.basicInfoArea}>
                       <div className='bg-gray-200'>
@@ -442,6 +538,26 @@ gql`
   mutation EditItems($id: Int!, $brand_id: Int, $can_sale: Boolean, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $name: String, $next_lending_date: timestamptz, $regular_price: Int, $updated_at: timestamptz) {
     update_items_by_pk(pk_columns: {id: $id}, _set: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, description: $description, gender: $gender, is_rental_available: $is_rental_available, name: $name, next_lending_date: $next_lending_date, regular_price: $regular_price, updated_at: $updated_at}) {
       ...ItemDetail
+    }
+  }
+`
+
+gql`
+  mutation InsertImages($images: [images_insert_input!]!) {
+    insert_images(objects: $images) {
+      returning {
+        id
+        url
+        item_id
+      }
+    }
+  }
+`
+
+gql`
+  mutation DeleteImage($id: Int!) {
+    delete_images_by_pk(id: $id) {
+      url
     }
   }
 `
