@@ -227,6 +227,7 @@ export default function ItemDetail() {
                                   isEditMode ? (
                                     <select
                                       {...register('gender', { required: '性別を選択してください' })}
+                                      defaultValue={item.gender}
                                     >
                                       <option value={1}>メンズ</option>
                                       <option value={2}>レディース</option>
@@ -283,10 +284,10 @@ export default function ItemDetail() {
                                       {...register('current_price', { required: '現在価格を入力してください' })}
                                       type='number'
                                       placeholder='ex. 6500'
-                                      defaultValue={item.regular_price ?? 0}
+                                      defaultValue={item.current_price ?? 0}
                                     />
                                   ) : (
-                                    <>{item.regular_price != null ? numberToPrice(item.current_price!) : '不明'}</>
+                                    <>{item.current_price != null ? numberToPrice(item.current_price!) : '不明'}</>
                                   )
                                 }
                               </td>
