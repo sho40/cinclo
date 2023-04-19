@@ -19,7 +19,7 @@ export default function ItemNew() {
   const categoryList = categoryListRes.data?.categories;
   const brandListRes = useGetBrandListQuery()
   const brandList = brandListRes.data?.brands;
-  const [createItem] = useCreateItemMutation({refetchQueries: ["getItemListByAdminContainer"]});
+  const [createItem] = useCreateItemMutation();
   
   // ブラウザ表示用のpaths
   const [previewImagePaths, setPreviewImagePathes] = useState<string[]>([]);
@@ -91,7 +91,7 @@ export default function ItemNew() {
       }
       console.log({payload})
 
-      await createItem({variables: payload})
+      await createItem({variables: payload, refetchQueries: ["getItemListByAdminContainer"]})
       router.push('/admin/item-list')
 
     } catch(error) {
