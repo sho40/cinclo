@@ -27,13 +27,15 @@ export default function ItemNew() {
   // upload用のfiles
   const [files, setFiles] = useState<File[]>([]);
 
-  const onDrop = (files: File[]) => {
+  const onDrop = (newFiles: File[]) => {
     // upload用のstateへsetする
-    setFiles(files);
+    const allFiles = files.concat(newFiles);
+    setFiles(allFiles);
 
     // ブラウザで画像を表示させるための、一時的なURLをメモリに生成する
-    const tempUrls = files.map((file) => URL.createObjectURL(file));
-    setPreviewImagePathes(tempUrls);
+    const newTempUrls = newFiles.map((file) => URL.createObjectURL(file));
+    const allUrls = previewImagePaths.concat(newTempUrls);
+    setPreviewImagePathes(allUrls);
   }
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
   const storage = getStorage();
@@ -112,13 +114,15 @@ export default function ItemNew() {
         <div className={styles.container}>
           <div>
             <div>
+              <div {...getRootProps({className: `${styles.uploadBox}`})}>
+                <input {...getInputProps()}/>
+                <p>ドラッグ&ドロップで画像を追加</p>
+              </div>
               {
                 previewImagePaths.length < 1 ? 
-                  <div {...getRootProps({className: `${styles.uploadBox}`})}>
-                    <input {...getInputProps()}/>
-                    <p>ドラッグ&ドロップで画像を追加</p>
-                  </div>
-                  :
+                (
+                  <></>
+                ) : (
                   <>
                     <div className={styles.selectedImageArea}>
                       {previewImagePaths.map((imagePath, index) => {
@@ -133,6 +137,7 @@ export default function ItemNew() {
                       <button onClick={() => handleItemDelete()}>全て削除</button>
                     </div>
                   </>
+                )
               }
             </div>
             <div className={styles.errorMessage}>
