@@ -72,6 +72,7 @@ export default function ItemNew() {
         return
       }
       const next_lending_date = stringToDate(data.next_lending_date);
+      const is_recommend = data.is_recommend as unknown === "TRUE" ? true : false;
       
       const now = new Date;
       const payload: CreateItemMutationVariables = {
@@ -89,7 +90,8 @@ export default function ItemNew() {
         can_sale: false,
         images: {
           data: images
-        }
+        },
+        is_recommend
       }
       console.log({payload})
 
@@ -268,6 +270,18 @@ export default function ItemNew() {
                           />
                         </td>
                       </tr>
+                      <tr>
+                        <th>おすすめフラグ</th>
+                        <td>
+                          <select
+                            {...register('is_recommend')}
+                            defaultValue={"FALSE"}
+                          >
+                            <option value={"FALSE"}>-</option>
+                            <option value={"TRUE"}>○</option>
+                          </select>
+                        </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -286,8 +300,8 @@ export default function ItemNew() {
 }
 
 gql`
-  mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean, $images: images_arr_rel_insert_input) {
-    insert_items_one(object: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, regular_price: $regular_price, next_lending_date: $next_lending_date, updated_at: $updated_at, name: $name, description: $description, gender: $gender, is_rental_available: $is_rental_available, created_at: $created_at, images: $images}) {
+  mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean, $images: images_arr_rel_insert_input, $is_recommend: Boolean,) {
+    insert_items_one(object: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, regular_price: $regular_price, next_lending_date: $next_lending_date, updated_at: $updated_at, name: $name, description: $description, gender: $gender, is_rental_available: $is_rental_available, created_at: $created_at, images: $images, is_recommend: $is_recommend}) {
       id
     }
   }

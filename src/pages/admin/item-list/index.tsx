@@ -47,6 +47,8 @@ gql`
         id
         item_id
       }
+      is_recommend
+      created_at
     }
 }
 `
