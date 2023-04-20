@@ -2239,6 +2239,24 @@ export type GetItemsTestQuery = (
   )> }
 );
 
+export type GetRecommendedItemsForHomeQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  _in?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>;
+}>;
+
+
+export type GetRecommendedItemsForHomeQuery = (
+  { __typename?: 'query_root' }
+  & { items: Array<(
+    { __typename?: 'items' }
+    & Pick<Items, 'current_count' | 'current_price' | 'id' | 'name' | 'next_lending_date' | 'regular_price'>
+    & { images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'id' | 'url' | 'item_id'>
+    )> }
+  )> }
+);
+
 export const ItemDetailFragmentDoc = gql`
     fragment ItemDetail on items {
   brand {
@@ -2911,3 +2929,53 @@ export function useGetItemsTestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type GetItemsTestQueryHookResult = ReturnType<typeof useGetItemsTestQuery>;
 export type GetItemsTestLazyQueryHookResult = ReturnType<typeof useGetItemsTestLazyQuery>;
 export type GetItemsTestQueryResult = Apollo.QueryResult<GetItemsTestQuery, GetItemsTestQueryVariables>;
+export const GetRecommendedItemsForHomeDocument = gql`
+    query GetRecommendedItemsForHome($limit: Int, $_in: [Int!]) {
+  items(
+    limit: $limit
+    where: {gender: {_in: $_in}, is_recommend: {_eq: true}}
+    order_by: {current_price: asc}
+  ) {
+    current_count
+    current_price
+    id
+    images(limit: 1) {
+      id
+      url
+      item_id
+    }
+    name
+    next_lending_date
+    regular_price
+  }
+}
+    `;
+
+/**
+ * __useGetRecommendedItemsForHomeQuery__
+ *
+ * To run a query within a React component, call `useGetRecommendedItemsForHomeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecommendedItemsForHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecommendedItemsForHomeQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      _in: // value for '_in'
+ *   },
+ * });
+ */
+export function useGetRecommendedItemsForHomeQuery(baseOptions?: Apollo.QueryHookOptions<GetRecommendedItemsForHomeQuery, GetRecommendedItemsForHomeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetRecommendedItemsForHomeQuery, GetRecommendedItemsForHomeQueryVariables>(GetRecommendedItemsForHomeDocument, options);
+      }
+export function useGetRecommendedItemsForHomeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetRecommendedItemsForHomeQuery, GetRecommendedItemsForHomeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetRecommendedItemsForHomeQuery, GetRecommendedItemsForHomeQueryVariables>(GetRecommendedItemsForHomeDocument, options);
+        }
+export type GetRecommendedItemsForHomeQueryHookResult = ReturnType<typeof useGetRecommendedItemsForHomeQuery>;
+export type GetRecommendedItemsForHomeLazyQueryHookResult = ReturnType<typeof useGetRecommendedItemsForHomeLazyQuery>;
+export type GetRecommendedItemsForHomeQueryResult = Apollo.QueryResult<GetRecommendedItemsForHomeQuery, GetRecommendedItemsForHomeQueryVariables>;

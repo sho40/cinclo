@@ -5,10 +5,10 @@ import { SlideBunner } from '@/components/SlideBunner'
 import { Item } from '@/types/Item.type'
 
 import { gql } from '@apollo/client'
-import { useGetItemsTestQuery } from '../libs/apollo/graphql'
-
+import { useGetItemsTestQuery, useGetRecommendedItemsForHomeQuery } from '../libs/apollo/graphql'
 
 export default function Home() {
+  // MEMO _in === gender
   const { data } = useGetItemsTestQuery();
   console.log({data})
 
@@ -18,7 +18,7 @@ export default function Home() {
       <Banner />
       <SexSwitch />
       <SlideBunner />
-      <div className='px-5'>
+      <div className='px-2'>
         <Recommend />
         <NewArrival />
       </div>
@@ -49,73 +49,11 @@ const SexSwitch = () => {
 }
 
 const Recommend = () => {
-
-  const items: Item[] = [
-    {
-      id: "1",
-      category: "トップス",
-      name: "aaa",
-      brand: "BEAMS",
-      imageUrl: "",
-      basePrice: 32000,
-      currentPrice: 4500,
-      rentalCount: 5,
-    },
-    {
-      id: "2",
-      category: "ジャケット/スーツ",
-      name: "bbb",
-      brand: "BEAMS",
-      imageUrl: "",
-      basePrice: 18000,
-      currentPrice: 2000,
-      rentalCount: 6,
-    },
-    {
-      id: "3",
-      category: "パンツ",
-      name: "ccc",
-      brand: "BEAMS",
-      imageUrl: "",
-      basePrice: 12000,
-      currentPrice: 1000,
-      rentalCount: 8,
-    },
-    {
-      id: "4",
-      category: "スカート",
-      name: "ddd",
-      brand: "BEAMS",
-      imageUrl: "",
-      basePrice: 10000,
-      currentPrice: 2000,
-      rentalCount: 6,
-    },
-    {
-      id: "5",
-      category: "アウター",
-      name: "eee",
-      brand: "BEAMS",
-      imageUrl: "",
-      basePrice: 23000,
-      currentPrice: 14000,
-      rentalCount: 5,
-    },
-    {
-      id: "6",
-      category: "トップス",
-      name: "fff",
-      brand: "BEAMS",
-      imageUrl: "",
-      basePrice: 33000,
-      currentPrice: 18000,
-      rentalCount: 4,
-    }
-  ]
+  const { data } = useGetRecommendedItemsForHomeQuery({variables : {limit: 6, _in: [1, 2, 3]}});
 
   return(
     <div className='py-7'>
-      <HomeItemsContainer items={items} title='おすすめ'/>
+      <HomeItemsContainer items={data?.items} title='おすすめ'/>
     </div>
   )
 }
@@ -187,7 +125,7 @@ const NewArrival = () => {
 
   return (
     <div className='py-7'>
-      <HomeItemsContainer items={items} title='新着アイテム'/>
+      {/* <HomeItemsContainer items={items} title='新着アイテム'/> */}
     </div>
   )
 }
@@ -197,6 +135,24 @@ gql`
     items {
       id
       name
+    }
+  }
+`
+
+gql`
+  query GetRecommendedItemsForHome($limit: Int, $_in: [Int!]) {
+    items(limit: $limit, where: {gender: {_in: $_in}, is_recommend: {_eq: true}}, order_by: {current_price: asc}) {
+      current_count
+      current_price
+      id
+      images(limit: 1) {
+        id
+        url
+        item_id
+      }
+      name
+      next_lending_date
+      regular_price
     }
   }
 `
