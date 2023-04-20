@@ -18,7 +18,7 @@ import React from 'react';
 
 type ItemDetailType = Maybe<(
   { __typename?: 'items' }
-  & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale'>
+  & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale' | 'is_recommend'>
   & { brand?: Maybe<(
     { __typename?: 'brands' }
     & Pick<Brands, 'id' | 'name'>
@@ -125,6 +125,7 @@ export default function ItemDetail() {
     const is_rental_available = data.is_rental_available as unknown === "TRUE" ? true : false;
     const can_sale = data.can_sale as unknown === "TRUE" ? true : false;
     const next_lending_date = stringToDate(data.next_lending_date);
+    const is_recommend = data.is_recommend as unknown === "TRUE" ? true : false;
 
     try {
 
@@ -154,7 +155,8 @@ export default function ItemDetail() {
         name: data.name ?? item?.name,
         next_lending_date: next_lending_date ?? item?.next_lending_date,
         regular_price: data.regular_price ?? item?.regular_price,
-        updated_at: now
+        updated_at: now,
+        is_recommend
       }
       console.log("payload", payload)
       await editItem({variables: payload})
@@ -444,6 +446,24 @@ export default function ItemDetail() {
                                 }
                               </td>
                             </tr>
+                            <tr>
+                              <th>おすすめフラグ</th>
+                              <td>
+                                {
+                                  isEditMode ? (
+                                    <select
+                                      {...register('is_recommend')}
+                                      defaultValue={item.is_recommend ? "TRUE" : "FALSE"}
+                                    >
+                                      <option value={"TRUE"}>○</option>
+                                      <option value={"FALSE"}>-</option>
+                                    </select>
+                                  ) : (
+                                    <>{item.is_recommend ? '○' : '-'}</>
+                                  )
+                                }
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
                       </div>
@@ -531,12 +551,13 @@ gql`
       id
       item_id
     }
+    is_recommend
   }
 `
 
 gql`
-  mutation EditItems($id: Int!, $brand_id: Int, $can_sale: Boolean, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $name: String, $next_lending_date: timestamptz, $regular_price: Int, $updated_at: timestamptz) {
-    update_items_by_pk(pk_columns: {id: $id}, _set: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, description: $description, gender: $gender, is_rental_available: $is_rental_available, name: $name, next_lending_date: $next_lending_date, regular_price: $regular_price, updated_at: $updated_at}) {
+  mutation EditItems($id: Int!, $brand_id: Int, $can_sale: Boolean, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $name: String, $next_lending_date: timestamptz, $regular_price: Int, $updated_at: timestamptz, $is_recommend: Boolean) {
+    update_items_by_pk(pk_columns: {id: $id}, _set: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, description: $description, gender: $gender, is_rental_available: $is_rental_available, name: $name, next_lending_date: $next_lending_date, regular_price: $regular_price, updated_at: $updated_at, is_recommend: $is_recommend}) {
       ...ItemDetail
     }
   }

@@ -32,6 +32,7 @@ export default function ItemListTable({items}: ItemListTableProps) {
             <th>貸出状況</th>
             <th>次回貸出可能日</th>
             <th>販売可能フラグ</th>
+            <th>おすすめ</th>
             <th></th>
           </tr>
         </thead>
@@ -60,6 +61,7 @@ export default function ItemListTable({items}: ItemListTableProps) {
                     <td>{item.is_rental_available ? "貸出可" : "貸出不可"}</td>
                     <td>{item.next_lending_date ? formatDateYYYYMMDD(item.next_lending_date) : "-"}</td>
                     <td>{item.can_sale ? "可" : "不可"}</td>
+                    <td>{item.is_recommend ? "○" : "-"}</td>
                     <td>
                       <div className={styles.detailButton}>
                         <button className='bg-gray-400 text-white' onClick={() => goToDetail(item.id!) /* notnullなので必ずある */}>詳細</button>

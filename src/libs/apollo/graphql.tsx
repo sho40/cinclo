@@ -773,6 +773,7 @@ export type Items = {
   images: Array<Images>;
   /** An aggregate relationship */
   images_aggregate: Images_Aggregate;
+  is_recommend: Scalars['Boolean'];
   is_rental_available: Scalars['Boolean'];
   name: Scalars['String'];
   next_lending_date?: Maybe<Scalars['timestamptz']>;
@@ -859,6 +860,7 @@ export type Items_Bool_Exp = {
   gender?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   images?: InputMaybe<Images_Bool_Exp>;
+  is_recommend?: InputMaybe<Boolean_Comparison_Exp>;
   is_rental_available?: InputMaybe<Boolean_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
   next_lending_date?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -897,6 +899,7 @@ export type Items_Insert_Input = {
   gender?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   images?: InputMaybe<Images_Arr_Rel_Insert_Input>;
+  is_recommend?: InputMaybe<Scalars['Boolean']>;
   is_rental_available?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   next_lending_date?: InputMaybe<Scalars['timestamptz']>;
@@ -968,6 +971,7 @@ export type Items_Order_By = {
   gender?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   images_aggregate?: InputMaybe<Images_Aggregate_Order_By>;
+  is_recommend?: InputMaybe<Order_By>;
   is_rental_available?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
   next_lending_date?: InputMaybe<Order_By>;
@@ -1001,6 +1005,8 @@ export enum Items_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
+  IsRecommend = 'is_recommend',
+  /** column name */
   IsRentalAvailable = 'is_rental_available',
   /** column name */
   Name = 'name',
@@ -1023,6 +1029,7 @@ export type Items_Set_Input = {
   description?: InputMaybe<Scalars['String']>;
   gender?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
+  is_recommend?: InputMaybe<Scalars['Boolean']>;
   is_rental_available?: InputMaybe<Scalars['Boolean']>;
   name?: InputMaybe<Scalars['String']>;
   next_lending_date?: InputMaybe<Scalars['timestamptz']>;
@@ -1098,6 +1105,8 @@ export enum Items_Update_Column {
   Gender = 'gender',
   /** column name */
   Id = 'id',
+  /** column name */
+  IsRecommend = 'is_recommend',
   /** column name */
   IsRentalAvailable = 'is_rental_available',
   /** column name */
@@ -1936,7 +1945,7 @@ export type GetItemListByAdminContainerQuery = (
   { __typename?: 'query_root' }
   & { items: Array<(
     { __typename?: 'items' }
-    & Pick<Items, 'id' | 'name' | 'regular_price' | 'current_price' | 'current_count' | 'gender' | 'can_sale' | 'is_rental_available' | 'next_lending_date'>
+    & Pick<Items, 'id' | 'name' | 'regular_price' | 'current_price' | 'current_count' | 'gender' | 'can_sale' | 'is_rental_available' | 'next_lending_date' | 'is_recommend' | 'created_at'>
     & { images: Array<(
       { __typename?: 'images' }
       & Pick<Images, 'url' | 'id' | 'item_id'>
@@ -1966,7 +1975,7 @@ export type GetItemQuery = (
   { __typename?: 'query_root' }
   & { items_by_pk?: Maybe<(
     { __typename?: 'items' }
-    & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale'>
+    & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale' | 'is_recommend'>
     & { brand?: Maybe<(
       { __typename?: 'brands' }
       & Pick<Brands, 'id' | 'name'>
@@ -1986,7 +1995,7 @@ export type GetItemQuery = (
 
 export type ItemDetailFragment = (
   { __typename?: 'items' }
-  & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale'>
+  & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale' | 'is_recommend'>
   & { brand?: Maybe<(
     { __typename?: 'brands' }
     & Pick<Brands, 'id' | 'name'>
@@ -2017,6 +2026,7 @@ export type EditItemsMutationVariables = Exact<{
   next_lending_date?: InputMaybe<Scalars['timestamptz']>;
   regular_price?: InputMaybe<Scalars['Int']>;
   updated_at?: InputMaybe<Scalars['timestamptz']>;
+  is_recommend?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
@@ -2024,7 +2034,7 @@ export type EditItemsMutation = (
   { __typename?: 'mutation_root' }
   & { update_items_by_pk?: Maybe<(
     { __typename?: 'items' }
-    & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale'>
+    & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale' | 'is_recommend'>
     & { brand?: Maybe<(
       { __typename?: 'brands' }
       & Pick<Brands, 'id' | 'name'>
@@ -2086,6 +2096,7 @@ export type CreateItemMutationVariables = Exact<{
   created_at?: InputMaybe<Scalars['timestamptz']>;
   can_sale?: InputMaybe<Scalars['Boolean']>;
   images?: InputMaybe<Images_Arr_Rel_Insert_Input>;
+  is_recommend?: InputMaybe<Scalars['Boolean']>;
 }>;
 
 
@@ -2259,6 +2270,7 @@ export const ItemDetailFragmentDoc = gql`
     id
     item_id
   }
+  is_recommend
 }
     `;
 export const GetItemListByAdminContainerDocument = gql`
@@ -2278,6 +2290,8 @@ export const GetItemListByAdminContainerDocument = gql`
       id
       item_id
     }
+    is_recommend
+    created_at
   }
 }
     `;
@@ -2377,10 +2391,10 @@ export type GetItemQueryHookResult = ReturnType<typeof useGetItemQuery>;
 export type GetItemLazyQueryHookResult = ReturnType<typeof useGetItemLazyQuery>;
 export type GetItemQueryResult = Apollo.QueryResult<GetItemQuery, GetItemQueryVariables>;
 export const EditItemsDocument = gql`
-    mutation EditItems($id: Int!, $brand_id: Int, $can_sale: Boolean, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $name: String, $next_lending_date: timestamptz, $regular_price: Int, $updated_at: timestamptz) {
+    mutation EditItems($id: Int!, $brand_id: Int, $can_sale: Boolean, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $name: String, $next_lending_date: timestamptz, $regular_price: Int, $updated_at: timestamptz, $is_recommend: Boolean) {
   update_items_by_pk(
     pk_columns: {id: $id}
-    _set: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, description: $description, gender: $gender, is_rental_available: $is_rental_available, name: $name, next_lending_date: $next_lending_date, regular_price: $regular_price, updated_at: $updated_at}
+    _set: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, description: $description, gender: $gender, is_rental_available: $is_rental_available, name: $name, next_lending_date: $next_lending_date, regular_price: $regular_price, updated_at: $updated_at, is_recommend: $is_recommend}
   ) {
     ...ItemDetail
   }
@@ -2414,6 +2428,7 @@ export type EditItemsMutationFn = Apollo.MutationFunction<EditItemsMutation, Edi
  *      next_lending_date: // value for 'next_lending_date'
  *      regular_price: // value for 'regular_price'
  *      updated_at: // value for 'updated_at'
+ *      is_recommend: // value for 'is_recommend'
  *   },
  * });
  */
@@ -2495,9 +2510,9 @@ export type DeleteImageMutationHookResult = ReturnType<typeof useDeleteImageMuta
 export type DeleteImageMutationResult = Apollo.MutationResult<DeleteImageMutation>;
 export type DeleteImageMutationOptions = Apollo.BaseMutationOptions<DeleteImageMutation, DeleteImageMutationVariables>;
 export const CreateItemDocument = gql`
-    mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean, $images: images_arr_rel_insert_input) {
+    mutation CreateItem($next_lending_date: timestamptz, $updated_at: timestamptz, $regular_price: Int, $name: String, $brand_id: Int, $category_id: Int, $current_count: Int, $current_price: Int, $description: String, $gender: Int, $is_rental_available: Boolean, $created_at: timestamptz, $can_sale: Boolean, $images: images_arr_rel_insert_input, $is_recommend: Boolean) {
   insert_items_one(
-    object: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, regular_price: $regular_price, next_lending_date: $next_lending_date, updated_at: $updated_at, name: $name, description: $description, gender: $gender, is_rental_available: $is_rental_available, created_at: $created_at, images: $images}
+    object: {brand_id: $brand_id, can_sale: $can_sale, category_id: $category_id, current_count: $current_count, current_price: $current_price, regular_price: $regular_price, next_lending_date: $next_lending_date, updated_at: $updated_at, name: $name, description: $description, gender: $gender, is_rental_available: $is_rental_available, created_at: $created_at, images: $images, is_recommend: $is_recommend}
   ) {
     id
   }
@@ -2532,6 +2547,7 @@ export type CreateItemMutationFn = Apollo.MutationFunction<CreateItemMutation, C
  *      created_at: // value for 'created_at'
  *      can_sale: // value for 'can_sale'
  *      images: // value for 'images'
+ *      is_recommend: // value for 'is_recommend'
  *   },
  * });
  */
