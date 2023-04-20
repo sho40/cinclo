@@ -4,6 +4,7 @@ import { numberToPrice } from "@/logic/numberFormatter";
 import Image from 'next/image';
 import Link from "next/link";
 import React from "react";
+import styles from "./styles/homeItemsContainer.module.scss"
 
 interface Items {
   items: GetRecommendedItemsForHomeQuery["items"]
@@ -32,7 +33,7 @@ export const HomeItemsContainer = (props: {
                       <div>
                         {item.images != null && item.images.length === 1 && isValidUrl(item.images[0].url) ?
                           // <div className={styles.imageContainer}>
-                          <div style={{position: "relative", height: '190px', objectFit: 'cover'}}>
+                          <div className={styles.itemImage}>
                             <Image src={item.images[0].url} alt="" fill/>
                           </div> 
                           :

@@ -1,0 +1,9 @@
+
+.itemImage {
+  position: relative;
+  aspect-ratio: 3 / 4;
+
+  img {
+    object-fit: cover;
+  }
+}
