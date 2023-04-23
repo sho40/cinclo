@@ -1,0 +1,37 @@
+.container {
+  border-top: #d5d5d3 solid .5px;
+  border-bottom: #d5d5d3 solid .5px;
+  padding: 30px 0 20px 20px;
+
+  .serviceName {
+    font-size: 20px;
+  }
+
+  & > ul > li {
+    padding: 20px 0;
+  }
+
+  .links {
+
+    li {
+      padding: 5px 0;
+    }
+  }
+
+  .snsIcon {
+  text-align: center;
+  font-size: 20px;
+  color: rgba(34, 18, 18, .75);
+  }
+
+}
+
+.copyright{
+  padding: 30px 0;
+  text-align: center;
+  font-size: 8px;
+
+  span {
+    margin-left: 5px;
+  }
+}

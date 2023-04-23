@@ -1,9 +1,39 @@
+.container {
+  .itemImage {
+    position: relative;
+    aspect-ratio: 3 / 4;
+  
+    img {
+      object-fit: cover;
+    }
 
-.itemImage {
-  position: relative;
-  aspect-ratio: 3 / 4;
+    .noImage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateY(-50%) translateX(-50%);
 
-  img {
-    object-fit: cover;
+      p {
+        font-size: 16px;
+        color: #fff;
+        font-weight: bold;
+      }
+    }
+  }
+
+  p {
+    font-size: 12px;
+  }
+  .itemName {
+    padding-top: 5px;
+    font-weight: bold;
+  }
+
+  .count {
+    padding-top: 2px;
+  }
+
+  .priceArea {
+    padding-top: 5px;
   }
 }

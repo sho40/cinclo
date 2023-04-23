@@ -1,0 +1,40 @@
+.container {
+  height: 80px;
+  background-color: #fff;
+  padding: 1rem 0;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  z-index: 100;
+  color: rgba(34, 18, 18, .75);
+
+  .contents {
+    display: grid;
+    grid-template-areas: "left-icon service-name icons";
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    width: 100%;
+
+    .menuDrawer {
+      padding-left: 10px;
+      svg {
+        height: 25px
+      }
+    }
+
+    .serviceName {
+      font-size: 26px;
+    }
+
+    .icons {
+      display: flex;
+      padding-right: 20px;
+      justify-content: end;
+      svg {
+        height: 25px
+      }
+    }
+  }
+}

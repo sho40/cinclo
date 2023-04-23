@@ -1,27 +1,27 @@
 import { Banner } from '@/components/Banner'
-import { Header } from '@/components/Header'
+import { Header } from '@/components/header/Header'
 import { HomeItemsContainer } from '@/components/HomeItemsContainer'
 import { SlideBunner } from '@/components/SlideBunner'
 import { Item } from '@/types/Item.type'
 
 import { gql } from '@apollo/client'
 import { useGetItemsTestQuery, useGetRecommendedItemsForHomeQuery } from '../libs/apollo/graphql'
+import Footer from '@/components/footer/Footer'
 
 export default function Home() {
   // MEMO _in === gender
   const { data } = useGetItemsTestQuery();
   console.log({data})
-
   return (
     <>
       <Header />
-      <Banner />
-      <SexSwitch />
       <SlideBunner />
+      <SexSwitch />
       <div className='px-2'>
         <Recommend />
         <NewArrival />
       </div>
+      <Footer />
     </>
   )
 }

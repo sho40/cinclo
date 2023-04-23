@@ -21,7 +21,7 @@ export const HomeItemsContainer = (props: {
         props.items == null ? (
           <></>
         ) : (
-          <div>
+          <div className={styles.container}>
             <div className='pb-3 text-base'>{props.title}</div>
             <ul className='flex flex-wrap justify-between text-sm'>
               {props.items.map((item, index) => {
@@ -37,15 +37,19 @@ export const HomeItemsContainer = (props: {
                             <Image src={item.images[0].url} alt="" fill/>
                           </div> 
                           :
-                          <div className='bg-gray-400 mb-1' style={{height: '190px'}} />
+                          <div className={`bg-gray-400 mb-1 ${styles.itemImage}` } >
+                            <div className={styles.noImage}>
+                              <p>NO IMAGE</p>
+                            </div>
+                          </div>
                         }
                       </div>
-                      <p>{item.name}</p>
-                      <div>
+                      <p className={styles.itemName}>{item.name}</p>
+                      <p className={styles.count}>{`貸出回数 ${item.current_count} 回`}</p>
+                      <div className={styles.priceArea}>
                         <span className='text-red-400 font-bold mr-4'>{item.current_price != null ? numberToPrice(item.current_price) : ""}</span>
                         <span><del>{item.regular_price != null ? numberToPrice(item.regular_price) : ""}</del></span>
                       </div>
-                      <p>{`貸出回数 ${item.current_count} 回`}</p>
                     </Link>
                   </li>
                 )
