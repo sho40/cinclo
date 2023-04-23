@@ -462,6 +462,209 @@ export type Categories_Variance_Fields = {
   sub_category_id?: Maybe<Scalars['Float']>;
 };
 
+/** columns and relationships of "home_banners" */
+export type Home_Banners = {
+  __typename?: 'home_banners';
+  delete_flg: Scalars['Boolean'];
+  display_index?: Maybe<Scalars['Int']>;
+  id: Scalars['Int'];
+  url: Scalars['String'];
+};
+
+/** aggregated selection of "home_banners" */
+export type Home_Banners_Aggregate = {
+  __typename?: 'home_banners_aggregate';
+  aggregate?: Maybe<Home_Banners_Aggregate_Fields>;
+  nodes: Array<Home_Banners>;
+};
+
+/** aggregate fields of "home_banners" */
+export type Home_Banners_Aggregate_Fields = {
+  __typename?: 'home_banners_aggregate_fields';
+  avg?: Maybe<Home_Banners_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Home_Banners_Max_Fields>;
+  min?: Maybe<Home_Banners_Min_Fields>;
+  stddev?: Maybe<Home_Banners_Stddev_Fields>;
+  stddev_pop?: Maybe<Home_Banners_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Home_Banners_Stddev_Samp_Fields>;
+  sum?: Maybe<Home_Banners_Sum_Fields>;
+  var_pop?: Maybe<Home_Banners_Var_Pop_Fields>;
+  var_samp?: Maybe<Home_Banners_Var_Samp_Fields>;
+  variance?: Maybe<Home_Banners_Variance_Fields>;
+};
+
+
+/** aggregate fields of "home_banners" */
+export type Home_Banners_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Home_Banners_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Home_Banners_Avg_Fields = {
+  __typename?: 'home_banners_avg_fields';
+  display_index?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "home_banners". All fields are combined with a logical 'AND'. */
+export type Home_Banners_Bool_Exp = {
+  _and?: InputMaybe<Array<Home_Banners_Bool_Exp>>;
+  _not?: InputMaybe<Home_Banners_Bool_Exp>;
+  _or?: InputMaybe<Array<Home_Banners_Bool_Exp>>;
+  delete_flg?: InputMaybe<Boolean_Comparison_Exp>;
+  display_index?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  url?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "home_banners" */
+export enum Home_Banners_Constraint {
+  /** unique or primary key constraint */
+  HomeBannersPkey = 'home_banners_pkey'
+}
+
+/** input type for incrementing numeric columns in table "home_banners" */
+export type Home_Banners_Inc_Input = {
+  display_index?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "home_banners" */
+export type Home_Banners_Insert_Input = {
+  delete_flg?: InputMaybe<Scalars['Boolean']>;
+  display_index?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Home_Banners_Max_Fields = {
+  __typename?: 'home_banners_max_fields';
+  display_index?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Home_Banners_Min_Fields = {
+  __typename?: 'home_banners_min_fields';
+  display_index?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "home_banners" */
+export type Home_Banners_Mutation_Response = {
+  __typename?: 'home_banners_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Home_Banners>;
+};
+
+/** on_conflict condition type for table "home_banners" */
+export type Home_Banners_On_Conflict = {
+  constraint: Home_Banners_Constraint;
+  update_columns?: Array<Home_Banners_Update_Column>;
+  where?: InputMaybe<Home_Banners_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "home_banners". */
+export type Home_Banners_Order_By = {
+  delete_flg?: InputMaybe<Order_By>;
+  display_index?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  url?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: home_banners */
+export type Home_Banners_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "home_banners" */
+export enum Home_Banners_Select_Column {
+  /** column name */
+  DeleteFlg = 'delete_flg',
+  /** column name */
+  DisplayIndex = 'display_index',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Url = 'url'
+}
+
+/** input type for updating data in table "home_banners" */
+export type Home_Banners_Set_Input = {
+  delete_flg?: InputMaybe<Scalars['Boolean']>;
+  display_index?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Home_Banners_Stddev_Fields = {
+  __typename?: 'home_banners_stddev_fields';
+  display_index?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Home_Banners_Stddev_Pop_Fields = {
+  __typename?: 'home_banners_stddev_pop_fields';
+  display_index?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Home_Banners_Stddev_Samp_Fields = {
+  __typename?: 'home_banners_stddev_samp_fields';
+  display_index?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Home_Banners_Sum_Fields = {
+  __typename?: 'home_banners_sum_fields';
+  display_index?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "home_banners" */
+export enum Home_Banners_Update_Column {
+  /** column name */
+  DeleteFlg = 'delete_flg',
+  /** column name */
+  DisplayIndex = 'display_index',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Url = 'url'
+}
+
+/** aggregate var_pop on columns */
+export type Home_Banners_Var_Pop_Fields = {
+  __typename?: 'home_banners_var_pop_fields';
+  display_index?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Home_Banners_Var_Samp_Fields = {
+  __typename?: 'home_banners_var_samp_fields';
+  display_index?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Home_Banners_Variance_Fields = {
+  __typename?: 'home_banners_variance_fields';
+  display_index?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
 /** columns and relationships of "images" */
 export type Images = {
   __typename?: 'images';
@@ -1166,6 +1369,10 @@ export type Mutation_Root = {
   delete_categories?: Maybe<Categories_Mutation_Response>;
   /** delete single row from the table: "categories" */
   delete_categories_by_pk?: Maybe<Categories>;
+  /** delete data from the table: "home_banners" */
+  delete_home_banners?: Maybe<Home_Banners_Mutation_Response>;
+  /** delete single row from the table: "home_banners" */
+  delete_home_banners_by_pk?: Maybe<Home_Banners>;
   /** delete data from the table: "images" */
   delete_images?: Maybe<Images_Mutation_Response>;
   /** delete single row from the table: "images" */
@@ -1186,6 +1393,10 @@ export type Mutation_Root = {
   insert_categories?: Maybe<Categories_Mutation_Response>;
   /** insert a single row into the table: "categories" */
   insert_categories_one?: Maybe<Categories>;
+  /** insert data into the table: "home_banners" */
+  insert_home_banners?: Maybe<Home_Banners_Mutation_Response>;
+  /** insert a single row into the table: "home_banners" */
+  insert_home_banners_one?: Maybe<Home_Banners>;
   /** insert data into the table: "images" */
   insert_images?: Maybe<Images_Mutation_Response>;
   /** insert a single row into the table: "images" */
@@ -1206,6 +1417,10 @@ export type Mutation_Root = {
   update_categories?: Maybe<Categories_Mutation_Response>;
   /** update single row of the table: "categories" */
   update_categories_by_pk?: Maybe<Categories>;
+  /** update data of the table: "home_banners" */
+  update_home_banners?: Maybe<Home_Banners_Mutation_Response>;
+  /** update single row of the table: "home_banners" */
+  update_home_banners_by_pk?: Maybe<Home_Banners>;
   /** update data of the table: "images" */
   update_images?: Maybe<Images_Mutation_Response>;
   /** update single row of the table: "images" */
@@ -1241,6 +1456,18 @@ export type Mutation_RootDelete_CategoriesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Categories_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Home_BannersArgs = {
+  where: Home_Banners_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Home_Banners_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -1306,6 +1533,20 @@ export type Mutation_RootInsert_CategoriesArgs = {
 export type Mutation_RootInsert_Categories_OneArgs = {
   object: Categories_Insert_Input;
   on_conflict?: InputMaybe<Categories_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Home_BannersArgs = {
+  objects: Array<Home_Banners_Insert_Input>;
+  on_conflict?: InputMaybe<Home_Banners_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Home_Banners_OneArgs = {
+  object: Home_Banners_Insert_Input;
+  on_conflict?: InputMaybe<Home_Banners_On_Conflict>;
 };
 
 
@@ -1380,6 +1621,22 @@ export type Mutation_RootUpdate_Categories_By_PkArgs = {
   _inc?: InputMaybe<Categories_Inc_Input>;
   _set?: InputMaybe<Categories_Set_Input>;
   pk_columns: Categories_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Home_BannersArgs = {
+  _inc?: InputMaybe<Home_Banners_Inc_Input>;
+  _set?: InputMaybe<Home_Banners_Set_Input>;
+  where: Home_Banners_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Home_Banners_By_PkArgs = {
+  _inc?: InputMaybe<Home_Banners_Inc_Input>;
+  _set?: InputMaybe<Home_Banners_Set_Input>;
+  pk_columns: Home_Banners_Pk_Columns_Input;
 };
 
 
@@ -1460,6 +1717,12 @@ export type Query_Root = {
   categories_aggregate: Categories_Aggregate;
   /** fetch data from the table: "categories" using primary key columns */
   categories_by_pk?: Maybe<Categories>;
+  /** fetch data from the table: "home_banners" */
+  home_banners: Array<Home_Banners>;
+  /** fetch aggregated fields from the table: "home_banners" */
+  home_banners_aggregate: Home_Banners_Aggregate;
+  /** fetch data from the table: "home_banners" using primary key columns */
+  home_banners_by_pk?: Maybe<Home_Banners>;
   /** An array relationship */
   images: Array<Images>;
   /** An aggregate relationship */
@@ -1523,6 +1786,29 @@ export type Query_RootCategories_AggregateArgs = {
 
 
 export type Query_RootCategories_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Query_RootHome_BannersArgs = {
+  distinct_on?: InputMaybe<Array<Home_Banners_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Home_Banners_Order_By>>;
+  where?: InputMaybe<Home_Banners_Bool_Exp>;
+};
+
+
+export type Query_RootHome_Banners_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Home_Banners_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Home_Banners_Order_By>>;
+  where?: InputMaybe<Home_Banners_Bool_Exp>;
+};
+
+
+export type Query_RootHome_Banners_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -1790,6 +2076,12 @@ export type Subscription_Root = {
   categories_aggregate: Categories_Aggregate;
   /** fetch data from the table: "categories" using primary key columns */
   categories_by_pk?: Maybe<Categories>;
+  /** fetch data from the table: "home_banners" */
+  home_banners: Array<Home_Banners>;
+  /** fetch aggregated fields from the table: "home_banners" */
+  home_banners_aggregate: Home_Banners_Aggregate;
+  /** fetch data from the table: "home_banners" using primary key columns */
+  home_banners_by_pk?: Maybe<Home_Banners>;
   /** An array relationship */
   images: Array<Images>;
   /** An aggregate relationship */
@@ -1853,6 +2145,29 @@ export type Subscription_RootCategories_AggregateArgs = {
 
 
 export type Subscription_RootCategories_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Subscription_RootHome_BannersArgs = {
+  distinct_on?: InputMaybe<Array<Home_Banners_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Home_Banners_Order_By>>;
+  where?: InputMaybe<Home_Banners_Bool_Exp>;
+};
+
+
+export type Subscription_RootHome_Banners_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Home_Banners_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Home_Banners_Order_By>>;
+  where?: InputMaybe<Home_Banners_Bool_Exp>;
+};
+
+
+export type Subscription_RootHome_Banners_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -2254,6 +2569,17 @@ export type GetRecommendedItemsForHomeQuery = (
       { __typename?: 'images' }
       & Pick<Images, 'id' | 'url' | 'item_id'>
     )> }
+  )> }
+);
+
+export type GetHomeBannerImagesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetHomeBannerImagesQuery = (
+  { __typename?: 'query_root' }
+  & { home_banners: Array<(
+    { __typename?: 'home_banners' }
+    & Pick<Home_Banners, 'id' | 'url'>
   )> }
 );
 
@@ -2979,3 +3305,38 @@ export function useGetRecommendedItemsForHomeLazyQuery(baseOptions?: Apollo.Lazy
 export type GetRecommendedItemsForHomeQueryHookResult = ReturnType<typeof useGetRecommendedItemsForHomeQuery>;
 export type GetRecommendedItemsForHomeLazyQueryHookResult = ReturnType<typeof useGetRecommendedItemsForHomeLazyQuery>;
 export type GetRecommendedItemsForHomeQueryResult = Apollo.QueryResult<GetRecommendedItemsForHomeQuery, GetRecommendedItemsForHomeQueryVariables>;
+export const GetHomeBannerImagesDocument = gql`
+    query GetHomeBannerImages {
+  home_banners(order_by: {display_index: asc}, where: {delete_flg: {_eq: false}}) {
+    id
+    url
+  }
+}
+    `;
+
+/**
+ * __useGetHomeBannerImagesQuery__
+ *
+ * To run a query within a React component, call `useGetHomeBannerImagesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetHomeBannerImagesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetHomeBannerImagesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetHomeBannerImagesQuery(baseOptions?: Apollo.QueryHookOptions<GetHomeBannerImagesQuery, GetHomeBannerImagesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetHomeBannerImagesQuery, GetHomeBannerImagesQueryVariables>(GetHomeBannerImagesDocument, options);
+      }
+export function useGetHomeBannerImagesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetHomeBannerImagesQuery, GetHomeBannerImagesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetHomeBannerImagesQuery, GetHomeBannerImagesQueryVariables>(GetHomeBannerImagesDocument, options);
+        }
+export type GetHomeBannerImagesQueryHookResult = ReturnType<typeof useGetHomeBannerImagesQuery>;
+export type GetHomeBannerImagesLazyQueryHookResult = ReturnType<typeof useGetHomeBannerImagesLazyQuery>;
+export type GetHomeBannerImagesQueryResult = Apollo.QueryResult<GetHomeBannerImagesQuery, GetHomeBannerImagesQueryVariables>;

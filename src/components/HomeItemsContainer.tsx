@@ -22,7 +22,7 @@ export const HomeItemsContainer = (props: {
           <></>
         ) : (
           <div className={styles.container}>
-            <div className='pb-3 text-base'>{props.title}</div>
+            <div className={`pb-3 ${styles.title}`}><p>{props.title}</p></div>
             <ul className='flex flex-wrap justify-between text-sm'>
               {props.items.map((item, index) => {
                 return(
