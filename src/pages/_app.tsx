@@ -9,10 +9,12 @@ import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '@/libs/apollo/apolloClient';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
+import { Open_Sans } from 'next/font/google'
 
 // Tell Font Awesome to skip adding the CSS automatically 
 // since it's already imported above
 config.autoAddCss = false;
+const openSans = Open_Sans({ subsets: ['latin'], weight:["400"] })
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -28,7 +30,9 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     getLayout(
       <ApolloProvider client={apolloClient}>
-        <Component {...pageProps} />
+        <main className={openSans.className}>
+          <Component {...pageProps} />
+        </main>
       </ApolloProvider>
     )
   )
