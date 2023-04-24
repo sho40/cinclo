@@ -2583,6 +2583,44 @@ export type GetHomeBannerImagesQuery = (
   )> }
 );
 
+export type GetItemIdListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetItemIdListQuery = (
+  { __typename?: 'query_root' }
+  & { items: Array<(
+    { __typename?: 'items' }
+    & Pick<Items, 'id'>
+  )> }
+);
+
+export type GetItemCustomerQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GetItemCustomerQuery = (
+  { __typename?: 'query_root' }
+  & { items_by_pk?: Maybe<(
+    { __typename?: 'items' }
+    & Pick<Items, 'can_sale' | 'current_count' | 'current_price' | 'description' | 'gender' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price'>
+    & { brand?: Maybe<(
+      { __typename?: 'brands' }
+      & Pick<Brands, 'name' | 'id'>
+    )>, category?: Maybe<(
+      { __typename?: 'categories' }
+      & Pick<Categories, 'id' | 'name'>
+      & { sub_category?: Maybe<(
+        { __typename?: 'sub_categories' }
+        & Pick<Sub_Categories, 'id' | 'name'>
+      )> }
+    )>, images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'id' | 'url'>
+    )> }
+  )> }
+);
+
 export const ItemDetailFragmentDoc = gql`
     fragment ItemDetail on items {
   brand {
@@ -3340,3 +3378,96 @@ export function useGetHomeBannerImagesLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type GetHomeBannerImagesQueryHookResult = ReturnType<typeof useGetHomeBannerImagesQuery>;
 export type GetHomeBannerImagesLazyQueryHookResult = ReturnType<typeof useGetHomeBannerImagesLazyQuery>;
 export type GetHomeBannerImagesQueryResult = Apollo.QueryResult<GetHomeBannerImagesQuery, GetHomeBannerImagesQueryVariables>;
+export const GetItemIdListDocument = gql`
+    query GetItemIdList {
+  items {
+    id
+  }
+}
+    `;
+
+/**
+ * __useGetItemIdListQuery__
+ *
+ * To run a query within a React component, call `useGetItemIdListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetItemIdListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetItemIdListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetItemIdListQuery(baseOptions?: Apollo.QueryHookOptions<GetItemIdListQuery, GetItemIdListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetItemIdListQuery, GetItemIdListQueryVariables>(GetItemIdListDocument, options);
+      }
+export function useGetItemIdListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetItemIdListQuery, GetItemIdListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetItemIdListQuery, GetItemIdListQueryVariables>(GetItemIdListDocument, options);
+        }
+export type GetItemIdListQueryHookResult = ReturnType<typeof useGetItemIdListQuery>;
+export type GetItemIdListLazyQueryHookResult = ReturnType<typeof useGetItemIdListLazyQuery>;
+export type GetItemIdListQueryResult = Apollo.QueryResult<GetItemIdListQuery, GetItemIdListQueryVariables>;
+export const GetItemCustomerDocument = gql`
+    query GetItemCustomer($id: Int!) {
+  items_by_pk(id: $id) {
+    brand {
+      name
+      id
+    }
+    can_sale
+    category {
+      id
+      name
+      sub_category {
+        id
+        name
+      }
+    }
+    current_count
+    current_price
+    description
+    gender
+    images {
+      id
+      url
+    }
+    is_rental_available
+    name
+    next_lending_date
+    regular_price
+  }
+}
+    `;
+
+/**
+ * __useGetItemCustomerQuery__
+ *
+ * To run a query within a React component, call `useGetItemCustomerQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetItemCustomerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetItemCustomerQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetItemCustomerQuery(baseOptions: Apollo.QueryHookOptions<GetItemCustomerQuery, GetItemCustomerQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetItemCustomerQuery, GetItemCustomerQueryVariables>(GetItemCustomerDocument, options);
+      }
+export function useGetItemCustomerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetItemCustomerQuery, GetItemCustomerQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetItemCustomerQuery, GetItemCustomerQueryVariables>(GetItemCustomerDocument, options);
+        }
+export type GetItemCustomerQueryHookResult = ReturnType<typeof useGetItemCustomerQuery>;
+export type GetItemCustomerLazyQueryHookResult = ReturnType<typeof useGetItemCustomerLazyQuery>;
+export type GetItemCustomerQueryResult = Apollo.QueryResult<GetItemCustomerQuery, GetItemCustomerQueryVariables>;

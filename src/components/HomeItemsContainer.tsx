@@ -6,10 +6,6 @@ import Link from "next/link";
 import React from "react";
 import styles from "./styles/homeItemsContainer.module.scss"
 
-interface Items {
-  items: GetRecommendedItemsForHomeQuery["items"]
-}
-
 export const HomeItemsContainer = (props: {
   title: string;
   items: GetRecommendedItemsForHomeQuery["items"] | undefined;
@@ -28,8 +24,7 @@ export const HomeItemsContainer = (props: {
                 return(
                   <li key={index} className='mb-7' style={{ width: 'calc((100% - 16px) / 2)' }}>
                     {/* TODO リンクを指定する */}
-                    <Link href='/'>
-                      {/* TODO 画像を表示する */}
+                    <Link href={`/item/detail/${item.id}`}>
                       <div>
                         {item.images != null && item.images.length === 1 && isValidUrl(item.images[0].url) ?
                           // <div className={styles.imageContainer}>
