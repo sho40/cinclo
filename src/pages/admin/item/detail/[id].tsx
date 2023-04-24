@@ -9,7 +9,7 @@ import { genderFormat } from "@/logic/genderFormatter"
 import styles from "./ItemDetail.module.scss"
 import { isValidUrl } from '@/logic/checkUrl';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import { useDropzone } from 'react-dropzone';
 import { getStorage } from 'firebase/storage';

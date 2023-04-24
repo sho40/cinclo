@@ -34,25 +34,6 @@ export const SlideBunner = () => {
             </SplideSlide>)
           )
         }
-        {/* { data?.home_banners != null ? 
-          <>
-          {
-            data.home_banners.map((banner) => {
-              <>
-                <SplideSlide>
-                  <img src={banner.url}  alt=''/>
-                </SplideSlide>
-                <div style={{width: "300px", height: "200px"}}>
-                  <img src={banner.url}  alt=''/>
-                </div>
-              </>
-              
-            })
-          }
-          </>
-          :
-          <></>
-        } */}
       </Splide>
 
     </div>

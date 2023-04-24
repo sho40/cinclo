@@ -5,6 +5,7 @@ type Props = {
   children: ReactNode
 }
 
+// FIXME: 管理画面専用へ移動する
 export default function Layout({ children }: Props) {
   return (
     <div className='flex min-h-screen bg-admin-palette-light-gray'>

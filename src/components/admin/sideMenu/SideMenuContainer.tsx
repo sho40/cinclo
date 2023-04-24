@@ -1,11 +1,12 @@
 import { FirebaseAuthProvider } from "@/libs/firebase/utils/auth";
 import SideMenuButton from "./Button/SideMenuButton";
 import SideMenuHeader from "./SideMenuHeader";
+import styles from "./sideMenu.module.scss"
 
 export default function SideMenuContainer() {
   return (
     <FirebaseAuthProvider>
-      <div className="w-1/5 min-h-full bg-gray-700 text-white" style={{minWidth: "270px"}}>
+      <div className={`w-1/5 min-h-full bg-gray-700 text-white ${styles.container}`} style={{minWidth: "270px"}}>
         <SideMenuHeader />
         <SideMenuButton title="ダッシュボード" url="/admin" selected={false}/>
         <SideMenuButton title="商品一覧" url="/admin/item-list" selected={false}/>

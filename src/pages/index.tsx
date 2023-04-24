@@ -6,6 +6,7 @@ import { SlideBunner } from '@/components/slideanner/SlideBanner'
 import { gql } from '@apollo/client'
 import { useGetItemsTestQuery, useGetRecommendedItemsForHomeQuery } from '../libs/apollo/graphql'
 import Footer from '@/components/footer/Footer'
+import { Layout } from '@/components/customer/Layout'
 
 export default function Home() {
   // MEMO _in === gender
@@ -13,13 +14,13 @@ export default function Home() {
   console.log({data})
   return (
     <>
-      <Header />
+      <Layout>
       <GenderSwitch />
       <SlideBunner />
       <div className='px-2'>
         <Recommend />
       </div>
-      <Footer />
+      </Layout>
     </>
   )
 }
