@@ -8,6 +8,7 @@ import {
   faHeart
 } from "@fortawesome/free-regular-svg-icons"
 import { IconButton } from '@/utils/IconButton';
+import Link from "next/link";
 
 export const Header = () => {
   return (
@@ -17,7 +18,9 @@ export const Header = () => {
           <IconButton onClick={() => {console.log("clicked")}} icon={faBars}/>
         </div>
         <div className={styles.serviceName}>
-          <h1>CINCLO</h1>
+          <Link href="/">
+            <h1>CINCLO</h1>
+          </Link>
         </div>
         <div className={styles.icons}>
           <div className='pr-4'>
