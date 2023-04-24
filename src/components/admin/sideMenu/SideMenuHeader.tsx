@@ -12,7 +12,7 @@ export default function SideMenuHeader() {
         <div className="flex justify-between items-center">
           <span className="text-lg">{userName ?? '不明ユーザー'}</span>
           <div>
-            <div onClick={() => logOut()}>ログアウト</div>
+            <div onClick={() => logOut()}><p>ログアウト</p></div>
           </div>
         </div>
       </div>
