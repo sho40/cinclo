@@ -9,8 +9,15 @@ import {
 } from "@fortawesome/free-regular-svg-icons"
 import { IconButton } from '@/utils/IconButton';
 import Link from "next/link";
+import { useRecoilValue } from "recoil";
+import { cartItemListState } from "@/atoms/CartAtom"
+import { useRouter } from 'next/router';
 
 export const Header = () => {
+  const cartItems = useRecoilValue(cartItemListState);
+  const router = useRouter();
+  console.log("cartItems", cartItems)
+
   return (
     <div className={styles.container}>
       <div className={styles.contents}>
@@ -27,7 +34,7 @@ export const Header = () => {
             <IconButton onClick={() => {console.log("clicked")}} icon={faHeart}/>
           </div>
           <div>
-            <IconButton onClick={() => {console.log("clicked")}} icon={faCartShopping}/>
+            <IconButton onClick={() => router.push("/cart/")} icon={faCartShopping}/>
           </div>
         </div>
       </div>

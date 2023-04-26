@@ -10,6 +10,7 @@ import { useApollo } from '@/libs/apollo/apolloClient';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 import { Open_Sans } from 'next/font/google'
+import { RecoilRoot } from 'recoil';
 
 // Tell Font Awesome to skip adding the CSS automatically 
 // since it's already imported above
@@ -30,9 +31,11 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     getLayout(
       <ApolloProvider client={apolloClient}>
-        <main className={openSans.className}>
-          <Component {...pageProps} />
-        </main>
+        <RecoilRoot>
+          <main className={openSans.className}>
+            <Component {...pageProps} />
+          </main>
+        </RecoilRoot>
       </ApolloProvider>
     )
   )

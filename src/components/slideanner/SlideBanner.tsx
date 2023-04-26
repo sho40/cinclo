@@ -21,7 +21,7 @@ export const SlideBunner = () => {
         options={{
           rewind: true,
           autoplay: true, // 自動再生を有効
-          interval: 3000, // 自動再生の間隔を3秒に設定
+          interval: 10000, // 自動再生の間隔を10秒に設定
         }}
       >
         {
