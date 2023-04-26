@@ -35,6 +35,27 @@
       svg {
         height: 25px
       }
+
+      .shoppingIcon {
+        position: relative;
+
+        .cartItemCount {
+          position: absolute;
+          width: 25px;
+          height: 25px;
+          background-color: #CC543A;
+          border-radius: 25px;
+          text-align: center;
+          line-height: 25px;
+          top: 10px;
+          left: 10px;
+          pointer-events: none;
+
+          span {
+            color: #fff;
+          }
+        }
+      }
     }
   }
 }
