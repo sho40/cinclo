@@ -66,6 +66,21 @@
       }
     }
 
+    .cartButtonDisable {
+
+      & > div {
+        background-color: gray;
+        pointer-events: none;
+        opacity: .5;
+      }
+    }
+
+    .cartDisableMessage {
+      font-size: 12px;
+      text-align: center;
+      margin-top: 4px;
+    }
+
     .description {
       padding: 20px 0;
       font-size: 16px;

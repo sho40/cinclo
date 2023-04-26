@@ -1,0 +1,49 @@
+.itemContainer {
+  padding: 10px;
+  display: flex;
+
+  .itemImage {
+    width: 80px;
+
+    img {
+      aspect-ratio: 5 / 6;
+      object-fit: cover;
+    }
+  }
+
+  .itemDetail {
+    padding-left: 20px;
+    position: relative;
+    width: 100%;
+
+    .deleteIcon {
+      position: absolute;
+      right: 0;
+      font-size: 20px;
+    }
+
+    .itemName {
+      & > p {
+        font-size: 14px;
+        font-weight: bold;
+      }
+    }
+
+    .brandName {
+      font-size: 12px;
+    }
+
+    .price {
+      padding-top: 20px;
+      
+      .currentPrice {
+        font-size: 16px;
+      }
+      
+      .discountInfo {
+        margin-left: 10px;
+        font-size: 12px;
+      }
+    }
+  }
+}
