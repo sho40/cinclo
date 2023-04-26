@@ -17,6 +17,7 @@ export const Header = () => {
   const cartItems = useRecoilValue(cartItemListState);
   const router = useRouter();
   console.log("cartItems", cartItems)
+  const cartItemCount = cartItems.length < 0 ? undefined : cartItems.length;
 
   return (
     <div className={styles.container}>
@@ -33,8 +34,17 @@ export const Header = () => {
           <div className='pr-4'>
             <IconButton onClick={() => {console.log("clicked")}} icon={faHeart}/>
           </div>
-          <div>
+          <div className={styles.shoppingIcon}>
             <IconButton onClick={() => router.push("/cart/")} icon={faCartShopping}/>
+            {
+              cartItemCount != null ? (
+                <div className={styles.cartItemCount}>
+                  <span>{cartItemCount < 10 ? cartItemCount.toString() : "9+"}</span>
+                </div>
+              ) : (
+                <></>
+              )
+            }
           </div>
         </div>
       </div>
