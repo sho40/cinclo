@@ -2603,10 +2603,10 @@ export type GetItemCustomerQuery = (
   { __typename?: 'query_root' }
   & { items_by_pk?: Maybe<(
     { __typename?: 'items' }
-    & Pick<Items, 'can_sale' | 'current_count' | 'current_price' | 'description' | 'gender' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price'>
+    & Pick<Items, 'created_at' | 'current_count' | 'current_price' | 'description' | 'gender' | 'id' | 'is_rental_available' | 'name' | 'next_lending_date' | 'regular_price' | 'updated_at' | 'can_sale' | 'is_recommend'>
     & { brand?: Maybe<(
       { __typename?: 'brands' }
-      & Pick<Brands, 'name' | 'id'>
+      & Pick<Brands, 'id' | 'name'>
     )>, category?: Maybe<(
       { __typename?: 'categories' }
       & Pick<Categories, 'id' | 'name'>
@@ -2616,7 +2616,7 @@ export type GetItemCustomerQuery = (
       )> }
     )>, images: Array<(
       { __typename?: 'images' }
-      & Pick<Images, 'id' | 'url'>
+      & Pick<Images, 'url' | 'id' | 'item_id'>
     )> }
   )> }
 );
@@ -3415,34 +3415,10 @@ export type GetItemIdListQueryResult = Apollo.QueryResult<GetItemIdListQuery, Ge
 export const GetItemCustomerDocument = gql`
     query GetItemCustomer($id: Int!) {
   items_by_pk(id: $id) {
-    brand {
-      name
-      id
-    }
-    can_sale
-    category {
-      id
-      name
-      sub_category {
-        id
-        name
-      }
-    }
-    current_count
-    current_price
-    description
-    gender
-    images {
-      id
-      url
-    }
-    is_rental_available
-    name
-    next_lending_date
-    regular_price
+    ...ItemDetail
   }
 }
-    `;
+    ${ItemDetailFragmentDoc}`;
 
 /**
  * __useGetItemCustomerQuery__
