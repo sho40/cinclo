@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import styles from "./cartItem.module.scss"
-import { numberToPrice } from "@/logic/numberFormatter";
+import { numberToPriceCustomer } from "@/logic/numberFormatter";
 import {
   faXmark
 } from "@fortawesome/free-solid-svg-icons";
@@ -45,7 +45,7 @@ export const CartItemComponent = ({item, handleRemoveItem}: CartItemProps) => {
           )}
         </div>
         <div className={styles.price}>
-          <span className={styles.currentPrice}>{numberToPrice(item.current_price)}</span>
+          <span className={styles.currentPrice}>{numberToPriceCustomer(item.current_price)}</span>
           <span className={styles.discountInfo}>{item.regular_price != null ? `(${discountPercentCalc(item.current_price, item.regular_price)}引き)` : ""}</span>
         </div>
       </div>

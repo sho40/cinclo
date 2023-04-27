@@ -5,7 +5,7 @@ import { addApolloState, initializeApollo } from "@/libs/apollo/apolloClient";
 import { GetItemCustomerDocument, GetItemCustomerQuery, GetItemIdListDocument, GetItemIdListQuery, ItemDetailFragment, Items, useGetItemCustomerQuery } from "@/libs/apollo/graphql";
 import { Layout } from '@/components/customer/Layout'
 import styles from "./itemDetail.module.scss"
-import { numberToPrice } from "@/logic/numberFormatter";
+import { numberToPriceCustomer } from "@/logic/numberFormatter";
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 // デフォルトのテーマ
 import '@splidejs/react-splide/css';
@@ -114,12 +114,12 @@ export default function ItemDetail() {
           </div>
           <div className={styles.price}>
             <span className="text-red-400" style={{fontSize: "20px"}}>
-              {item.current_price != null ? numberToPrice(item.current_price) : ""}
+              {item.current_price != null ? numberToPriceCustomer(item.current_price) : ""}
             </span>
             <span style={{marginLeft: "2px", fontSize: "12px"}}>{"(税込み)"}</span>
             <span style={{marginLeft: "10px"}}>
               <del>
-                {item.regular_price != null ? numberToPrice(item.regular_price) : ""}
+                {item.regular_price != null ? numberToPriceCustomer(item.regular_price) : ""}
               </del>
             </span>
           </div>

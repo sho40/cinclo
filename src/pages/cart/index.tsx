@@ -5,7 +5,7 @@ import { cartItemListState, CartItem } from "@/atoms/CartAtom"
 import styles from "./cart.module.scss"
 import { useEffect, useState } from "react";
 import { CartItemComponent } from "@/components/customer/cart/cartItem/CartItem"
-import { numberToPrice } from "@/logic/numberFormatter";
+import { numberToPriceCustomer } from "@/logic/numberFormatter";
 
 const calcTotalAmount = (items: CartItem[]) => {
   let total: number = 0;
@@ -72,7 +72,10 @@ export default function Cart() {
               <div className={styles.amountArea}>
                 <div>
                   <div><span>小計</span></div>
-                  <div><span>{numberToPrice(totalAmount)}</span></div>
+                  <div>
+                    <span>{numberToPriceCustomer(totalAmount)}</span>
+                    <span style={{fontSize: "8px", paddingLeft: "2px"}}>{"(税込)"}</span>
+                  </div>
                 </div>
                 <div>
                   <div><span>送料</span></div>

@@ -1,6 +1,6 @@
 import { GetRecommendedItemsForHomeQuery } from "@/libs/apollo/graphql";
 import { isValidUrl } from "@/logic/checkUrl";
-import { numberToPrice } from "@/logic/numberFormatter";
+import { numberToPriceCustomer } from "@/logic/numberFormatter";
 import Image from 'next/image';
 import Link from "next/link";
 import React from "react";
@@ -42,8 +42,9 @@ export const HomeItemsContainer = (props: {
                       <p className={styles.itemName}>{item.name}</p>
                       <p className={styles.count}>{`貸出回数 ${item.current_count} 回`}</p>
                       <div className={styles.priceArea}>
-                        <span className='text-red-400 font-bold mr-4'>{item.current_price != null ? numberToPrice(item.current_price) : ""}</span>
-                        <span><del>{item.regular_price != null ? numberToPrice(item.regular_price) : ""}</del></span>
+                        <span className='text-red-400'>{item.current_price != null ? numberToPriceCustomer(item.current_price) : ""}</span>
+                        <span style={{fontSize: "8px", margin: "0 6px 0 2px"}}>(税込)</span>
+                        <span><del>{item.regular_price != null ? numberToPriceCustomer(item.regular_price) : ""}</del></span>
                       </div>
                     </Link>
                   </li>
