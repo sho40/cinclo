@@ -61,20 +61,20 @@
   .goToPurchaseFormButton {
     padding: 10px 0;
 
-      & > div {
-        width: 100%;
-        height: 50px;
-        line-height: 50px;
-        margin: 0 auto;
-        background-color: #111;
-        color: #fff;
-        border-radius: 3px;
-        text-align: center;
+    & > div {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      margin: 0 auto;
+      background-color: #111;
+      color: #fff;
+      border-radius: 3px;
+      text-align: center;
 
-        &:hover {
-          opacity: .5;
-          cursor: pointer;
-        }
+      &:hover {
+        opacity: .5;
+        cursor: pointer;
       }
+    }
   }
 }

@@ -16,7 +16,6 @@ import { useRouter } from 'next/router';
 export const Header = () => {
   const cartItems = useRecoilValue(cartItemListState);
   const router = useRouter();
-  console.log("cartItems", cartItems)
   const cartItemCount = cartItems.length < 1 ? undefined : cartItems.length;
 
   return (

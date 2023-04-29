@@ -5,9 +5,10 @@ import { cartItemListState, CartItem } from "@/atoms/CartAtom"
 import styles from "./cart.module.scss"
 import { useEffect, useState } from "react";
 import { CartItemComponent } from "@/components/customer/cart/cartItem/CartItem"
-import { numberToPrice } from "@/logic/numberFormatter";
+import { numberToPriceCustomer } from "@/logic/numberFormatter";
+import { useRouter } from 'next/router';
 
-const calcTotalAmount = (items: CartItem[]) => {
+export const calcTotalAmount = (items: CartItem[]) => {
   let total: number = 0;
 
   items.forEach(item => {
@@ -19,6 +20,7 @@ const calcTotalAmount = (items: CartItem[]) => {
 
 export default function Cart() {
 
+  const router = useRouter();
   const [cartItems, setCartItems] = useRecoilState(cartItemListState);
 
   const handleRemoveItem = (targetItemId: number) => {
@@ -63,7 +65,7 @@ export default function Cart() {
                   {cartItems.map((item, index) => {
                     return (
                       <div key={index}>
-                        <CartItemComponent item={item} handleRemoveItem={handleRemoveItem}/>
+                        <CartItemComponent item={item} canDelete={true} handleRemoveItem={handleRemoveItem}/>
                       </div>
                     )
                   })}
@@ -72,7 +74,10 @@ export default function Cart() {
               <div className={styles.amountArea}>
                 <div>
                   <div><span>小計</span></div>
-                  <div><span>{numberToPrice(totalAmount)}</span></div>
+                  <div>
+                    <span>{numberToPriceCustomer(totalAmount)}</span>
+                    <span style={{fontSize: "8px", paddingLeft: "2px"}}>{"(税込)"}</span>
+                  </div>
                 </div>
                 <div>
                   <div><span>送料</span></div>
@@ -81,7 +86,7 @@ export default function Cart() {
               </div>
               <div>
                 <div className={styles.goToPurchaseFormButton}>
-                  <div onClick={() => {}}>
+                  <div onClick={() => {router.push("/checkout/information/")}}>
                     レンタル情報入力へ
                   </div>
                 </div>
