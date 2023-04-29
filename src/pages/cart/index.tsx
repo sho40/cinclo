@@ -6,8 +6,9 @@ import styles from "./cart.module.scss"
 import { useEffect, useState } from "react";
 import { CartItemComponent } from "@/components/customer/cart/cartItem/CartItem"
 import { numberToPriceCustomer } from "@/logic/numberFormatter";
+import { useRouter } from 'next/router';
 
-const calcTotalAmount = (items: CartItem[]) => {
+export const calcTotalAmount = (items: CartItem[]) => {
   let total: number = 0;
 
   items.forEach(item => {
@@ -19,6 +20,7 @@ const calcTotalAmount = (items: CartItem[]) => {
 
 export default function Cart() {
 
+  const router = useRouter();
   const [cartItems, setCartItems] = useRecoilState(cartItemListState);
 
   const handleRemoveItem = (targetItemId: number) => {
@@ -63,7 +65,7 @@ export default function Cart() {
                   {cartItems.map((item, index) => {
                     return (
                       <div key={index}>
-                        <CartItemComponent item={item} handleRemoveItem={handleRemoveItem}/>
+                        <CartItemComponent item={item} canDelete={true} handleRemoveItem={handleRemoveItem}/>
                       </div>
                     )
                   })}
@@ -84,7 +86,7 @@ export default function Cart() {
               </div>
               <div>
                 <div className={styles.goToPurchaseFormButton}>
-                  <div onClick={() => {}}>
+                  <div onClick={() => {router.push("/checkout/information/")}}>
                     レンタル情報入力へ
                   </div>
                 </div>

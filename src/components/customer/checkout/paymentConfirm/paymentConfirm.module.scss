@@ -1,0 +1,49 @@
+.container {
+  padding: 20px 0;
+
+  .rentalItemsArea {
+    padding: 20px 0;
+    border-bottom: .5px solid #d5d5d3;
+  }
+
+  .amountArea {
+    padding: 5px 0;
+    font-size: 14px;
+    border-bottom: .5px solid #d5d5d3;
+
+    & > div {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 5px 0;
+    }
+
+    .totalAmountRow {
+      font-weight: bold;
+
+      .totalAmount {
+        font-size: 18px;
+      }
+    }
+  }
+
+  .checkoutButton {
+    padding: 10px 0;
+
+    & > div {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      margin: 0 auto;
+      background-color: #77428D;
+      color: #fff;
+      border-radius: 3px;
+      text-align: center;
+
+      &:hover {
+        opacity: .5;
+        cursor: pointer;
+      }
+    }
+  }
+}

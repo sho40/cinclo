@@ -9,14 +9,15 @@ import { CartItem } from "@/atoms/CartAtom"
 
 interface CartItemProps {
   item: CartItem;
-  handleRemoveItem: (deleteTargetItemId: number) => void;
+  canDelete: boolean;
+  handleRemoveItem?: (deleteTargetItemId: number) => void;
 }
 
 const discountPercentCalc = (currentPrice: number, regularPrice: number) => {
   return `${ ( 1 - (currentPrice / regularPrice) ) * 100 }%`
 }
 
-export const CartItemComponent = ({item, handleRemoveItem}: CartItemProps) => {
+export const CartItemComponent = ({item, canDelete, handleRemoveItem}: CartItemProps) => {
   const displayImageurl = item.images.length > 0 ? item.images[0].url : undefined;
 
   return (
@@ -31,9 +32,15 @@ export const CartItemComponent = ({item, handleRemoveItem}: CartItemProps) => {
         }
       </div>
       <div className={styles.itemDetail}>
-        <div className={styles.deleteIcon}>
-          <IconButton onClick={() => {handleRemoveItem(item.id)}} icon={faXmark}/>
-        </div>
+        {
+          canDelete && handleRemoveItem != null ? (
+            <div className={styles.deleteIcon}>
+              <IconButton onClick={() => {handleRemoveItem(item.id)}} icon={faXmark}/>
+            </div>
+          ) : (
+            <></>
+          )
+        }
         <div className={styles.itemName}>
           <p>{item.name}</p>
         </div>

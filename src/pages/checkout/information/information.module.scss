@@ -1,0 +1,57 @@
+.container {
+  padding: 20px 10px;
+
+  .title {
+    padding: 10px 0 5px 0;
+
+    & > span {
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+
+  .cartItemList {
+    padding: 20px 0;
+    border-bottom: .5px solid #d5d5d3;
+  }
+
+  .inputBox {
+    width: 100%;
+    padding: 5px 0;
+    
+    p, span {
+      padding-left: 5px;
+      font-size: 12px;
+    }
+
+    input {
+      width: inherit;
+      height: 35px;
+      border: 1px solid #d5d5d3;
+      border-radius: 3px;
+      margin-top: 3px;
+      padding-left: 5px;
+      font-size: 14px;
+    }
+  }
+
+  .goCheckoutButton {
+    padding: 10px 0;
+
+    & > button {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      margin: 0 auto;
+      background-color: #006284;
+      color: #fff;
+      border-radius: 3px;
+      text-align: center;
+
+      &:hover {
+        opacity: .5;
+        cursor: pointer;
+      }
+    }
+  }
+}
