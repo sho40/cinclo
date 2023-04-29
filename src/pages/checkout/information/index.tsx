@@ -74,7 +74,7 @@ export default function CheckoutInformation() {
     checkoutInfoCtx.setInfo(data);
     setCustomerInfo(data);
     setPageType(PageType.PaymentConfirm);
-    window.scroll({top: 0, behavior: 'smooth'});
+    window.scrollTo({top: 0, behavior: 'smooth'});
     // router.push("/checkout/paymentConfirm/")
   }
 
