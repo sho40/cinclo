@@ -1,5 +1,5 @@
 import { checkoutInformationContext, useCheckoutInformation } from "@/hooks/useCheckoutInformation";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Layout } from '@/components/customer/Layout'
 import { cartItemListState, CartItem } from "@/atoms/CartAtom"
 import { CartItemComponent } from "../../cart/cartItem/CartItem";
@@ -21,6 +21,10 @@ export default function PaymentConfirm({cartItems, customerInfo, onChangeEditVie
   const totalAmount = calcTotalAmount(cartItems);
 
   const shippingFee = 700;
+
+  useEffect(() => {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }, [])
   return (
     <div className={styles.container}>
       <div>
