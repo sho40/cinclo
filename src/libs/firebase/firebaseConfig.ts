@@ -5,6 +5,7 @@ import {
   getAuth,
   Auth,
 } from "firebase/auth";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 // .envファイルで設定した環境変数をfirebaseConfigに入れる
 const firebaseConfig = {
@@ -28,4 +29,4 @@ const firestore: Firestore = getFirestore();
 //   firestore = getFirestore();
 // }
 // export { firebaseApp, auth, firestore };
-export { firebaseApp, auth, firestore };
+export { firebaseApp, auth, firestore, getFunctions, httpsCallable };

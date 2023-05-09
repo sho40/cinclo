@@ -8,6 +8,7 @@ import { CheckoutInfo } from "@/pages/checkout/information";
 import { addTax, numberToPrice, numberToPriceCustomer } from "@/logic/numberFormatter";
 import { CustomerInfoConfirm } from "@/components/customer/checkout/customerInfoConfirm/CustomerInfoConfirm"
 import { calcTotalAmount } from "@/pages/cart";
+import { getFunctions, httpsCallable, firebaseApp } from "@/libs/firebase/firebaseConfig";
 
 interface PaymentConfirmProps {
   cartItems: CartItem[];
@@ -15,10 +16,19 @@ interface PaymentConfirmProps {
   onChangeEditView: () => void;
 }
 
+const getHello = async () => {
+  const functions = getFunctions(firebaseApp, "asia-northeast1");
+  const helloWorld = httpsCallable(functions, "helloWorld");
+
+  const res = await helloWorld() 
+  console.log(res)
+}
+
 export default function PaymentConfirm({cartItems, customerInfo, onChangeEditView}: PaymentConfirmProps) {
 
   console.log({customerInfo})
   const totalAmount = calcTotalAmount(cartItems);
+  const text = getHello();
 
   const shippingFee = 700;
 
