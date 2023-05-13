@@ -20,6 +20,13 @@ export const formatDateYYYYMMDD = (dateStr: string): string => {
   return `${y}/${m + 1}/${d}`
 }
 
+export const formatDateYYYYMMDDForDisplay = (date: Date): string => {
+  const y = date.getFullYear();
+  const m = date.getMonth();
+  const d = date.getDate();
+  return `${y}/${m + 1}/${d}`
+}
+
 export const formatDateYYYYMMDDForDateForm = (date: Date) => {
   const y = date.getFullYear();
   const m = ("0" + (date.getMonth() + 1)).slice(-2)

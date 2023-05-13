@@ -87,7 +87,7 @@ export default function Cart() {
               <div>
                 <div className={styles.goToPurchaseFormButton}>
                   <div onClick={() => {router.push("/checkout/information/")}}>
-                    レンタル情報入力へ
+                    決済確認画面へ
                   </div>
                 </div>
               </div>
