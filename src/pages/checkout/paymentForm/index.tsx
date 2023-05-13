@@ -1,4 +1,4 @@
-import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { AddressElement, Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { FormEvent, useEffect, useState } from "react";
 
@@ -45,11 +45,12 @@ const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
-  const doCheckout = async (e: FormEvent<HTMLFormElement>) => {
+  const handleCheckout = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!stripe || !elements) return;
 
-    const result = await stripe.confirmPayment({
+    const confirm = window.confirm("決済してもよろしいですか？")
+    const result = confirm ? await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: 'http://localhost:4200',
@@ -63,7 +64,8 @@ const PaymentForm = () => {
         }
       },
       redirect: 'if_required',
-    })
+    }) : null;
+    if (result == null) return;
     if (result.error) {
       window.alert(result.error.message)
       return
@@ -76,9 +78,14 @@ const PaymentForm = () => {
   }
 
   return (
-    <form onSubmit={doCheckout}>
+    <form onSubmit={handleCheckout}>
+      <AddressElement 
+      options={{
+        mode: 'shipping',
+        allowedCountries: ['JP'],
+      }}/>
       <fieldset>
-        <legend>カード所有者</legend>
+        <legend>カード名義</legend>
         <input type="text" value={cardholderName} onChange={e => setCardholderName(e.target.value)}/>
       </fieldset>
       <PaymentElement options={{
