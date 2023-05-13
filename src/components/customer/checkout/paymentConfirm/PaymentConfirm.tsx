@@ -1,26 +1,21 @@
-import { checkoutInformationContext, useCheckoutInformation } from "@/hooks/useCheckoutInformation";
-import { useContext, useEffect } from "react";
-import { Layout } from '@/components/customer/Layout'
-import { cartItemListState, CartItem } from "@/atoms/CartAtom"
+import { useEffect } from "react";
+import { CartItem } from "@/atoms/CartAtom"
 import { CartItemComponent } from "../../cart/cartItem/CartItem";
 import styles from "./paymentConfirm.module.scss"
-import { CheckoutInfo } from "@/pages/checkout/information";
 import { addTax, numberToPrice, numberToPriceCustomer } from "@/logic/numberFormatter";
-import { CustomerInfoConfirm } from "@/components/customer/checkout/customerInfoConfirm/CustomerInfoConfirm"
 import { calcTotalAmount } from "@/pages/cart";
+import PaymentFormContainer from "../paymentForm/PaymentFormContainer";
 
 interface PaymentConfirmProps {
   cartItems: CartItem[];
-  customerInfo: CheckoutInfo;
-  onChangeEditView: () => void;
 }
 
-export default function PaymentConfirm({cartItems, customerInfo, onChangeEditView}: PaymentConfirmProps) {
+export default function PaymentConfirm({cartItems}: PaymentConfirmProps) {
 
-  console.log({customerInfo})
   const totalAmount = calcTotalAmount(cartItems);
 
-  const shippingFee = 700;
+  const shippingFee = 1400;
+  const totalAmountIncludesShippingFee: number = Math.floor(addTax(totalAmount) + shippingFee);
 
   useEffect(() => {
     window.scrollTo({top: 0, behavior: 'smooth'});
@@ -28,13 +23,8 @@ export default function PaymentConfirm({cartItems, customerInfo, onChangeEditVie
   return (
     <div className={styles.container}>
       <div>
-        <div>
-          <CustomerInfoConfirm customerInfo={customerInfo} onChangeEditView={onChangeEditView} shippingFee={shippingFee}/>
-        </div>
         <div className={styles.rentalItemsArea}>
-          <div className={styles.title}>
-            <span>レンタル商品</span>
-          </div>
+          <h2>レンタル内容確認</h2>
           <div className={styles.cartItemList}>
             {cartItems.map((item, index) => {
               return (
@@ -65,11 +55,10 @@ export default function PaymentConfirm({cartItems, customerInfo, onChangeEditVie
               </div>
             </div>
           </div>
-          <div className={styles.checkoutButton}>
-            <div onClick={() => {}}>
-              決済する
-            </div>
-          </div>
+        </div>
+        <div className={styles.formArea}>
+          <h2>決済・配送情報の入力</h2>
+          <PaymentFormContainer amount={totalAmountIncludesShippingFee}/>
         </div>
       </div>
     </div>
