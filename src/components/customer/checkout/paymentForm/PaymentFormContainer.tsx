@@ -101,7 +101,7 @@ const PaymentForm = () => {
     const result = confirm ? await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: '/checkout/success/',
+        return_url: 'https://cinclo.jp//checkout/success/',
         payment_method_data: {
           billing_details: {
             name: cardholderName,

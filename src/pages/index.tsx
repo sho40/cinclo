@@ -52,7 +52,7 @@ const Recommend = () => {
 
   return(
     <div className='py-7'>
-      <HomeItemsContainer items={data?.items} title='おすすめアイテム'/>
+      <HomeItemsContainer items={data?.items} title='Recommend'/>
     </div>
   )
 }

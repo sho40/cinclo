@@ -54,7 +54,7 @@ export const HomeItemsContainer = (props: {
             <div className='text-center'>
               {/* TODO リンクにする */}
               <button>
-                <div className='rounded-none px-2 py-1' style={{border: "1px solid #111"}}>もっと見る</div>
+                <div className='rounded-none px-2 py-1' style={{border: "1px solid #111"}}>more...</div>
               </button>
             </div>
           </div>
