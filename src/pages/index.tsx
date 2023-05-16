@@ -4,7 +4,7 @@ import { HomeItemsContainer } from '@/components/HomeItemsContainer'
 import { SlideBunner } from '@/components/slideanner/SlideBanner'
 
 import { gql } from '@apollo/client'
-import { useGetItemsTestQuery, useGetRecommendedItemsForHomeQuery } from '../libs/apollo/graphql'
+import { useGetItemsTestQuery, useGetRecommendedItemsForHomeQuery, useGetNewArrivalItemsQuery } from '../libs/apollo/graphql'
 import Footer from '@/components/footer/Footer'
 import { Layout } from '@/components/customer/Layout'
 
@@ -19,6 +19,9 @@ export default function Home() {
       <SlideBunner />
       <div className='px-2'>
         <Recommend />
+      </div>
+      <div className='px-2'>
+        <NewArrival />
       </div>
       </Layout>
     </>
@@ -57,6 +60,16 @@ const Recommend = () => {
   )
 }
 
+const NewArrival = () => {
+  const { data } = useGetNewArrivalItemsQuery({variables : {limit: 6, _in: [1, 2, 3]}});
+
+  return (
+    <div className='py-7'>
+      <HomeItemsContainer items={data?.items} title='New Arrival'/>
+    </div>
+  )
+}
+
 gql`
   query getItemsTest {
     items {
@@ -73,6 +86,24 @@ gql`
       current_price
       id
       images(limit: 1) {
+        id
+        url
+        item_id
+      }
+      name
+      next_lending_date
+      regular_price
+    }
+  }
+`
+
+gql`
+  query GetNewArrivalItems($limit: Int, $_in: [Int!]) {
+    items(limit: $limit, order_by: {created_at: desc}, where: {gender: {_in: $_in}}) {
+      current_count
+      current_price
+      id
+      images {
         id
         url
         item_id
