@@ -3,7 +3,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { FormEvent, useEffect, useState } from "react";
 import styles from './paymentFormContainer.module.scss'
 import { formatDateYYYYMMDDForDateForm, formatDateYYYYMMDDForDisplay } from "@/logic/dateFormatter";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY ?? "");
 
@@ -58,6 +58,37 @@ interface CheckoutInfo {
   email: string;
   phoneNumber: string;
   stripe_checkout_id: string;
+}
+
+const sendThanksMail = async (
+  name: string, 
+  emailAddress: string,
+  subject: string,
+  itemNames: string[],
+  date: string,
+  arraivalDate: string,
+  totalAmount: string,
+  returnDate: string,
+  router: NextRouter
+) => {
+  const res = await fetch('/api/send', {
+    body: JSON.stringify({
+      name: name,
+      email: emailAddress,
+      subject: subject,
+      itemNames: itemNames,
+      date: date,
+      arraivalDate: arraivalDate,
+      totalAmount: totalAmount,
+      returnDate: returnDate,
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST'
+  })
+
+  if (res.ok) router.push('/checkout/success/');
 }
 
 const PaymentForm = () => {
@@ -120,7 +151,7 @@ const PaymentForm = () => {
     }
     if (result.paymentIntent) {
       console.log(`注文完了 (order_id: ${result.paymentIntent.id})`)
-      router.push("/checkout/success/")
+      // sendThanksMail()
     } else {
       window.alert(`注文完了`)
     }
