@@ -25,7 +25,7 @@ export const HomeItemsContainer = (props: {
                   <li key={index} className='mb-7' style={{ width: 'calc((100% - 16px) / 2)' }}>
                     <Link href={`/item/detail/${item.id}`}>
                       <div>
-                        {item.images != null && item.images.length === 1 && isValidUrl(item.images[0].url) ?
+                        {item.images != null && item.images.length > 0 && isValidUrl(item.images[0].url) ?
                           <div className={styles.itemImage}>
                             <Image src={item.images[0].url} alt="" fill/>
                           </div> 
