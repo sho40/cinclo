@@ -8,7 +8,6 @@ import '@splidejs/react-splide/css';
 export const SlideBunner = () => {
 
   const {data, loading} = useGetHomeBannerImagesQuery();
-  console.log({data})
 
   if (data?.home_banners == null || data?.home_banners.length < 1 || loading) {
     return <></>
@@ -22,6 +21,7 @@ export const SlideBunner = () => {
           rewind: true,
           autoplay: true, // 自動再生を有効
           interval: 10000, // 自動再生の間隔を10秒に設定
+          arrows: false
         }}
       >
         {
@@ -35,7 +35,6 @@ export const SlideBunner = () => {
           )
         }
       </Splide>
-
     </div>
   )
 }
