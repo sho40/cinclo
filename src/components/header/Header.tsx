@@ -30,9 +30,10 @@ export const Header = () => {
           </Link>
         </div>
         <div className={styles.icons}>
+          {/* TODO: マイページ実装時に追加
           <div className='pr-4'>
             <IconButton onClick={() => {console.log("clicked")}} icon={faHeart}/>
-          </div>
+          </div> */}
           <div className={styles.shoppingIcon}>
             <IconButton onClick={() => router.push("/cart/")} icon={faCartShopping}/>
             {

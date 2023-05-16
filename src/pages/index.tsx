@@ -7,8 +7,6 @@ import { Layout } from '@/components/customer/Layout'
 
 export default function Home() {
   // MEMO _in === gender
-  const { data } = useGetItemsTestQuery();
-  console.log({data})
   return (
     <>
       <Layout>
@@ -68,15 +66,6 @@ const NewArrival = () => {
 }
 
 gql`
-  query getItemsTest {
-    items {
-      id
-      name
-    }
-  }
-`
-
-gql`
   query GetRecommendedItemsForHome($limit: Int, $_in: [Int!]) {
     items(limit: $limit, where: {gender: {_in: $_in}, is_recommend: {_eq: true}}, order_by: {current_price: asc}) {
       current_count
@@ -100,7 +89,7 @@ gql`
       current_count
       current_price
       id
-      images {
+      images(limit: 1) {
         id
         url
         item_id
