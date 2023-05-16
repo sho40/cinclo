@@ -2572,6 +2572,24 @@ export type GetRecommendedItemsForHomeQuery = (
   )> }
 );
 
+export type GetNewArrivalItemsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  _in?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>;
+}>;
+
+
+export type GetNewArrivalItemsQuery = (
+  { __typename?: 'query_root' }
+  & { items: Array<(
+    { __typename?: 'items' }
+    & Pick<Items, 'current_count' | 'current_price' | 'id' | 'name' | 'next_lending_date' | 'regular_price'>
+    & { images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'id' | 'url' | 'item_id'>
+    )> }
+  )> }
+);
+
 export type GetHomeBannerImagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -3343,6 +3361,52 @@ export function useGetRecommendedItemsForHomeLazyQuery(baseOptions?: Apollo.Lazy
 export type GetRecommendedItemsForHomeQueryHookResult = ReturnType<typeof useGetRecommendedItemsForHomeQuery>;
 export type GetRecommendedItemsForHomeLazyQueryHookResult = ReturnType<typeof useGetRecommendedItemsForHomeLazyQuery>;
 export type GetRecommendedItemsForHomeQueryResult = Apollo.QueryResult<GetRecommendedItemsForHomeQuery, GetRecommendedItemsForHomeQueryVariables>;
+export const GetNewArrivalItemsDocument = gql`
+    query GetNewArrivalItems($limit: Int, $_in: [Int!]) {
+  items(limit: $limit, order_by: {created_at: desc}, where: {gender: {_in: $_in}}) {
+    current_count
+    current_price
+    id
+    images {
+      id
+      url
+      item_id
+    }
+    name
+    next_lending_date
+    regular_price
+  }
+}
+    `;
+
+/**
+ * __useGetNewArrivalItemsQuery__
+ *
+ * To run a query within a React component, call `useGetNewArrivalItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNewArrivalItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNewArrivalItemsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      _in: // value for '_in'
+ *   },
+ * });
+ */
+export function useGetNewArrivalItemsQuery(baseOptions?: Apollo.QueryHookOptions<GetNewArrivalItemsQuery, GetNewArrivalItemsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNewArrivalItemsQuery, GetNewArrivalItemsQueryVariables>(GetNewArrivalItemsDocument, options);
+      }
+export function useGetNewArrivalItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNewArrivalItemsQuery, GetNewArrivalItemsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNewArrivalItemsQuery, GetNewArrivalItemsQueryVariables>(GetNewArrivalItemsDocument, options);
+        }
+export type GetNewArrivalItemsQueryHookResult = ReturnType<typeof useGetNewArrivalItemsQuery>;
+export type GetNewArrivalItemsLazyQueryHookResult = ReturnType<typeof useGetNewArrivalItemsLazyQuery>;
+export type GetNewArrivalItemsQueryResult = Apollo.QueryResult<GetNewArrivalItemsQuery, GetNewArrivalItemsQueryVariables>;
 export const GetHomeBannerImagesDocument = gql`
     query GetHomeBannerImages {
   home_banners(order_by: {display_index: asc}, where: {delete_flg: {_eq: false}}) {
