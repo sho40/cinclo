@@ -1,4 +1,4 @@
-import { GetRecommendedItemsForHomeQuery } from "@/libs/apollo/graphql";
+import { GetRecommendedItemsForHomeQuery, GetNewArrivalItemsQuery } from "@/libs/apollo/graphql";
 import { isValidUrl } from "@/logic/checkUrl";
 import { numberToPriceCustomer } from "@/logic/numberFormatter";
 import Image from 'next/image';
@@ -8,7 +8,7 @@ import styles from "./styles/homeItemsContainer.module.scss"
 
 export const HomeItemsContainer = (props: {
   title: string;
-  items: GetRecommendedItemsForHomeQuery["items"] | undefined;
+  items: GetRecommendedItemsForHomeQuery["items"] | GetNewArrivalItemsQuery["items"] | undefined;
 }) => {
 
   return(
@@ -23,11 +23,9 @@ export const HomeItemsContainer = (props: {
               {props.items.map((item, index) => {
                 return(
                   <li key={index} className='mb-7' style={{ width: 'calc((100% - 16px) / 2)' }}>
-                    {/* TODO リンクを指定する */}
                     <Link href={`/item/detail/${item.id}`}>
                       <div>
                         {item.images != null && item.images.length === 1 && isValidUrl(item.images[0].url) ?
-                          // <div className={styles.imageContainer}>
                           <div className={styles.itemImage}>
                             <Image src={item.images[0].url} alt="" fill/>
                           </div> 
