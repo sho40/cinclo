@@ -1,11 +1,8 @@
-import { Banner } from '@/components/Banner'
-import { Header } from '@/components/header/Header'
 import { HomeItemsContainer } from '@/components/HomeItemsContainer'
 import { SlideBunner } from '@/components/slideanner/SlideBanner'
 
 import { gql } from '@apollo/client'
 import { useGetItemsTestQuery, useGetRecommendedItemsForHomeQuery } from '../libs/apollo/graphql'
-import Footer from '@/components/footer/Footer'
 import { Layout } from '@/components/customer/Layout'
 
 export default function Home() {

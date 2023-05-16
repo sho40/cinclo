@@ -3,8 +3,7 @@ import Link from "next/link";
 import {
   faInstagram
 } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconDefinition, IconProp } from "@fortawesome/fontawesome-svg-core";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import styles from "./footer.module.scss"
 
 
@@ -19,28 +18,29 @@ export default function Footer() {
           <li>
             <ul className={styles.links}>
               <li>
-                <Link href="/">お問い合わせ</Link>
+                <Link href="/policies/legal-notice/">特定商法取引法に基づく表記</Link>
               </li>
               <li>
-                <Link href="/">特定商法取引法に基づく表記</Link>
+                <Link href="/policies/privacy-policy/">プライバシーポリシー</Link>
               </li>
               <li>
-                <Link href="/">プライバシーポリシー</Link>
-              </li>
-              <li>
-                <Link href="/">セキュリティーポリシー</Link>
+                <Link href="/policies/security-policy/">セキュリティーポリシー</Link>
               </li>
               <li>
                 <Link href="/">利用規約</Link>
               </li>
               <li>
-                <Link href="/">古物営業法に基づく表示</Link>
+                <Link href="/policies/flea-market/">古物営業法に基づく表示</Link>
+              </li>
+              <li>
+                <Link href="/">お問い合わせ</Link>
               </li>
             </ul>
           </li>
+          {/* TODO: 開設したら表示
           <li className= {styles.snsIcon}>
             <IconButton onClick={() => {console.log("clicked")}} icon={faInstagram as IconDefinition}/>
-          </li>
+          </li> */}
         </ul>
       </div>
       <div className={styles.copyright}>
