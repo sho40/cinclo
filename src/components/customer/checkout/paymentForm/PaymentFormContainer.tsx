@@ -4,9 +4,10 @@ import { FormEvent, useEffect, useState } from "react";
 import styles from './paymentFormContainer.module.scss'
 import { formatDateYYYYMMDDForDateForm, formatDateYYYYMMDDForDisplay } from "@/logic/dateFormatter";
 import { useRouter } from "next/router";
-import { CartItem } from "@/atoms/CartAtom"
 import { CreateOrderMutationVariables } from "@/libs/apollo/graphql";
 import { v4 as uuidv4 } from 'uuid';
+import { useSetRecoilState } from "recoil";
+import { CartItem, cartItemListState } from "@/atoms/CartAtom"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY ?? "");
 
@@ -77,6 +78,7 @@ interface PaymentFormProps {
 
 const PaymentForm = ({cartItems, amount, createOrderAndUpdateItems}: PaymentFormProps) => {
   const router = useRouter();
+  const setCartItemList = useSetRecoilState(cartItemListState);
 
   const [cardholderName, setCardholderName] = useState('');
   const [customerName, setCustomerName] = useState('');
@@ -143,6 +145,9 @@ const PaymentForm = ({cartItems, amount, createOrderAndUpdateItems}: PaymentForm
         stripe_checkout_id: result.paymentIntent.id,
         specified_date: specifiedArraivalDate,
       });
+
+      // カートの中身をクリア
+      setCartItemList([]);
       router.push("/checkout/success/")
     } else {
       window.alert(`注文完了`)

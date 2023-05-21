@@ -22,7 +22,8 @@ export const Header = () => {
     <div className={styles.container}>
       <div className={styles.contents}>
         <div className={styles.menuDrawer}>
-          <IconButton onClick={() => {console.log("clicked")}} icon={faBars}/>
+          {/* TODO: ハンバーガーメニュー実装
+          <IconButton onClick={() => {console.log("clicked")}} icon={faBars}/> */}
         </div>
         <div className={styles.serviceName}>
           <Link href="/">
