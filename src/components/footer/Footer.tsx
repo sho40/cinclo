@@ -33,7 +33,7 @@ export default function Footer() {
                 <Link href="/policies/flea-market/">古物営業法に基づく表示</Link>
               </li>
               <li>
-                <Link href="/">お問い合わせ</Link>
+                <Link href="/contact">お問い合わせ</Link>
               </li>
             </ul>
           </li>

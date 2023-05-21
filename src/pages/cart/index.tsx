@@ -59,7 +59,7 @@ export default function Cart() {
             <div>
               <div>
                 <div className={styles.title}>
-                  <span>カート内の商品</span>
+                  <span>カート内商品</span>
                 </div>
                 <div className={styles.cartItemList}>
                   {cartItems.map((item, index) => {

@@ -1,6 +1,6 @@
 .container {
 
-  .cardholderName, .email, .phoneNumber {
+  .cardholderName, .email, .phoneNumber, .specifiedArraivalDate {
     margin: 0.75rem 0;
     font-size: 0.93rem;
     width: 100%;
@@ -21,24 +21,9 @@
   }
 
   .specifiedArraivalDate {
-    margin: 0.75rem 0;
-    font-size: 0.93rem;
-    width: 100%;
-
-    p {
-      margin-bottom: 0.15rem;
-      color: #30313D;
-    }
 
     input {
       -webkit-appearance: none;
-      
-      width: 100%;
-      padding: 0.75rem;
-      background-color: #fff;
-      border-radius: 5px;
-      border: 1px solid #e6e6e6;
-      box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(0, 0, 0, 0.02);
     }
 
     .subText {

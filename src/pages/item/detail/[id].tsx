@@ -127,8 +127,8 @@ export default function ItemDetail() {
             ※送料はチェックアウト時に計算されます。
           </p>
           <div className={styles.rentalCount}>
-            <span>レンタル回数:</span>
-            <span className="text-red-400" style={{marginLeft: "5px"}}>{item.current_count}</span>
+            <span>レンタル</span>
+            <span className="text-red-400" style={{margin: "0 5px"}}>{item.current_count}</span>
             <span>回目</span>
           </div>
           <div className={classNames(styles.addCartButton, {[styles.cartButtonDisable]: isCartDisabled})}>

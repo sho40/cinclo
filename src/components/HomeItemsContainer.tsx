@@ -38,7 +38,7 @@ export const HomeItemsContainer = (props: {
                         }
                       </div>
                       <p className={styles.itemName}>{item.name}</p>
-                      <p className={styles.count}>{`貸出回数 ${item.current_count} 回`}</p>
+                      <p className={styles.count}>{`レンタル ${item.current_count} 回目`}</p>
                       <div className={styles.priceArea}>
                         <span className='text-red-400'>{item.current_price != null ? numberToPriceCustomer(item.current_price) : ""}</span>
                         <span style={{fontSize: "8px", margin: "0 6px 0 2px"}}>(税込)</span>
