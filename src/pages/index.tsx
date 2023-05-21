@@ -2,7 +2,7 @@ import { HomeItemsContainer } from '@/components/HomeItemsContainer'
 import { SlideBunner } from '@/components/slideanner/SlideBanner'
 
 import { gql } from '@apollo/client'
-import { useGetItemsTestQuery, useGetRecommendedItemsForHomeQuery, useGetNewArrivalItemsQuery } from '../libs/apollo/graphql'
+import { useGetRecommendedItemsForHomeQuery, useGetNewArrivalItemsQuery } from '../libs/apollo/graphql'
 import { Layout } from '@/components/customer/Layout'
 
 export default function Home() {
