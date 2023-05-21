@@ -5,15 +5,18 @@ import styles from "./paymentConfirm.module.scss"
 import { addTax, numberToPrice, numberToPriceCustomer } from "@/logic/numberFormatter";
 import { calcTotalAmount } from "@/pages/cart";
 import PaymentFormContainer from "../paymentForm/PaymentFormContainer";
+import { CreateOrderMutationVariables } from "@/libs/apollo/graphql";
 
 interface PaymentConfirmProps {
   cartItems: CartItem[];
+  createOrderAndUpdateItems: (createOrderVariables: CreateOrderMutationVariables) => Promise<void>;
 }
 
-export default function PaymentConfirm({cartItems}: PaymentConfirmProps) {
+export default function PaymentConfirm({cartItems, createOrderAndUpdateItems}: PaymentConfirmProps) {
 
   const totalAmount = calcTotalAmount(cartItems);
 
+  // FIXME: 配送料定義から取得
   const shippingFee = 1400;
   const totalAmountIncludesShippingFee: number = Math.floor(addTax(totalAmount) + shippingFee);
 
@@ -58,7 +61,11 @@ export default function PaymentConfirm({cartItems}: PaymentConfirmProps) {
         </div>
         <div className={styles.formArea}>
           <h2>決済・配送情報の入力</h2>
-          <PaymentFormContainer amount={totalAmountIncludesShippingFee}/>
+          <PaymentFormContainer 
+            amount={totalAmountIncludesShippingFee} 
+            cartItems={cartItems} 
+            createOrderAndUpdateItems={createOrderAndUpdateItems}
+          />
         </div>
       </div>
     </div>
