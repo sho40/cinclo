@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import styles from "./cartItem.module.scss"
-import { numberToPriceCustomer } from "@/logic/numberFormatter";
+import { numberToPrice, numberToPriceCustomer } from "@/logic/numberFormatter";
 import {
   faXmark
 } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +14,11 @@ interface CartItemProps {
 }
 
 const discountPercentCalc = (currentPrice: number, regularPrice: number) => {
-  return `${ ( 1 - (currentPrice / regularPrice) ) * 100 }%`
+  return `${ Math.floor(( 1 - (currentPrice / regularPrice) ) * 100) }%`
+}
+
+const getDiscountAmount = (currentPrice: number, regularPrice: number) => {
+  return regularPrice - currentPrice
 }
 
 export const CartItemComponent = ({item, canDelete, handleRemoveItem}: CartItemProps) => {
@@ -52,8 +56,10 @@ export const CartItemComponent = ({item, canDelete, handleRemoveItem}: CartItemP
           )}
         </div>
         <div className={styles.price}>
-          <span className={styles.currentPrice}>{numberToPriceCustomer(item.current_price)}</span>
-          <span className={styles.discountInfo}>{item.regular_price != null ? `(${discountPercentCalc(item.current_price, item.regular_price)}引き)` : ""}</span>
+          <div><span className={styles.currentPrice}>{numberToPrice(item.current_price)}</span></div>
+          <span className={styles.discountInfo}>{item.regular_price != null ? `(${discountPercentCalc(item.current_price, item.regular_price)}off)` : ""}</span>
+          <span>{` -`}</span>
+          <span style={{fontSize: "12px",}} className='text-red-400'>{item.regular_price != null ? `${numberToPrice(getDiscountAmount(item.current_price, item.regular_price))} (レンタル${item.current_count}回目割引)`: ""}</span>
         </div>
       </div>
     </div>
