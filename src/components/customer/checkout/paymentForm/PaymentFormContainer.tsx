@@ -12,12 +12,11 @@ import { CartItem, cartItemListState } from "@/atoms/CartAtom"
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY ?? "");
 
 interface PaymentFormContainer {
-  cartItems: CartItem[];
   amount: number;
   createOrderAndUpdateItems: (createOrderVariables: CreateOrderMutationVariables) => Promise<void>;
 }
 
-export default function PaymentFormContainer({cartItems, amount, createOrderAndUpdateItems}: PaymentFormContainer) {
+export default function PaymentFormContainer({amount, createOrderAndUpdateItems}: PaymentFormContainer) {
 
   const [piClientSecret, setPiClientSecret] = useState<string>('')
   useEffect(() => {
@@ -47,7 +46,6 @@ export default function PaymentFormContainer({cartItems, amount, createOrderAndU
     <div className={styles.container}>
       <Elements stripe={stripePromise} options={{ clientSecret: piClientSecret }}>
         <PaymentForm 
-          cartItems={cartItems} 
           amount={amount}
           createOrderAndUpdateItems={createOrderAndUpdateItems}
         />
@@ -71,12 +69,11 @@ interface CheckoutInfo {
 }
 
 interface PaymentFormProps {
-  cartItems: CartItem[];
   amount: number;
   createOrderAndUpdateItems: (createOrderVariables: CreateOrderMutationVariables) => Promise<void>;
 }
 
-const PaymentForm = ({cartItems, amount, createOrderAndUpdateItems}: PaymentFormProps) => {
+const PaymentForm = ({amount, createOrderAndUpdateItems}: PaymentFormProps) => {
   const router = useRouter();
   const setCartItemList = useSetRecoilState(cartItemListState);
 

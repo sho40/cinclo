@@ -17,12 +17,20 @@ const discountPercentCalc = (currentPrice: number, regularPrice: number) => {
   return `${ Math.floor(( 1 - (currentPrice / regularPrice) ) * 100) }%`
 }
 
-const getDiscountAmount = (currentPrice: number, regularPrice: number) => {
-  return regularPrice - currentPrice
+// const getDiscountAmount = (currentPrice: number, regularPrice: number) => {
+//   return regularPrice - currentPrice
+// }
+
+const getDiscountAmount = (regularPrice: number | undefined | null, currentPrice: number) => {
+  if (regularPrice == null) return undefined;
+  // 1回目は定価の80%off
+  const firstPrice = regularPrice * .2;
+  return firstPrice - currentPrice;
 }
 
 export const CartItemComponent = ({item, canDelete, handleRemoveItem}: CartItemProps) => {
   const displayImageurl = item.images.length > 0 ? item.images[0].url : undefined;
+  const discountAmount = getDiscountAmount(item.regular_price, item.current_price);
 
   return (
     <div className={styles.itemContainer}>
@@ -56,10 +64,8 @@ export const CartItemComponent = ({item, canDelete, handleRemoveItem}: CartItemP
           )}
         </div>
         <div className={styles.price}>
-          <div><span className={styles.currentPrice}>{numberToPrice(item.current_price)}</span></div>
-          <span className={styles.discountInfo}>{item.regular_price != null ? `(${discountPercentCalc(item.current_price, item.regular_price)}off)` : ""}</span>
-          <span>{` -`}</span>
-          <span style={{fontSize: "12px",}} className='text-red-400'>{item.regular_price != null ? `${numberToPrice(getDiscountAmount(item.current_price, item.regular_price))} (レンタル${item.current_count}回目割引)`: ""}</span>
+          <div><span className={styles.currentPrice}>{numberToPriceCustomer(item.current_price)}</span><span style={{fontSize: "8px", paddingLeft: "2px"}}>{"(税込)"}</span></div>
+          <div><span style={{fontSize: "11px",}} className='text-red-400'>{`定価から80%off ${discountAmount != null && item.current_count > 1 ? `+ ${numberToPrice(discountAmount)}引き(レンタル${item.current_count}回目割引)` : ""}`}</span></div>
         </div>
       </div>
     </div>
