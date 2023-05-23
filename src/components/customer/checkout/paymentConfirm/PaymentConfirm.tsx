@@ -63,7 +63,6 @@ export default function PaymentConfirm({cartItems, createOrderAndUpdateItems}: P
           <h2>決済・配送情報の入力</h2>
           <PaymentFormContainer 
             amount={totalAmountIncludesShippingFee} 
-            cartItems={cartItems} 
             createOrderAndUpdateItems={createOrderAndUpdateItems}
           />
         </div>

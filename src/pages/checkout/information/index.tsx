@@ -31,7 +31,7 @@ export type CheckoutInfo = {
 */
 const updateItemPrice = (currentPrice: number, nextCount: number): number => {
   if (nextCount < 15) {
-    const nextPrice = currentPrice * 0.9;
+    const nextPrice = currentPrice * 0.95;
     return Math.ceil(nextPrice);
   } else if (nextCount === 15) {
     const nextPrice = currentPrice * 0.5;
