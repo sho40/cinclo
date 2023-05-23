@@ -1,0 +1,36 @@
+$table-border: 1px solid rgba(55, 65, 81);
+
+.itemListTable {
+
+  table {
+    table-layout: auto;
+    width: 100%;
+    border: $table-border;
+  }
+
+  th {
+    padding: 20px 0;
+    border: $table-border;
+  }
+
+  td {
+    text-align: center;
+    padding: 10px 0;
+    border: $table-border;
+  }
+
+  img {
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+}
+
+.detailButton {
+  button {
+    min-width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    margin: 0 auto;
+  }
+}
