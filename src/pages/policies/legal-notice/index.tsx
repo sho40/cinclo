@@ -19,7 +19,7 @@ export default function LegalNotice() {
           </li>
           <li>
             <h3>所在地</h3>
-            <p>東京都渋谷区道玄坂1丁目10番8号渋谷道玄坂東急ビル2F-C</p>
+            <p>埼玉県飯能市双柳802-113</p>
           </li>
           <li>
             <h3>お客様サポート窓口</h3>
