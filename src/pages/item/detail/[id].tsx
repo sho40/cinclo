@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 import { gql } from '@apollo/client';
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { addApolloState, initializeApollo } from "@/libs/apollo/apolloClient";
-import { GetItemCustomerDocument, GetItemCustomerQuery, GetItemIdListDocument, GetItemIdListQuery, ItemDetailFragment, Items, useGetItemCustomerQuery } from "@/libs/apollo/graphql";
+import { GetItemCustomerQuery, useGetItemCustomerQuery } from "@/libs/apollo/graphql";
 import { Layout } from '@/components/customer/Layout'
 import styles from "./itemDetail.module.scss"
 import { numberToPriceCustomer } from "@/logic/numberFormatter";
