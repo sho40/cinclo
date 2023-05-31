@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <Layout>
-      <GenderSwitch />
+      {/* <GenderSwitch /> */}
       <SlideBunner />
       <div className='px-2'>
         <Recommend />

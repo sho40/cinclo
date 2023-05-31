@@ -2161,10 +2161,6 @@ export type Orders = {
   /** An aggregate relationship */
   items_aggregate: Order_Item_Relations_Aggregate;
   mail_address: Scalars['String'];
-  /** An array relationship */
-  order_details: Array<Order_Item_Relations>;
-  /** An aggregate relationship */
-  order_details_aggregate: Order_Item_Relations_Aggregate;
   order_status: Scalars['Int'];
   phone_number?: Maybe<Scalars['String']>;
   specified_date?: Maybe<Scalars['String']>;
@@ -2184,26 +2180,6 @@ export type OrdersItemsArgs = {
 
 /** 注文管理 */
 export type OrdersItems_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Order_Item_Relations_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Item_Relations_Order_By>>;
-  where?: InputMaybe<Order_Item_Relations_Bool_Exp>;
-};
-
-
-/** 注文管理 */
-export type OrdersOrder_DetailsArgs = {
-  distinct_on?: InputMaybe<Array<Order_Item_Relations_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Order_Item_Relations_Order_By>>;
-  where?: InputMaybe<Order_Item_Relations_Bool_Exp>;
-};
-
-
-/** 注文管理 */
-export type OrdersOrder_Details_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Order_Item_Relations_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
@@ -2259,7 +2235,6 @@ export type Orders_Bool_Exp = {
   id?: InputMaybe<String_Comparison_Exp>;
   items?: InputMaybe<Order_Item_Relations_Bool_Exp>;
   mail_address?: InputMaybe<String_Comparison_Exp>;
-  order_details?: InputMaybe<Order_Item_Relations_Bool_Exp>;
   order_status?: InputMaybe<Int_Comparison_Exp>;
   phone_number?: InputMaybe<String_Comparison_Exp>;
   specified_date?: InputMaybe<String_Comparison_Exp>;
@@ -2286,7 +2261,6 @@ export type Orders_Insert_Input = {
   id?: InputMaybe<Scalars['String']>;
   items?: InputMaybe<Order_Item_Relations_Arr_Rel_Insert_Input>;
   mail_address?: InputMaybe<Scalars['String']>;
-  order_details?: InputMaybe<Order_Item_Relations_Arr_Rel_Insert_Input>;
   order_status?: InputMaybe<Scalars['Int']>;
   phone_number?: InputMaybe<Scalars['String']>;
   specified_date?: InputMaybe<Scalars['String']>;
@@ -2352,7 +2326,6 @@ export type Orders_Order_By = {
   id?: InputMaybe<Order_By>;
   items_aggregate?: InputMaybe<Order_Item_Relations_Aggregate_Order_By>;
   mail_address?: InputMaybe<Order_By>;
-  order_details_aggregate?: InputMaybe<Order_Item_Relations_Aggregate_Order_By>;
   order_status?: InputMaybe<Order_By>;
   phone_number?: InputMaybe<Order_By>;
   specified_date?: InputMaybe<Order_By>;
@@ -3558,6 +3531,38 @@ export type GetHomeBannerImagesQuery = (
   )> }
 );
 
+export type GetAllItemCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllItemCountQuery = (
+  { __typename?: 'query_root' }
+  & { items_aggregate: (
+    { __typename?: 'items_aggregate' }
+    & { aggregate?: Maybe<(
+      { __typename?: 'items_aggregate_fields' }
+      & Pick<Items_Aggregate_Fields, 'count'>
+    )> }
+  ) }
+);
+
+export type GetItemListByLimitQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetItemListByLimitQuery = (
+  { __typename?: 'query_root' }
+  & { items: Array<(
+    { __typename?: 'items' }
+    & Pick<Items, 'current_count' | 'current_price' | 'id' | 'gender' | 'name' | 'next_lending_date' | 'regular_price'>
+    & { images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'id' | 'url'>
+    )> }
+  )> }
+);
+
 export type GetItemIdListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -4580,6 +4585,88 @@ export function useGetHomeBannerImagesLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type GetHomeBannerImagesQueryHookResult = ReturnType<typeof useGetHomeBannerImagesQuery>;
 export type GetHomeBannerImagesLazyQueryHookResult = ReturnType<typeof useGetHomeBannerImagesLazyQuery>;
 export type GetHomeBannerImagesQueryResult = Apollo.QueryResult<GetHomeBannerImagesQuery, GetHomeBannerImagesQueryVariables>;
+export const GetAllItemCountDocument = gql`
+    query GetAllItemCount {
+  items_aggregate {
+    aggregate {
+      count(columns: id)
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllItemCountQuery__
+ *
+ * To run a query within a React component, call `useGetAllItemCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllItemCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllItemCountQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllItemCountQuery(baseOptions?: Apollo.QueryHookOptions<GetAllItemCountQuery, GetAllItemCountQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllItemCountQuery, GetAllItemCountQueryVariables>(GetAllItemCountDocument, options);
+      }
+export function useGetAllItemCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllItemCountQuery, GetAllItemCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllItemCountQuery, GetAllItemCountQueryVariables>(GetAllItemCountDocument, options);
+        }
+export type GetAllItemCountQueryHookResult = ReturnType<typeof useGetAllItemCountQuery>;
+export type GetAllItemCountLazyQueryHookResult = ReturnType<typeof useGetAllItemCountLazyQuery>;
+export type GetAllItemCountQueryResult = Apollo.QueryResult<GetAllItemCountQuery, GetAllItemCountQueryVariables>;
+export const GetItemListByLimitDocument = gql`
+    query GetItemListByLimit($limit: Int, $offset: Int) {
+  items(limit: $limit, offset: $offset, order_by: {created_at: desc}) {
+    current_count
+    current_price
+    id
+    gender
+    images(limit: 1) {
+      id
+      url
+    }
+    name
+    next_lending_date
+    regular_price
+  }
+}
+    `;
+
+/**
+ * __useGetItemListByLimitQuery__
+ *
+ * To run a query within a React component, call `useGetItemListByLimitQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetItemListByLimitQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetItemListByLimitQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useGetItemListByLimitQuery(baseOptions?: Apollo.QueryHookOptions<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>(GetItemListByLimitDocument, options);
+      }
+export function useGetItemListByLimitLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>(GetItemListByLimitDocument, options);
+        }
+export type GetItemListByLimitQueryHookResult = ReturnType<typeof useGetItemListByLimitQuery>;
+export type GetItemListByLimitLazyQueryHookResult = ReturnType<typeof useGetItemListByLimitLazyQuery>;
+export type GetItemListByLimitQueryResult = Apollo.QueryResult<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>;
 export const GetItemIdListDocument = gql`
     query GetItemIdList {
   items {
