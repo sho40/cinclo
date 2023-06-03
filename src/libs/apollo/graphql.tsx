@@ -3563,6 +3563,21 @@ export type GetItemListByLimitQuery = (
   )> }
 );
 
+export type GetAllItemListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllItemListQuery = (
+  { __typename?: 'query_root' }
+  & { items: Array<(
+    { __typename?: 'items' }
+    & Pick<Items, 'current_count' | 'current_price' | 'id' | 'gender' | 'name' | 'next_lending_date' | 'regular_price'>
+    & { images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'id' | 'url'>
+    )> }
+  )> }
+);
+
 export type GetItemIdListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -4667,6 +4682,50 @@ export function useGetItemListByLimitLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type GetItemListByLimitQueryHookResult = ReturnType<typeof useGetItemListByLimitQuery>;
 export type GetItemListByLimitLazyQueryHookResult = ReturnType<typeof useGetItemListByLimitLazyQuery>;
 export type GetItemListByLimitQueryResult = Apollo.QueryResult<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>;
+export const GetAllItemListDocument = gql`
+    query GetAllItemList {
+  items(order_by: {created_at: desc}) {
+    current_count
+    current_price
+    id
+    gender
+    images {
+      id
+      url
+    }
+    name
+    next_lending_date
+    regular_price
+  }
+}
+    `;
+
+/**
+ * __useGetAllItemListQuery__
+ *
+ * To run a query within a React component, call `useGetAllItemListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllItemListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllItemListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllItemListQuery(baseOptions?: Apollo.QueryHookOptions<GetAllItemListQuery, GetAllItemListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllItemListQuery, GetAllItemListQueryVariables>(GetAllItemListDocument, options);
+      }
+export function useGetAllItemListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllItemListQuery, GetAllItemListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllItemListQuery, GetAllItemListQueryVariables>(GetAllItemListDocument, options);
+        }
+export type GetAllItemListQueryHookResult = ReturnType<typeof useGetAllItemListQuery>;
+export type GetAllItemListLazyQueryHookResult = ReturnType<typeof useGetAllItemListLazyQuery>;
+export type GetAllItemListQueryResult = Apollo.QueryResult<GetAllItemListQuery, GetAllItemListQueryVariables>;
 export const GetItemIdListDocument = gql`
     query GetItemIdList {
   items {
