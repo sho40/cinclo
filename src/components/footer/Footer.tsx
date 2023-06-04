@@ -18,6 +18,9 @@ export default function Footer() {
           <li>
             <ul className={styles.links}>
               <li>
+                <Link href="/guide/">CINCLOについて</Link>
+              </li>
+              <li>
                 <Link href="/policies/legal-notice/">特定商法取引法に基づく表記</Link>
               </li>
               <li>
