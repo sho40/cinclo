@@ -40,7 +40,7 @@
     }
 
     .shippingFee {
-      table, tr, th, td {
+      table, th, td {
         border: .5px solid #666;
       }
       table {
@@ -54,6 +54,7 @@
         padding: 10px 0;
       }
       td {
+        padding: 5px 0;
         background-color: #FFFFFB;
       }
     }

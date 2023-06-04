@@ -39,7 +39,7 @@ export default function Guide() {
 
         <section>
           <div className={styles.guideImage}>
-            <table>
+            <table border={1}>
               <tr>
                 <td>
                   <div>①</div>
