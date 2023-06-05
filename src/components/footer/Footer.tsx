@@ -30,7 +30,7 @@ export default function Footer() {
                 <Link href="/policies/security-policy/">セキュリティーポリシー</Link>
               </li>
               <li>
-                <Link href="/">利用規約</Link>
+                <Link href="/policies/terms-of-service/">利用規約</Link>
               </li>
               <li>
                 <Link href="/policies/flea-market/">古物営業法に基づく表示</Link>
