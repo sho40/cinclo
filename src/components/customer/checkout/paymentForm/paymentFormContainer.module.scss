@@ -21,6 +21,11 @@
   }
 
   .specifiedArraivalDate {
+
+    input {
+      -webkit-appearance: none;
+    }
+
     .subText {
       margin-top: 5px;
       font-size: 12px;

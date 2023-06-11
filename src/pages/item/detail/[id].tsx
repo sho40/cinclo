@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 import { gql } from '@apollo/client';
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { addApolloState, initializeApollo } from "@/libs/apollo/apolloClient";
-import { GetItemCustomerDocument, GetItemCustomerQuery, GetItemIdListDocument, GetItemIdListQuery, ItemDetailFragment, Items, useGetItemCustomerQuery } from "@/libs/apollo/graphql";
+import { GetItemCustomerQuery, useGetItemCustomerQuery } from "@/libs/apollo/graphql";
 import { Layout } from '@/components/customer/Layout'
 import styles from "./itemDetail.module.scss"
 import { numberToPriceCustomer } from "@/logic/numberFormatter";
@@ -127,8 +125,8 @@ export default function ItemDetail() {
             ※送料はチェックアウト時に計算されます。
           </p>
           <div className={styles.rentalCount}>
-            <span>レンタル回数:</span>
-            <span className="text-red-400" style={{marginLeft: "5px"}}>{item.current_count}</span>
+            <span>レンタル</span>
+            <span className="text-red-400" style={{margin: "0 5px"}}>{item.current_count}</span>
             <span>回目</span>
           </div>
           <div className={classNames(styles.addCartButton, {[styles.cartButtonDisable]: isCartDisabled})}>

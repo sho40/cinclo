@@ -1153,6 +1153,13 @@ export type Items_Mutation_Response = {
   returning: Array<Items>;
 };
 
+/** input type for inserting object relation for remote table "items" */
+export type Items_Obj_Rel_Insert_Input = {
+  data: Items_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Items_On_Conflict>;
+};
+
 /** on_conflict condition type for table "items" */
 export type Items_On_Conflict = {
   constraint: Items_Constraint;
@@ -1381,6 +1388,14 @@ export type Mutation_Root = {
   delete_items?: Maybe<Items_Mutation_Response>;
   /** delete single row from the table: "items" */
   delete_items_by_pk?: Maybe<Items>;
+  /** delete data from the table: "order_item_relations" */
+  delete_order_item_relations?: Maybe<Order_Item_Relations_Mutation_Response>;
+  /** delete single row from the table: "order_item_relations" */
+  delete_order_item_relations_by_pk?: Maybe<Order_Item_Relations>;
+  /** delete data from the table: "orders" */
+  delete_orders?: Maybe<Orders_Mutation_Response>;
+  /** delete single row from the table: "orders" */
+  delete_orders_by_pk?: Maybe<Orders>;
   /** delete data from the table: "sub_categories" */
   delete_sub_categories?: Maybe<Sub_Categories_Mutation_Response>;
   /** delete single row from the table: "sub_categories" */
@@ -1405,6 +1420,14 @@ export type Mutation_Root = {
   insert_items?: Maybe<Items_Mutation_Response>;
   /** insert a single row into the table: "items" */
   insert_items_one?: Maybe<Items>;
+  /** insert data into the table: "order_item_relations" */
+  insert_order_item_relations?: Maybe<Order_Item_Relations_Mutation_Response>;
+  /** insert a single row into the table: "order_item_relations" */
+  insert_order_item_relations_one?: Maybe<Order_Item_Relations>;
+  /** insert data into the table: "orders" */
+  insert_orders?: Maybe<Orders_Mutation_Response>;
+  /** insert a single row into the table: "orders" */
+  insert_orders_one?: Maybe<Orders>;
   /** insert data into the table: "sub_categories" */
   insert_sub_categories?: Maybe<Sub_Categories_Mutation_Response>;
   /** insert a single row into the table: "sub_categories" */
@@ -1429,6 +1452,14 @@ export type Mutation_Root = {
   update_items?: Maybe<Items_Mutation_Response>;
   /** update single row of the table: "items" */
   update_items_by_pk?: Maybe<Items>;
+  /** update data of the table: "order_item_relations" */
+  update_order_item_relations?: Maybe<Order_Item_Relations_Mutation_Response>;
+  /** update single row of the table: "order_item_relations" */
+  update_order_item_relations_by_pk?: Maybe<Order_Item_Relations>;
+  /** update data of the table: "orders" */
+  update_orders?: Maybe<Orders_Mutation_Response>;
+  /** update single row of the table: "orders" */
+  update_orders_by_pk?: Maybe<Orders>;
   /** update data of the table: "sub_categories" */
   update_sub_categories?: Maybe<Sub_Categories_Mutation_Response>;
   /** update single row of the table: "sub_categories" */
@@ -1493,6 +1524,30 @@ export type Mutation_RootDelete_ItemsArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Items_By_PkArgs = {
   id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Order_Item_RelationsArgs = {
+  where: Order_Item_Relations_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Order_Item_Relations_By_PkArgs = {
+  id: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_OrdersArgs = {
+  where: Orders_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Orders_By_PkArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -1575,6 +1630,34 @@ export type Mutation_RootInsert_ItemsArgs = {
 export type Mutation_RootInsert_Items_OneArgs = {
   object: Items_Insert_Input;
   on_conflict?: InputMaybe<Items_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Order_Item_RelationsArgs = {
+  objects: Array<Order_Item_Relations_Insert_Input>;
+  on_conflict?: InputMaybe<Order_Item_Relations_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Order_Item_Relations_OneArgs = {
+  object: Order_Item_Relations_Insert_Input;
+  on_conflict?: InputMaybe<Order_Item_Relations_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_OrdersArgs = {
+  objects: Array<Orders_Insert_Input>;
+  on_conflict?: InputMaybe<Orders_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Orders_OneArgs = {
+  object: Orders_Insert_Input;
+  on_conflict?: InputMaybe<Orders_On_Conflict>;
 };
 
 
@@ -1673,6 +1756,38 @@ export type Mutation_RootUpdate_Items_By_PkArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_Order_Item_RelationsArgs = {
+  _inc?: InputMaybe<Order_Item_Relations_Inc_Input>;
+  _set?: InputMaybe<Order_Item_Relations_Set_Input>;
+  where: Order_Item_Relations_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Order_Item_Relations_By_PkArgs = {
+  _inc?: InputMaybe<Order_Item_Relations_Inc_Input>;
+  _set?: InputMaybe<Order_Item_Relations_Set_Input>;
+  pk_columns: Order_Item_Relations_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_OrdersArgs = {
+  _inc?: InputMaybe<Orders_Inc_Input>;
+  _set?: InputMaybe<Orders_Set_Input>;
+  where: Orders_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Orders_By_PkArgs = {
+  _inc?: InputMaybe<Orders_Inc_Input>;
+  _set?: InputMaybe<Orders_Set_Input>;
+  pk_columns: Orders_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Sub_CategoriesArgs = {
   _inc?: InputMaybe<Sub_Categories_Inc_Input>;
   _set?: InputMaybe<Sub_Categories_Set_Input>;
@@ -1702,6 +1817,631 @@ export enum Order_By {
   /** in descending order, nulls last */
   DescNullsLast = 'desc_nulls_last'
 }
+
+/** 注文時のアイテムの詳細を保存 */
+export type Order_Item_Relations = {
+  __typename?: 'order_item_relations';
+  amount: Scalars['Int'];
+  count: Scalars['Int'];
+  id: Scalars['String'];
+  /** An object relationship */
+  item?: Maybe<Items>;
+  item_id: Scalars['Int'];
+  /** An object relationship */
+  order?: Maybe<Orders>;
+  order_id: Scalars['String'];
+};
+
+/** aggregated selection of "order_item_relations" */
+export type Order_Item_Relations_Aggregate = {
+  __typename?: 'order_item_relations_aggregate';
+  aggregate?: Maybe<Order_Item_Relations_Aggregate_Fields>;
+  nodes: Array<Order_Item_Relations>;
+};
+
+/** aggregate fields of "order_item_relations" */
+export type Order_Item_Relations_Aggregate_Fields = {
+  __typename?: 'order_item_relations_aggregate_fields';
+  avg?: Maybe<Order_Item_Relations_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Order_Item_Relations_Max_Fields>;
+  min?: Maybe<Order_Item_Relations_Min_Fields>;
+  stddev?: Maybe<Order_Item_Relations_Stddev_Fields>;
+  stddev_pop?: Maybe<Order_Item_Relations_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Order_Item_Relations_Stddev_Samp_Fields>;
+  sum?: Maybe<Order_Item_Relations_Sum_Fields>;
+  var_pop?: Maybe<Order_Item_Relations_Var_Pop_Fields>;
+  var_samp?: Maybe<Order_Item_Relations_Var_Samp_Fields>;
+  variance?: Maybe<Order_Item_Relations_Variance_Fields>;
+};
+
+
+/** aggregate fields of "order_item_relations" */
+export type Order_Item_Relations_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Order_Item_Relations_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "order_item_relations" */
+export type Order_Item_Relations_Aggregate_Order_By = {
+  avg?: InputMaybe<Order_Item_Relations_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Order_Item_Relations_Max_Order_By>;
+  min?: InputMaybe<Order_Item_Relations_Min_Order_By>;
+  stddev?: InputMaybe<Order_Item_Relations_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Order_Item_Relations_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Order_Item_Relations_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Order_Item_Relations_Sum_Order_By>;
+  var_pop?: InputMaybe<Order_Item_Relations_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Order_Item_Relations_Var_Samp_Order_By>;
+  variance?: InputMaybe<Order_Item_Relations_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "order_item_relations" */
+export type Order_Item_Relations_Arr_Rel_Insert_Input = {
+  data: Array<Order_Item_Relations_Insert_Input>;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Order_Item_Relations_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Order_Item_Relations_Avg_Fields = {
+  __typename?: 'order_item_relations_avg_fields';
+  amount?: Maybe<Scalars['Float']>;
+  count?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "order_item_relations" */
+export type Order_Item_Relations_Avg_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "order_item_relations". All fields are combined with a logical 'AND'. */
+export type Order_Item_Relations_Bool_Exp = {
+  _and?: InputMaybe<Array<Order_Item_Relations_Bool_Exp>>;
+  _not?: InputMaybe<Order_Item_Relations_Bool_Exp>;
+  _or?: InputMaybe<Array<Order_Item_Relations_Bool_Exp>>;
+  amount?: InputMaybe<Int_Comparison_Exp>;
+  count?: InputMaybe<Int_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  item?: InputMaybe<Items_Bool_Exp>;
+  item_id?: InputMaybe<Int_Comparison_Exp>;
+  order?: InputMaybe<Orders_Bool_Exp>;
+  order_id?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "order_item_relations" */
+export enum Order_Item_Relations_Constraint {
+  /** unique or primary key constraint */
+  OrderItemRelationsPkey = 'order_item_relations_pkey'
+}
+
+/** input type for incrementing numeric columns in table "order_item_relations" */
+export type Order_Item_Relations_Inc_Input = {
+  amount?: InputMaybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']>;
+  item_id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "order_item_relations" */
+export type Order_Item_Relations_Insert_Input = {
+  amount?: InputMaybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  item?: InputMaybe<Items_Obj_Rel_Insert_Input>;
+  item_id?: InputMaybe<Scalars['Int']>;
+  order?: InputMaybe<Orders_Obj_Rel_Insert_Input>;
+  order_id?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Order_Item_Relations_Max_Fields = {
+  __typename?: 'order_item_relations_max_fields';
+  amount?: Maybe<Scalars['Int']>;
+  count?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['String']>;
+  item_id?: Maybe<Scalars['Int']>;
+  order_id?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "order_item_relations" */
+export type Order_Item_Relations_Max_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Order_Item_Relations_Min_Fields = {
+  __typename?: 'order_item_relations_min_fields';
+  amount?: Maybe<Scalars['Int']>;
+  count?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['String']>;
+  item_id?: Maybe<Scalars['Int']>;
+  order_id?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "order_item_relations" */
+export type Order_Item_Relations_Min_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "order_item_relations" */
+export type Order_Item_Relations_Mutation_Response = {
+  __typename?: 'order_item_relations_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Order_Item_Relations>;
+};
+
+/** on_conflict condition type for table "order_item_relations" */
+export type Order_Item_Relations_On_Conflict = {
+  constraint: Order_Item_Relations_Constraint;
+  update_columns?: Array<Order_Item_Relations_Update_Column>;
+  where?: InputMaybe<Order_Item_Relations_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "order_item_relations". */
+export type Order_Item_Relations_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  item?: InputMaybe<Items_Order_By>;
+  item_id?: InputMaybe<Order_By>;
+  order?: InputMaybe<Orders_Order_By>;
+  order_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: order_item_relations */
+export type Order_Item_Relations_Pk_Columns_Input = {
+  id: Scalars['String'];
+};
+
+/** select columns of table "order_item_relations" */
+export enum Order_Item_Relations_Select_Column {
+  /** column name */
+  Amount = 'amount',
+  /** column name */
+  Count = 'count',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ItemId = 'item_id',
+  /** column name */
+  OrderId = 'order_id'
+}
+
+/** input type for updating data in table "order_item_relations" */
+export type Order_Item_Relations_Set_Input = {
+  amount?: InputMaybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['String']>;
+  item_id?: InputMaybe<Scalars['Int']>;
+  order_id?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Order_Item_Relations_Stddev_Fields = {
+  __typename?: 'order_item_relations_stddev_fields';
+  amount?: Maybe<Scalars['Float']>;
+  count?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "order_item_relations" */
+export type Order_Item_Relations_Stddev_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Order_Item_Relations_Stddev_Pop_Fields = {
+  __typename?: 'order_item_relations_stddev_pop_fields';
+  amount?: Maybe<Scalars['Float']>;
+  count?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "order_item_relations" */
+export type Order_Item_Relations_Stddev_Pop_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Order_Item_Relations_Stddev_Samp_Fields = {
+  __typename?: 'order_item_relations_stddev_samp_fields';
+  amount?: Maybe<Scalars['Float']>;
+  count?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "order_item_relations" */
+export type Order_Item_Relations_Stddev_Samp_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Order_Item_Relations_Sum_Fields = {
+  __typename?: 'order_item_relations_sum_fields';
+  amount?: Maybe<Scalars['Int']>;
+  count?: Maybe<Scalars['Int']>;
+  item_id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "order_item_relations" */
+export type Order_Item_Relations_Sum_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "order_item_relations" */
+export enum Order_Item_Relations_Update_Column {
+  /** column name */
+  Amount = 'amount',
+  /** column name */
+  Count = 'count',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  ItemId = 'item_id',
+  /** column name */
+  OrderId = 'order_id'
+}
+
+/** aggregate var_pop on columns */
+export type Order_Item_Relations_Var_Pop_Fields = {
+  __typename?: 'order_item_relations_var_pop_fields';
+  amount?: Maybe<Scalars['Float']>;
+  count?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "order_item_relations" */
+export type Order_Item_Relations_Var_Pop_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Order_Item_Relations_Var_Samp_Fields = {
+  __typename?: 'order_item_relations_var_samp_fields';
+  amount?: Maybe<Scalars['Float']>;
+  count?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "order_item_relations" */
+export type Order_Item_Relations_Var_Samp_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Order_Item_Relations_Variance_Fields = {
+  __typename?: 'order_item_relations_variance_fields';
+  amount?: Maybe<Scalars['Float']>;
+  count?: Maybe<Scalars['Float']>;
+  item_id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "order_item_relations" */
+export type Order_Item_Relations_Variance_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  count?: InputMaybe<Order_By>;
+  item_id?: InputMaybe<Order_By>;
+};
+
+/** 注文管理 */
+export type Orders = {
+  __typename?: 'orders';
+  amount: Scalars['Int'];
+  created_at: Scalars['timestamptz'];
+  customer_name: Scalars['String'];
+  id: Scalars['String'];
+  /** An array relationship */
+  items: Array<Order_Item_Relations>;
+  /** An aggregate relationship */
+  items_aggregate: Order_Item_Relations_Aggregate;
+  mail_address: Scalars['String'];
+  order_status: Scalars['Int'];
+  phone_number?: Maybe<Scalars['String']>;
+  specified_date?: Maybe<Scalars['String']>;
+  stripe_checkout_id?: Maybe<Scalars['String']>;
+};
+
+
+/** 注文管理 */
+export type OrdersItemsArgs = {
+  distinct_on?: InputMaybe<Array<Order_Item_Relations_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Item_Relations_Order_By>>;
+  where?: InputMaybe<Order_Item_Relations_Bool_Exp>;
+};
+
+
+/** 注文管理 */
+export type OrdersItems_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Order_Item_Relations_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Item_Relations_Order_By>>;
+  where?: InputMaybe<Order_Item_Relations_Bool_Exp>;
+};
+
+/** aggregated selection of "orders" */
+export type Orders_Aggregate = {
+  __typename?: 'orders_aggregate';
+  aggregate?: Maybe<Orders_Aggregate_Fields>;
+  nodes: Array<Orders>;
+};
+
+/** aggregate fields of "orders" */
+export type Orders_Aggregate_Fields = {
+  __typename?: 'orders_aggregate_fields';
+  avg?: Maybe<Orders_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Orders_Max_Fields>;
+  min?: Maybe<Orders_Min_Fields>;
+  stddev?: Maybe<Orders_Stddev_Fields>;
+  stddev_pop?: Maybe<Orders_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Orders_Stddev_Samp_Fields>;
+  sum?: Maybe<Orders_Sum_Fields>;
+  var_pop?: Maybe<Orders_Var_Pop_Fields>;
+  var_samp?: Maybe<Orders_Var_Samp_Fields>;
+  variance?: Maybe<Orders_Variance_Fields>;
+};
+
+
+/** aggregate fields of "orders" */
+export type Orders_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Orders_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Orders_Avg_Fields = {
+  __typename?: 'orders_avg_fields';
+  amount?: Maybe<Scalars['Float']>;
+  order_status?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "orders". All fields are combined with a logical 'AND'. */
+export type Orders_Bool_Exp = {
+  _and?: InputMaybe<Array<Orders_Bool_Exp>>;
+  _not?: InputMaybe<Orders_Bool_Exp>;
+  _or?: InputMaybe<Array<Orders_Bool_Exp>>;
+  amount?: InputMaybe<Int_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamptz_Comparison_Exp>;
+  customer_name?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<String_Comparison_Exp>;
+  items?: InputMaybe<Order_Item_Relations_Bool_Exp>;
+  mail_address?: InputMaybe<String_Comparison_Exp>;
+  order_status?: InputMaybe<Int_Comparison_Exp>;
+  phone_number?: InputMaybe<String_Comparison_Exp>;
+  specified_date?: InputMaybe<String_Comparison_Exp>;
+  stripe_checkout_id?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "orders" */
+export enum Orders_Constraint {
+  /** unique or primary key constraint */
+  OrdersPkey = 'orders_pkey'
+}
+
+/** input type for incrementing numeric columns in table "orders" */
+export type Orders_Inc_Input = {
+  amount?: InputMaybe<Scalars['Int']>;
+  order_status?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "orders" */
+export type Orders_Insert_Input = {
+  amount?: InputMaybe<Scalars['Int']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  customer_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  items?: InputMaybe<Order_Item_Relations_Arr_Rel_Insert_Input>;
+  mail_address?: InputMaybe<Scalars['String']>;
+  order_status?: InputMaybe<Scalars['Int']>;
+  phone_number?: InputMaybe<Scalars['String']>;
+  specified_date?: InputMaybe<Scalars['String']>;
+  stripe_checkout_id?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Orders_Max_Fields = {
+  __typename?: 'orders_max_fields';
+  amount?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  customer_name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  mail_address?: Maybe<Scalars['String']>;
+  order_status?: Maybe<Scalars['Int']>;
+  phone_number?: Maybe<Scalars['String']>;
+  specified_date?: Maybe<Scalars['String']>;
+  stripe_checkout_id?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Orders_Min_Fields = {
+  __typename?: 'orders_min_fields';
+  amount?: Maybe<Scalars['Int']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  customer_name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['String']>;
+  mail_address?: Maybe<Scalars['String']>;
+  order_status?: Maybe<Scalars['Int']>;
+  phone_number?: Maybe<Scalars['String']>;
+  specified_date?: Maybe<Scalars['String']>;
+  stripe_checkout_id?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "orders" */
+export type Orders_Mutation_Response = {
+  __typename?: 'orders_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Orders>;
+};
+
+/** input type for inserting object relation for remote table "orders" */
+export type Orders_Obj_Rel_Insert_Input = {
+  data: Orders_Insert_Input;
+  /** upsert condition */
+  on_conflict?: InputMaybe<Orders_On_Conflict>;
+};
+
+/** on_conflict condition type for table "orders" */
+export type Orders_On_Conflict = {
+  constraint: Orders_Constraint;
+  update_columns?: Array<Orders_Update_Column>;
+  where?: InputMaybe<Orders_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "orders". */
+export type Orders_Order_By = {
+  amount?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  customer_name?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  items_aggregate?: InputMaybe<Order_Item_Relations_Aggregate_Order_By>;
+  mail_address?: InputMaybe<Order_By>;
+  order_status?: InputMaybe<Order_By>;
+  phone_number?: InputMaybe<Order_By>;
+  specified_date?: InputMaybe<Order_By>;
+  stripe_checkout_id?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: orders */
+export type Orders_Pk_Columns_Input = {
+  id: Scalars['String'];
+};
+
+/** select columns of table "orders" */
+export enum Orders_Select_Column {
+  /** column name */
+  Amount = 'amount',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  CustomerName = 'customer_name',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MailAddress = 'mail_address',
+  /** column name */
+  OrderStatus = 'order_status',
+  /** column name */
+  PhoneNumber = 'phone_number',
+  /** column name */
+  SpecifiedDate = 'specified_date',
+  /** column name */
+  StripeCheckoutId = 'stripe_checkout_id'
+}
+
+/** input type for updating data in table "orders" */
+export type Orders_Set_Input = {
+  amount?: InputMaybe<Scalars['Int']>;
+  created_at?: InputMaybe<Scalars['timestamptz']>;
+  customer_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  mail_address?: InputMaybe<Scalars['String']>;
+  order_status?: InputMaybe<Scalars['Int']>;
+  phone_number?: InputMaybe<Scalars['String']>;
+  specified_date?: InputMaybe<Scalars['String']>;
+  stripe_checkout_id?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Orders_Stddev_Fields = {
+  __typename?: 'orders_stddev_fields';
+  amount?: Maybe<Scalars['Float']>;
+  order_status?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Orders_Stddev_Pop_Fields = {
+  __typename?: 'orders_stddev_pop_fields';
+  amount?: Maybe<Scalars['Float']>;
+  order_status?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Orders_Stddev_Samp_Fields = {
+  __typename?: 'orders_stddev_samp_fields';
+  amount?: Maybe<Scalars['Float']>;
+  order_status?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Orders_Sum_Fields = {
+  __typename?: 'orders_sum_fields';
+  amount?: Maybe<Scalars['Int']>;
+  order_status?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "orders" */
+export enum Orders_Update_Column {
+  /** column name */
+  Amount = 'amount',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  CustomerName = 'customer_name',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MailAddress = 'mail_address',
+  /** column name */
+  OrderStatus = 'order_status',
+  /** column name */
+  PhoneNumber = 'phone_number',
+  /** column name */
+  SpecifiedDate = 'specified_date',
+  /** column name */
+  StripeCheckoutId = 'stripe_checkout_id'
+}
+
+/** aggregate var_pop on columns */
+export type Orders_Var_Pop_Fields = {
+  __typename?: 'orders_var_pop_fields';
+  amount?: Maybe<Scalars['Float']>;
+  order_status?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Orders_Var_Samp_Fields = {
+  __typename?: 'orders_var_samp_fields';
+  amount?: Maybe<Scalars['Float']>;
+  order_status?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Orders_Variance_Fields = {
+  __typename?: 'orders_variance_fields';
+  amount?: Maybe<Scalars['Float']>;
+  order_status?: Maybe<Scalars['Float']>;
+};
 
 export type Query_Root = {
   __typename?: 'query_root';
@@ -1735,6 +2475,18 @@ export type Query_Root = {
   items_aggregate: Items_Aggregate;
   /** fetch data from the table: "items" using primary key columns */
   items_by_pk?: Maybe<Items>;
+  /** fetch data from the table: "order_item_relations" */
+  order_item_relations: Array<Order_Item_Relations>;
+  /** fetch aggregated fields from the table: "order_item_relations" */
+  order_item_relations_aggregate: Order_Item_Relations_Aggregate;
+  /** fetch data from the table: "order_item_relations" using primary key columns */
+  order_item_relations_by_pk?: Maybe<Order_Item_Relations>;
+  /** fetch data from the table: "orders" */
+  orders: Array<Orders>;
+  /** fetch aggregated fields from the table: "orders" */
+  orders_aggregate: Orders_Aggregate;
+  /** fetch data from the table: "orders" using primary key columns */
+  orders_by_pk?: Maybe<Orders>;
   /** fetch data from the table: "sub_categories" */
   sub_categories: Array<Sub_Categories>;
   /** fetch aggregated fields from the table: "sub_categories" */
@@ -1856,6 +2608,52 @@ export type Query_RootItems_AggregateArgs = {
 
 export type Query_RootItems_By_PkArgs = {
   id: Scalars['Int'];
+};
+
+
+export type Query_RootOrder_Item_RelationsArgs = {
+  distinct_on?: InputMaybe<Array<Order_Item_Relations_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Item_Relations_Order_By>>;
+  where?: InputMaybe<Order_Item_Relations_Bool_Exp>;
+};
+
+
+export type Query_RootOrder_Item_Relations_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Order_Item_Relations_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Item_Relations_Order_By>>;
+  where?: InputMaybe<Order_Item_Relations_Bool_Exp>;
+};
+
+
+export type Query_RootOrder_Item_Relations_By_PkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Query_RootOrdersArgs = {
+  distinct_on?: InputMaybe<Array<Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Orders_Order_By>>;
+  where?: InputMaybe<Orders_Bool_Exp>;
+};
+
+
+export type Query_RootOrders_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Orders_Order_By>>;
+  where?: InputMaybe<Orders_Bool_Exp>;
+};
+
+
+export type Query_RootOrders_By_PkArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -2094,6 +2892,18 @@ export type Subscription_Root = {
   items_aggregate: Items_Aggregate;
   /** fetch data from the table: "items" using primary key columns */
   items_by_pk?: Maybe<Items>;
+  /** fetch data from the table: "order_item_relations" */
+  order_item_relations: Array<Order_Item_Relations>;
+  /** fetch aggregated fields from the table: "order_item_relations" */
+  order_item_relations_aggregate: Order_Item_Relations_Aggregate;
+  /** fetch data from the table: "order_item_relations" using primary key columns */
+  order_item_relations_by_pk?: Maybe<Order_Item_Relations>;
+  /** fetch data from the table: "orders" */
+  orders: Array<Orders>;
+  /** fetch aggregated fields from the table: "orders" */
+  orders_aggregate: Orders_Aggregate;
+  /** fetch data from the table: "orders" using primary key columns */
+  orders_by_pk?: Maybe<Orders>;
   /** fetch data from the table: "sub_categories" */
   sub_categories: Array<Sub_Categories>;
   /** fetch aggregated fields from the table: "sub_categories" */
@@ -2215,6 +3025,52 @@ export type Subscription_RootItems_AggregateArgs = {
 
 export type Subscription_RootItems_By_PkArgs = {
   id: Scalars['Int'];
+};
+
+
+export type Subscription_RootOrder_Item_RelationsArgs = {
+  distinct_on?: InputMaybe<Array<Order_Item_Relations_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Item_Relations_Order_By>>;
+  where?: InputMaybe<Order_Item_Relations_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrder_Item_Relations_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Order_Item_Relations_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Order_Item_Relations_Order_By>>;
+  where?: InputMaybe<Order_Item_Relations_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrder_Item_Relations_By_PkArgs = {
+  id: Scalars['String'];
+};
+
+
+export type Subscription_RootOrdersArgs = {
+  distinct_on?: InputMaybe<Array<Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Orders_Order_By>>;
+  where?: InputMaybe<Orders_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrders_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Orders_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Orders_Order_By>>;
+  where?: InputMaybe<Orders_Bool_Exp>;
+};
+
+
+export type Subscription_RootOrders_By_PkArgs = {
+  id: Scalars['String'];
 };
 
 
@@ -2423,6 +3279,38 @@ export type CreateItemMutation = (
   )> }
 );
 
+export type GetOrderDetailQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetOrderDetailQuery = (
+  { __typename?: 'query_root' }
+  & { orders_by_pk?: Maybe<(
+    { __typename?: 'orders' }
+    & Pick<Orders, 'amount' | 'created_at' | 'customer_name' | 'id' | 'mail_address' | 'phone_number' | 'specified_date' | 'stripe_checkout_id'>
+    & { items: Array<(
+      { __typename?: 'order_item_relations' }
+      & Pick<Order_Item_Relations, 'amount' | 'count'>
+      & { item?: Maybe<(
+        { __typename?: 'items' }
+        & Pick<Items, 'name' | 'regular_price' | 'gender' | 'id'>
+      )> }
+    )> }
+  )> }
+);
+
+export type GetOrderListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetOrderListQuery = (
+  { __typename?: 'query_root' }
+  & { orders: Array<(
+    { __typename?: 'orders' }
+    & Pick<Orders, 'id' | 'amount' | 'specified_date' | 'stripe_checkout_id' | 'created_at' | 'order_status'>
+  )> }
+);
+
 export type GetBrandListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2543,14 +3431,56 @@ export type DeleteSubCategoryMutation = (
   )> }
 );
 
-export type GetItemsTestQueryVariables = Exact<{ [key: string]: never; }>;
+export type UpdateItemsByOrderMutationVariables = Exact<{
+  id: Scalars['Int'];
+  can_sale?: InputMaybe<Scalars['Boolean']>;
+  current_price?: InputMaybe<Scalars['Int']>;
+  next_lending_date?: InputMaybe<Scalars['timestamptz']>;
+  current_count?: InputMaybe<Scalars['Int']>;
+}>;
 
 
-export type GetItemsTestQuery = (
-  { __typename?: 'query_root' }
-  & { items: Array<(
+export type UpdateItemsByOrderMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_items_by_pk?: Maybe<(
     { __typename?: 'items' }
-    & Pick<Items, 'id' | 'name'>
+    & Pick<Items, 'id' | 'can_sale' | 'current_count' | 'current_price' | 'is_rental_available' | 'next_lending_date'>
+  )> }
+);
+
+export type CreateOrderMutationVariables = Exact<{
+  amount?: InputMaybe<Scalars['Int']>;
+  customer_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['String']>;
+  mail_address?: InputMaybe<Scalars['String']>;
+  phone_number?: InputMaybe<Scalars['String']>;
+  stripe_checkout_id?: InputMaybe<Scalars['String']>;
+  specified_date?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type CreateOrderMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_orders_one?: Maybe<(
+    { __typename?: 'orders' }
+    & Pick<Orders, 'id'>
+  )> }
+);
+
+export type CreateOrderItemRelationMutationVariables = Exact<{
+  id?: InputMaybe<Scalars['String']>;
+  order_id?: InputMaybe<Scalars['String']>;
+  amount?: InputMaybe<Scalars['Int']>;
+  count?: InputMaybe<Scalars['Int']>;
+  item_id?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type CreateOrderItemRelationMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_order_item_relations_one?: Maybe<(
+    { __typename?: 'order_item_relations' }
+    & Pick<Order_Item_Relations, 'id'>
   )> }
 );
 
@@ -2572,6 +3502,24 @@ export type GetRecommendedItemsForHomeQuery = (
   )> }
 );
 
+export type GetNewArrivalItemsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  _in?: InputMaybe<Array<Scalars['Int']> | Scalars['Int']>;
+}>;
+
+
+export type GetNewArrivalItemsQuery = (
+  { __typename?: 'query_root' }
+  & { items: Array<(
+    { __typename?: 'items' }
+    & Pick<Items, 'current_count' | 'current_price' | 'id' | 'name' | 'next_lending_date' | 'regular_price'>
+    & { images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'id' | 'url' | 'item_id'>
+    )> }
+  )> }
+);
+
 export type GetHomeBannerImagesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -2580,6 +3528,53 @@ export type GetHomeBannerImagesQuery = (
   & { home_banners: Array<(
     { __typename?: 'home_banners' }
     & Pick<Home_Banners, 'id' | 'url'>
+  )> }
+);
+
+export type GetAllItemCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllItemCountQuery = (
+  { __typename?: 'query_root' }
+  & { items_aggregate: (
+    { __typename?: 'items_aggregate' }
+    & { aggregate?: Maybe<(
+      { __typename?: 'items_aggregate_fields' }
+      & Pick<Items_Aggregate_Fields, 'count'>
+    )> }
+  ) }
+);
+
+export type GetItemListByLimitQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetItemListByLimitQuery = (
+  { __typename?: 'query_root' }
+  & { items: Array<(
+    { __typename?: 'items' }
+    & Pick<Items, 'current_count' | 'current_price' | 'id' | 'gender' | 'name' | 'next_lending_date' | 'regular_price'>
+    & { images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'id' | 'url'>
+    )> }
+  )> }
+);
+
+export type GetAllItemListQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllItemListQuery = (
+  { __typename?: 'query_root' }
+  & { items: Array<(
+    { __typename?: 'items' }
+    & Pick<Items, 'current_count' | 'current_price' | 'id' | 'gender' | 'name' | 'next_lending_date' | 'regular_price'>
+    & { images: Array<(
+      { __typename?: 'images' }
+      & Pick<Images, 'id' | 'url'>
+    )> }
   )> }
 );
 
@@ -2940,6 +3935,97 @@ export function useCreateItemMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type CreateItemMutationHookResult = ReturnType<typeof useCreateItemMutation>;
 export type CreateItemMutationResult = Apollo.MutationResult<CreateItemMutation>;
 export type CreateItemMutationOptions = Apollo.BaseMutationOptions<CreateItemMutation, CreateItemMutationVariables>;
+export const GetOrderDetailDocument = gql`
+    query getOrderDetail($id: String!) {
+  orders_by_pk(id: $id) {
+    amount
+    created_at
+    customer_name
+    id
+    mail_address
+    phone_number
+    specified_date
+    stripe_checkout_id
+    items {
+      item {
+        name
+        regular_price
+        gender
+        id
+      }
+      amount
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetOrderDetailQuery__
+ *
+ * To run a query within a React component, call `useGetOrderDetailQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrderDetailQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrderDetailQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetOrderDetailQuery(baseOptions: Apollo.QueryHookOptions<GetOrderDetailQuery, GetOrderDetailQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrderDetailQuery, GetOrderDetailQueryVariables>(GetOrderDetailDocument, options);
+      }
+export function useGetOrderDetailLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderDetailQuery, GetOrderDetailQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrderDetailQuery, GetOrderDetailQueryVariables>(GetOrderDetailDocument, options);
+        }
+export type GetOrderDetailQueryHookResult = ReturnType<typeof useGetOrderDetailQuery>;
+export type GetOrderDetailLazyQueryHookResult = ReturnType<typeof useGetOrderDetailLazyQuery>;
+export type GetOrderDetailQueryResult = Apollo.QueryResult<GetOrderDetailQuery, GetOrderDetailQueryVariables>;
+export const GetOrderListDocument = gql`
+    query GetOrderList {
+  orders(order_by: {created_at: desc}) {
+    id
+    amount
+    specified_date
+    stripe_checkout_id
+    created_at
+    order_status
+  }
+}
+    `;
+
+/**
+ * __useGetOrderListQuery__
+ *
+ * To run a query within a React component, call `useGetOrderListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetOrderListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetOrderListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetOrderListQuery(baseOptions?: Apollo.QueryHookOptions<GetOrderListQuery, GetOrderListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetOrderListQuery, GetOrderListQueryVariables>(GetOrderListDocument, options);
+      }
+export function useGetOrderListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetOrderListQuery, GetOrderListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetOrderListQuery, GetOrderListQueryVariables>(GetOrderListDocument, options);
+        }
+export type GetOrderListQueryHookResult = ReturnType<typeof useGetOrderListQuery>;
+export type GetOrderListLazyQueryHookResult = ReturnType<typeof useGetOrderListLazyQuery>;
+export type GetOrderListQueryResult = Apollo.QueryResult<GetOrderListQuery, GetOrderListQueryVariables>;
 export const GetBrandListDocument = gql`
     query GetBrandList {
   brands {
@@ -3258,41 +4344,131 @@ export function useDeleteSubCategoryMutation(baseOptions?: Apollo.MutationHookOp
 export type DeleteSubCategoryMutationHookResult = ReturnType<typeof useDeleteSubCategoryMutation>;
 export type DeleteSubCategoryMutationResult = Apollo.MutationResult<DeleteSubCategoryMutation>;
 export type DeleteSubCategoryMutationOptions = Apollo.BaseMutationOptions<DeleteSubCategoryMutation, DeleteSubCategoryMutationVariables>;
-export const GetItemsTestDocument = gql`
-    query getItemsTest {
-  items {
+export const UpdateItemsByOrderDocument = gql`
+    mutation UpdateItemsByOrder($id: Int!, $can_sale: Boolean = false, $current_price: Int = 10, $next_lending_date: timestamptz = "", $current_count: Int = 10) {
+  update_items_by_pk(
+    pk_columns: {id: $id}
+    _set: {can_sale: $can_sale, current_price: $current_price, is_rental_available: false, next_lending_date: $next_lending_date, current_count: $current_count}
+  ) {
     id
-    name
+    can_sale
+    current_count
+    current_price
+    is_rental_available
+    next_lending_date
   }
 }
     `;
+export type UpdateItemsByOrderMutationFn = Apollo.MutationFunction<UpdateItemsByOrderMutation, UpdateItemsByOrderMutationVariables>;
 
 /**
- * __useGetItemsTestQuery__
+ * __useUpdateItemsByOrderMutation__
  *
- * To run a query within a React component, call `useGetItemsTestQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetItemsTestQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
+ * To run a mutation, you first call `useUpdateItemsByOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateItemsByOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
  *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const { data, loading, error } = useGetItemsTestQuery({
+ * const [updateItemsByOrderMutation, { data, loading, error }] = useUpdateItemsByOrderMutation({
  *   variables: {
+ *      id: // value for 'id'
+ *      can_sale: // value for 'can_sale'
+ *      current_price: // value for 'current_price'
+ *      next_lending_date: // value for 'next_lending_date'
+ *      current_count: // value for 'current_count'
  *   },
  * });
  */
-export function useGetItemsTestQuery(baseOptions?: Apollo.QueryHookOptions<GetItemsTestQuery, GetItemsTestQueryVariables>) {
+export function useUpdateItemsByOrderMutation(baseOptions?: Apollo.MutationHookOptions<UpdateItemsByOrderMutation, UpdateItemsByOrderMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetItemsTestQuery, GetItemsTestQueryVariables>(GetItemsTestDocument, options);
+        return Apollo.useMutation<UpdateItemsByOrderMutation, UpdateItemsByOrderMutationVariables>(UpdateItemsByOrderDocument, options);
       }
-export function useGetItemsTestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetItemsTestQuery, GetItemsTestQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetItemsTestQuery, GetItemsTestQueryVariables>(GetItemsTestDocument, options);
-        }
-export type GetItemsTestQueryHookResult = ReturnType<typeof useGetItemsTestQuery>;
-export type GetItemsTestLazyQueryHookResult = ReturnType<typeof useGetItemsTestLazyQuery>;
-export type GetItemsTestQueryResult = Apollo.QueryResult<GetItemsTestQuery, GetItemsTestQueryVariables>;
+export type UpdateItemsByOrderMutationHookResult = ReturnType<typeof useUpdateItemsByOrderMutation>;
+export type UpdateItemsByOrderMutationResult = Apollo.MutationResult<UpdateItemsByOrderMutation>;
+export type UpdateItemsByOrderMutationOptions = Apollo.BaseMutationOptions<UpdateItemsByOrderMutation, UpdateItemsByOrderMutationVariables>;
+export const CreateOrderDocument = gql`
+    mutation CreateOrder($amount: Int, $customer_name: String, $id: String, $mail_address: String, $phone_number: String, $stripe_checkout_id: String, $specified_date: String) {
+  insert_orders_one(
+    object: {amount: $amount, customer_name: $customer_name, id: $id, mail_address: $mail_address, phone_number: $phone_number, stripe_checkout_id: $stripe_checkout_id, specified_date: $specified_date}
+  ) {
+    id
+  }
+}
+    `;
+export type CreateOrderMutationFn = Apollo.MutationFunction<CreateOrderMutation, CreateOrderMutationVariables>;
+
+/**
+ * __useCreateOrderMutation__
+ *
+ * To run a mutation, you first call `useCreateOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrderMutation, { data, loading, error }] = useCreateOrderMutation({
+ *   variables: {
+ *      amount: // value for 'amount'
+ *      customer_name: // value for 'customer_name'
+ *      id: // value for 'id'
+ *      mail_address: // value for 'mail_address'
+ *      phone_number: // value for 'phone_number'
+ *      stripe_checkout_id: // value for 'stripe_checkout_id'
+ *      specified_date: // value for 'specified_date'
+ *   },
+ * });
+ */
+export function useCreateOrderMutation(baseOptions?: Apollo.MutationHookOptions<CreateOrderMutation, CreateOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateOrderMutation, CreateOrderMutationVariables>(CreateOrderDocument, options);
+      }
+export type CreateOrderMutationHookResult = ReturnType<typeof useCreateOrderMutation>;
+export type CreateOrderMutationResult = Apollo.MutationResult<CreateOrderMutation>;
+export type CreateOrderMutationOptions = Apollo.BaseMutationOptions<CreateOrderMutation, CreateOrderMutationVariables>;
+export const CreateOrderItemRelationDocument = gql`
+    mutation CreateOrderItemRelation($id: String, $order_id: String, $amount: Int, $count: Int, $item_id: Int) {
+  insert_order_item_relations_one(
+    object: {id: $id, order_id: $order_id, amount: $amount, count: $count, item_id: $item_id}
+  ) {
+    id
+  }
+}
+    `;
+export type CreateOrderItemRelationMutationFn = Apollo.MutationFunction<CreateOrderItemRelationMutation, CreateOrderItemRelationMutationVariables>;
+
+/**
+ * __useCreateOrderItemRelationMutation__
+ *
+ * To run a mutation, you first call `useCreateOrderItemRelationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateOrderItemRelationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createOrderItemRelationMutation, { data, loading, error }] = useCreateOrderItemRelationMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      order_id: // value for 'order_id'
+ *      amount: // value for 'amount'
+ *      count: // value for 'count'
+ *      item_id: // value for 'item_id'
+ *   },
+ * });
+ */
+export function useCreateOrderItemRelationMutation(baseOptions?: Apollo.MutationHookOptions<CreateOrderItemRelationMutation, CreateOrderItemRelationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateOrderItemRelationMutation, CreateOrderItemRelationMutationVariables>(CreateOrderItemRelationDocument, options);
+      }
+export type CreateOrderItemRelationMutationHookResult = ReturnType<typeof useCreateOrderItemRelationMutation>;
+export type CreateOrderItemRelationMutationResult = Apollo.MutationResult<CreateOrderItemRelationMutation>;
+export type CreateOrderItemRelationMutationOptions = Apollo.BaseMutationOptions<CreateOrderItemRelationMutation, CreateOrderItemRelationMutationVariables>;
 export const GetRecommendedItemsForHomeDocument = gql`
     query GetRecommendedItemsForHome($limit: Int, $_in: [Int!]) {
   items(
@@ -3343,6 +4519,52 @@ export function useGetRecommendedItemsForHomeLazyQuery(baseOptions?: Apollo.Lazy
 export type GetRecommendedItemsForHomeQueryHookResult = ReturnType<typeof useGetRecommendedItemsForHomeQuery>;
 export type GetRecommendedItemsForHomeLazyQueryHookResult = ReturnType<typeof useGetRecommendedItemsForHomeLazyQuery>;
 export type GetRecommendedItemsForHomeQueryResult = Apollo.QueryResult<GetRecommendedItemsForHomeQuery, GetRecommendedItemsForHomeQueryVariables>;
+export const GetNewArrivalItemsDocument = gql`
+    query GetNewArrivalItems($limit: Int, $_in: [Int!]) {
+  items(limit: $limit, order_by: {created_at: desc}, where: {gender: {_in: $_in}}) {
+    current_count
+    current_price
+    id
+    images(limit: 1) {
+      id
+      url
+      item_id
+    }
+    name
+    next_lending_date
+    regular_price
+  }
+}
+    `;
+
+/**
+ * __useGetNewArrivalItemsQuery__
+ *
+ * To run a query within a React component, call `useGetNewArrivalItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetNewArrivalItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetNewArrivalItemsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      _in: // value for '_in'
+ *   },
+ * });
+ */
+export function useGetNewArrivalItemsQuery(baseOptions?: Apollo.QueryHookOptions<GetNewArrivalItemsQuery, GetNewArrivalItemsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetNewArrivalItemsQuery, GetNewArrivalItemsQueryVariables>(GetNewArrivalItemsDocument, options);
+      }
+export function useGetNewArrivalItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetNewArrivalItemsQuery, GetNewArrivalItemsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetNewArrivalItemsQuery, GetNewArrivalItemsQueryVariables>(GetNewArrivalItemsDocument, options);
+        }
+export type GetNewArrivalItemsQueryHookResult = ReturnType<typeof useGetNewArrivalItemsQuery>;
+export type GetNewArrivalItemsLazyQueryHookResult = ReturnType<typeof useGetNewArrivalItemsLazyQuery>;
+export type GetNewArrivalItemsQueryResult = Apollo.QueryResult<GetNewArrivalItemsQuery, GetNewArrivalItemsQueryVariables>;
 export const GetHomeBannerImagesDocument = gql`
     query GetHomeBannerImages {
   home_banners(order_by: {display_index: asc}, where: {delete_flg: {_eq: false}}) {
@@ -3378,6 +4600,132 @@ export function useGetHomeBannerImagesLazyQuery(baseOptions?: Apollo.LazyQueryHo
 export type GetHomeBannerImagesQueryHookResult = ReturnType<typeof useGetHomeBannerImagesQuery>;
 export type GetHomeBannerImagesLazyQueryHookResult = ReturnType<typeof useGetHomeBannerImagesLazyQuery>;
 export type GetHomeBannerImagesQueryResult = Apollo.QueryResult<GetHomeBannerImagesQuery, GetHomeBannerImagesQueryVariables>;
+export const GetAllItemCountDocument = gql`
+    query GetAllItemCount {
+  items_aggregate {
+    aggregate {
+      count(columns: id)
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetAllItemCountQuery__
+ *
+ * To run a query within a React component, call `useGetAllItemCountQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllItemCountQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllItemCountQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllItemCountQuery(baseOptions?: Apollo.QueryHookOptions<GetAllItemCountQuery, GetAllItemCountQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllItemCountQuery, GetAllItemCountQueryVariables>(GetAllItemCountDocument, options);
+      }
+export function useGetAllItemCountLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllItemCountQuery, GetAllItemCountQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllItemCountQuery, GetAllItemCountQueryVariables>(GetAllItemCountDocument, options);
+        }
+export type GetAllItemCountQueryHookResult = ReturnType<typeof useGetAllItemCountQuery>;
+export type GetAllItemCountLazyQueryHookResult = ReturnType<typeof useGetAllItemCountLazyQuery>;
+export type GetAllItemCountQueryResult = Apollo.QueryResult<GetAllItemCountQuery, GetAllItemCountQueryVariables>;
+export const GetItemListByLimitDocument = gql`
+    query GetItemListByLimit($limit: Int, $offset: Int) {
+  items(limit: $limit, offset: $offset, order_by: {created_at: desc}) {
+    current_count
+    current_price
+    id
+    gender
+    images(limit: 1) {
+      id
+      url
+    }
+    name
+    next_lending_date
+    regular_price
+  }
+}
+    `;
+
+/**
+ * __useGetItemListByLimitQuery__
+ *
+ * To run a query within a React component, call `useGetItemListByLimitQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetItemListByLimitQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetItemListByLimitQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useGetItemListByLimitQuery(baseOptions?: Apollo.QueryHookOptions<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>(GetItemListByLimitDocument, options);
+      }
+export function useGetItemListByLimitLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>(GetItemListByLimitDocument, options);
+        }
+export type GetItemListByLimitQueryHookResult = ReturnType<typeof useGetItemListByLimitQuery>;
+export type GetItemListByLimitLazyQueryHookResult = ReturnType<typeof useGetItemListByLimitLazyQuery>;
+export type GetItemListByLimitQueryResult = Apollo.QueryResult<GetItemListByLimitQuery, GetItemListByLimitQueryVariables>;
+export const GetAllItemListDocument = gql`
+    query GetAllItemList {
+  items(order_by: {created_at: desc}) {
+    current_count
+    current_price
+    id
+    gender
+    images {
+      id
+      url
+    }
+    name
+    next_lending_date
+    regular_price
+  }
+}
+    `;
+
+/**
+ * __useGetAllItemListQuery__
+ *
+ * To run a query within a React component, call `useGetAllItemListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllItemListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllItemListQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllItemListQuery(baseOptions?: Apollo.QueryHookOptions<GetAllItemListQuery, GetAllItemListQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllItemListQuery, GetAllItemListQueryVariables>(GetAllItemListDocument, options);
+      }
+export function useGetAllItemListLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllItemListQuery, GetAllItemListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllItemListQuery, GetAllItemListQueryVariables>(GetAllItemListDocument, options);
+        }
+export type GetAllItemListQueryHookResult = ReturnType<typeof useGetAllItemListQuery>;
+export type GetAllItemListLazyQueryHookResult = ReturnType<typeof useGetAllItemListLazyQuery>;
+export type GetAllItemListQueryResult = Apollo.QueryResult<GetAllItemListQuery, GetAllItemListQueryVariables>;
 export const GetItemIdListDocument = gql`
     query GetItemIdList {
   items {

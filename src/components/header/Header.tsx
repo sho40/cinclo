@@ -22,7 +22,8 @@ export const Header = () => {
     <div className={styles.container}>
       <div className={styles.contents}>
         <div className={styles.menuDrawer}>
-          <IconButton onClick={() => {console.log("clicked")}} icon={faBars}/>
+          {/* TODO: ハンバーガーメニュー実装
+          <IconButton onClick={() => {console.log("clicked")}} icon={faBars}/> */}
         </div>
         <div className={styles.serviceName}>
           <Link href="/">
@@ -30,9 +31,10 @@ export const Header = () => {
           </Link>
         </div>
         <div className={styles.icons}>
+          {/* TODO: マイページ実装時に追加
           <div className='pr-4'>
             <IconButton onClick={() => {console.log("clicked")}} icon={faHeart}/>
-          </div>
+          </div> */}
           <div className={styles.shoppingIcon}>
             <IconButton onClick={() => router.push("/cart/")} icon={faCartShopping}/>
             {

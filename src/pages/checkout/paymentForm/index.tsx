@@ -1,6 +1,7 @@
 import { AddressElement, Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { FormEvent, useEffect, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY ?? "");
 
@@ -72,6 +73,7 @@ const PaymentForm = () => {
     }
     if (result.paymentIntent) {
       window.alert(`注文完了 (order_id: ${result.paymentIntent.id})`)
+      const uniqueId = uuidv4();
     } else {
       window.alert(`注文完了`)
     }

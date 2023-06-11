@@ -1,24 +1,27 @@
-import { Banner } from '@/components/Banner'
-import { Header } from '@/components/header/Header'
 import { HomeItemsContainer } from '@/components/HomeItemsContainer'
 import { SlideBunner } from '@/components/slideanner/SlideBanner'
 
 import { gql } from '@apollo/client'
-import { useGetItemsTestQuery, useGetRecommendedItemsForHomeQuery } from '../libs/apollo/graphql'
-import Footer from '@/components/footer/Footer'
+import { useGetRecommendedItemsForHomeQuery, useGetNewArrivalItemsQuery, useGetAllItemCountQuery, useGetAllItemListQuery } from '../libs/apollo/graphql'
 import { Layout } from '@/components/customer/Layout'
+import { ItemCard } from '@/components/customer/item-card/ItemCard'
+import styles from "./home.module.scss"
 
 export default function Home() {
   // MEMO _in === gender
-  const { data } = useGetItemsTestQuery();
-  console.log({data})
   return (
     <>
       <Layout>
-      <GenderSwitch />
+      {/* <GenderSwitch /> */}
       <SlideBunner />
-      <div className='px-2'>
+      {/* <div className='px-2'>
         <Recommend />
+      </div>
+      <div className='px-2'>
+        <NewArrival />
+      </div> */}
+      <div>
+        <AllItems />
       </div>
       </Layout>
     </>
@@ -46,29 +49,77 @@ const GenderSwitch = () => {
     </div>
   )
 }
+// TODO: とりあえず一覧画面には全商品出す
 
-const Recommend = () => {
-  const { data } = useGetRecommendedItemsForHomeQuery({variables : {limit: 6, _in: [1, 2, 3]}});
+// const Recommend = () => {
+//   const { data } = useGetRecommendedItemsForHomeQuery({variables : {limit: 6, _in: [1, 2, 3]}});
 
-  return(
+//   return(
+//     <div className='py-7'>
+//       <HomeItemsContainer items={data?.items} title='Recommend'/>
+//     </div>
+//   )
+// }
+
+// const NewArrival = () => {
+//   const { data } = useGetNewArrivalItemsQuery({variables : {limit: 6, _in: [1, 2, 3]}});
+
+//   return (
+//     <div className='py-7'>
+//       <HomeItemsContainer items={data?.items} title='New Arrival'/>
+//     </div>
+//   )
+// }
+
+const AllItems = () => {
+  const itemCount = useGetAllItemCountQuery();
+  const allItemCount: number = itemCount.data?.items_aggregate.aggregate?.count ?? 0;
+
+  const { data, loading } = useGetAllItemListQuery();
+
+  return (
     <div className='py-7'>
-      <HomeItemsContainer items={data?.items} title='Recommend'/>
+      <div className={styles.title}>
+        <h1>
+          {`ALL ITEMS`}
+        </h1>
+      </div>
+      <div className={styles.container}>
+        {loading ? <>loading ...</> : (
+          <ul className='flex flex-wrap justify-between text-sm'>
+            {data?.items.map((item, index) => 
+              <li key={index} className='mb-7' style={{ width: 'calc((100% - 16px) / 2)' }}>
+                <ItemCard item={item}/>
+              </li>
+            )}
+        </ul>
+        )}
+      </div>
     </div>
   )
 }
 
 gql`
-  query getItemsTest {
-    items {
+  query GetRecommendedItemsForHome($limit: Int, $_in: [Int!]) {
+    items(limit: $limit, where: {gender: {_in: $_in}, is_recommend: {_eq: true}}, order_by: {current_price: asc}) {
+      current_count
+      current_price
       id
+      images(limit: 1) {
+        id
+        url
+        item_id
+      }
       name
+      next_lending_date
+      regular_price
     }
   }
 `
 
 gql`
-  query GetRecommendedItemsForHome($limit: Int, $_in: [Int!]) {
-    items(limit: $limit, where: {gender: {_in: $_in}, is_recommend: {_eq: true}}, order_by: {current_price: asc}) {
+  query GetNewArrivalItems($limit: Int, $_in: [Int!]) {
+    items(limit: $limit, order_by: {created_at: desc}, where: {gender: {_in: $_in}}) {
       current_count
       current_price
       id

@@ -4,14 +4,19 @@ import { FormEvent, useEffect, useState } from "react";
 import styles from './paymentFormContainer.module.scss'
 import { formatDateYYYYMMDDForDateForm, formatDateYYYYMMDDForDisplay } from "@/logic/dateFormatter";
 import { NextRouter, useRouter } from "next/router";
+import { CreateOrderMutationVariables } from "@/libs/apollo/graphql";
+import { v4 as uuidv4 } from 'uuid';
+import { useSetRecoilState } from "recoil";
+import { CartItem, cartItemListState } from "@/atoms/CartAtom"
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY ?? "");
 
 interface PaymentFormContainer {
   amount: number;
+  createOrderAndUpdateItems: (createOrderVariables: CreateOrderMutationVariables) => Promise<void>;
 }
 
-export default function PaymentFormContainer({amount}: PaymentFormContainer) {
+export default function PaymentFormContainer({amount, createOrderAndUpdateItems}: PaymentFormContainer) {
 
   const [piClientSecret, setPiClientSecret] = useState<string>('')
   useEffect(() => {
@@ -40,7 +45,10 @@ export default function PaymentFormContainer({amount}: PaymentFormContainer) {
   return (
     <div className={styles.container}>
       <Elements stripe={stripePromise} options={{ clientSecret: piClientSecret }}>
-        <PaymentForm/>
+        <PaymentForm 
+          amount={amount}
+          createOrderAndUpdateItems={createOrderAndUpdateItems}
+        />
       </Elements>
     </div>
   )
@@ -91,10 +99,18 @@ const sendThanksMail = async (
   if (res.ok) router.push('/checkout/success/');
 }
 
-const PaymentForm = () => {
+interface PaymentFormProps {
+  amount: number;
+  createOrderAndUpdateItems: (createOrderVariables: CreateOrderMutationVariables) => Promise<void>;
+}
+
+const PaymentForm = ({amount, createOrderAndUpdateItems}: PaymentFormProps) => {
   const router = useRouter();
+  const setCartItemList = useSetRecoilState(cartItemListState);
 
   const [cardholderName, setCardholderName] = useState('');
+  const [customerName, setCustomerName] = useState('');
+  
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
@@ -124,15 +140,11 @@ const PaymentForm = () => {
     e.preventDefault();
     if (!stripe || !elements) return;
 
-    console.log("formData email", email)
-    console.log("formData phoneNumber", phoneNumber)
-    console.log("formData specifiedArraivalDate", specifiedArraivalDate)
-
     const confirm = window.confirm("決済してもよろしいですか？")
     const result = confirm ? await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: 'https://cinclo.jp//checkout/success/',
+        return_url: 'https://cinclo.jp/checkout/success/',
         payment_method_data: {
           billing_details: {
             name: cardholderName,
@@ -151,7 +163,21 @@ const PaymentForm = () => {
     }
     if (result.paymentIntent) {
       console.log(`注文完了 (order_id: ${result.paymentIntent.id})`)
-      // sendThanksMail()
+      sendThanksMail()
+      const orderId = uuidv4();
+      await createOrderAndUpdateItems({
+        id: orderId,
+        customer_name: customerName,
+        mail_address: email,
+        phone_number: phoneNumber,
+        amount: amount,
+        stripe_checkout_id: result.paymentIntent.id,
+        specified_date: specifiedArraivalDate,
+      });
+
+      // カートの中身をクリア
+      setCartItemList([]);
+      router.push("/checkout/success/")
     } else {
       window.alert(`注文完了`)
     }
@@ -188,7 +214,13 @@ const PaymentForm = () => {
               options={{
                 mode: 'shipping',
                 allowedCountries: ['JP'],
-            }}/>
+              }}
+              onChange={e => {
+                if (e.complete) {
+                  setCustomerName(e.value.name)
+                }
+              }}
+            />
           </div>
           <div className={styles.cardElementArea}>
             <div className={styles.cardholderName}>
@@ -239,5 +271,4 @@ const PaymentForm = () => {
       </div>
     </form>
   )
-
 }
