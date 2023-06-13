@@ -18,7 +18,6 @@ export default function PaymentConfirm({cartItems, createOrderAndUpdateItems}: P
 
   // FIXME: 配送料定義から取得
   const shippingFee = 1400;
-  const totalAmountIncludesShippingFee: number = Math.floor(addTax(totalAmount) + shippingFee);
 
   useEffect(() => {
     window.scrollTo({top: 0, behavior: 'smooth'});
@@ -61,8 +60,10 @@ export default function PaymentConfirm({cartItems, createOrderAndUpdateItems}: P
         </div>
         <div className={styles.formArea}>
           <h2>決済・配送情報の入力</h2>
-          <PaymentFormContainer 
-            amount={totalAmountIncludesShippingFee} 
+          <PaymentFormContainer
+            cartItems={cartItems}
+            amount={totalAmount} 
+            shippingFee={shippingFee}
             createOrderAndUpdateItems={createOrderAndUpdateItems}
           />
         </div>

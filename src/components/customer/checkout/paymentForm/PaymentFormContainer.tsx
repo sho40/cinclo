@@ -8,15 +8,19 @@ import { CreateOrderMutationVariables } from "@/libs/apollo/graphql";
 import { v4 as uuidv4 } from 'uuid';
 import { useSetRecoilState } from "recoil";
 import { CartItem, cartItemListState } from "@/atoms/CartAtom"
+import { addTax } from "@/logic/numberFormatter";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY ?? "");
 
 interface PaymentFormContainer {
-  amount: number;
+  cartItems: CartItem[];
+  amount: number; // 税率をかけていない合計金額
+  shippingFee: number; // 送料
   createOrderAndUpdateItems: (createOrderVariables: CreateOrderMutationVariables) => Promise<void>;
 }
 
-export default function PaymentFormContainer({amount, createOrderAndUpdateItems}: PaymentFormContainer) {
+export default function PaymentFormContainer({cartItems, amount, shippingFee, createOrderAndUpdateItems}: PaymentFormContainer) {
+  const totalAmountIncludesShippingFee: number = Math.floor(addTax(amount) + shippingFee);
 
   const [piClientSecret, setPiClientSecret] = useState<string>('')
   useEffect(() => {
@@ -26,7 +30,7 @@ export default function PaymentFormContainer({amount, createOrderAndUpdateItems}
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        amount: amount,
+        amount: totalAmountIncludesShippingFee,
         currency: 'JPY',
       })
     })
@@ -39,14 +43,17 @@ export default function PaymentFormContainer({amount, createOrderAndUpdateItems}
       setPiClientSecret(paymentIntent.client_secret)
     })
     .catch (error => window.alert(error.message)) 
-  }, [setPiClientSecret, amount]);
+  }, [setPiClientSecret, totalAmountIncludesShippingFee]);
 
   if (!piClientSecret) return <p>Loading...</p>
   return (
     <div className={styles.container}>
       <Elements stripe={stripePromise} options={{ clientSecret: piClientSecret }}>
-        <PaymentForm 
-          amount={amount}
+        <PaymentForm
+          cartItems={cartItems}
+          amount={totalAmountIncludesShippingFee}
+          totalAmountWithoutTax={amount}
+          shippingFee={shippingFee}
           createOrderAndUpdateItems={createOrderAndUpdateItems}
         />
       </Elements>
@@ -54,41 +61,26 @@ export default function PaymentFormContainer({amount, createOrderAndUpdateItems}
   )
 }
 
-interface CustomerInfo {
-  email: string;
-  phoneNumber: string;
-}
-
-// cincloAPI用
-interface CheckoutInfo {
-  name: string;
-  amount: number;
-  email: string;
-  phoneNumber: string;
-  stripe_checkout_id: string;
-}
-
 const sendThanksMail = async (
   name: string, 
   emailAddress: string,
-  subject: string,
-  itemNames: string[],
-  date: string,
+  cartItems: CartItem[],
+  totalAmountWithoutTax: number, // 税率・送料抜きの金額
+  shippingFee: number,
   arraivalDate: string,
-  totalAmount: string,
   returnDate: string,
-  router: NextRouter
+  orderId: string
 ) => {
-  const res = await fetch('/api/send', {
+  const res = await fetch('/api/rental_success_mail', {
     body: JSON.stringify({
       name: name,
       email: emailAddress,
-      subject: subject,
-      itemNames: itemNames,
-      date: date,
+      cartItems: cartItems,
+      totalAmountWithoutTax: totalAmountWithoutTax,
+      shippingFee: shippingFee,
       arraivalDate: arraivalDate,
-      totalAmount: totalAmount,
       returnDate: returnDate,
+      orderId: orderId
     }),
     headers: {
       'Content-Type': 'application/json'
@@ -96,15 +88,18 @@ const sendThanksMail = async (
     method: 'POST'
   })
 
-  if (res.ok) router.push('/checkout/success/');
+  if (res.ok) return
 }
 
 interface PaymentFormProps {
-  amount: number;
+  cartItems: CartItem[];
+  amount: number; // 税率・送料込みの金額
+  totalAmountWithoutTax: number; // 税率・送料抜きの金額
+  shippingFee: number; // 送料
   createOrderAndUpdateItems: (createOrderVariables: CreateOrderMutationVariables) => Promise<void>;
 }
 
-const PaymentForm = ({amount, createOrderAndUpdateItems}: PaymentFormProps) => {
+const PaymentForm = ({cartItems, amount, totalAmountWithoutTax, shippingFee, createOrderAndUpdateItems}: PaymentFormProps) => {
   const router = useRouter();
   const setCartItemList = useSetRecoilState(cartItemListState);
 
@@ -163,7 +158,6 @@ const PaymentForm = ({amount, createOrderAndUpdateItems}: PaymentFormProps) => {
     }
     if (result.paymentIntent) {
       console.log(`注文完了 (order_id: ${result.paymentIntent.id})`)
-      sendThanksMail()
       const orderId = uuidv4();
       await createOrderAndUpdateItems({
         id: orderId,
@@ -174,6 +168,17 @@ const PaymentForm = ({amount, createOrderAndUpdateItems}: PaymentFormProps) => {
         stripe_checkout_id: result.paymentIntent.id,
         specified_date: specifiedArraivalDate,
       });
+
+      sendThanksMail(
+        customerName,
+        email,
+        cartItems,
+        totalAmountWithoutTax,
+        shippingFee,
+        specifiedArraivalDate,
+        formatDateYYYYMMDDForDateForm(returnDate), // specifiedArraivalDateと同じYYYY-MM-DDの形式
+        orderId
+      )
 
       // カートの中身をクリア
       setCartItemList([]);

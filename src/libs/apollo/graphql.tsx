@@ -13,6 +13,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  timestamp: any;
   timestamptz: any;
 };
 
@@ -460,6 +461,213 @@ export type Categories_Variance_Fields = {
   __typename?: 'categories_variance_fields';
   id?: Maybe<Scalars['Float']>;
   sub_category_id?: Maybe<Scalars['Float']>;
+};
+
+/** お問合せ管理用テーブル */
+export type Contacts = {
+  __typename?: 'contacts';
+  content: Scalars['String'];
+  created_at?: Maybe<Scalars['timestamp']>;
+  customer_name: Scalars['String'];
+  id: Scalars['Int'];
+  mail_address: Scalars['String'];
+};
+
+/** aggregated selection of "contacts" */
+export type Contacts_Aggregate = {
+  __typename?: 'contacts_aggregate';
+  aggregate?: Maybe<Contacts_Aggregate_Fields>;
+  nodes: Array<Contacts>;
+};
+
+/** aggregate fields of "contacts" */
+export type Contacts_Aggregate_Fields = {
+  __typename?: 'contacts_aggregate_fields';
+  avg?: Maybe<Contacts_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Contacts_Max_Fields>;
+  min?: Maybe<Contacts_Min_Fields>;
+  stddev?: Maybe<Contacts_Stddev_Fields>;
+  stddev_pop?: Maybe<Contacts_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Contacts_Stddev_Samp_Fields>;
+  sum?: Maybe<Contacts_Sum_Fields>;
+  var_pop?: Maybe<Contacts_Var_Pop_Fields>;
+  var_samp?: Maybe<Contacts_Var_Samp_Fields>;
+  variance?: Maybe<Contacts_Variance_Fields>;
+};
+
+
+/** aggregate fields of "contacts" */
+export type Contacts_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Contacts_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Contacts_Avg_Fields = {
+  __typename?: 'contacts_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "contacts". All fields are combined with a logical 'AND'. */
+export type Contacts_Bool_Exp = {
+  _and?: InputMaybe<Array<Contacts_Bool_Exp>>;
+  _not?: InputMaybe<Contacts_Bool_Exp>;
+  _or?: InputMaybe<Array<Contacts_Bool_Exp>>;
+  content?: InputMaybe<String_Comparison_Exp>;
+  created_at?: InputMaybe<Timestamp_Comparison_Exp>;
+  customer_name?: InputMaybe<String_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  mail_address?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "contacts" */
+export enum Contacts_Constraint {
+  /** unique or primary key constraint */
+  ContactsPkey = 'contacts_pkey'
+}
+
+/** input type for incrementing numeric columns in table "contacts" */
+export type Contacts_Inc_Input = {
+  id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "contacts" */
+export type Contacts_Insert_Input = {
+  content?: InputMaybe<Scalars['String']>;
+  created_at?: InputMaybe<Scalars['timestamp']>;
+  customer_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  mail_address?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Contacts_Max_Fields = {
+  __typename?: 'contacts_max_fields';
+  content?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamp']>;
+  customer_name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  mail_address?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Contacts_Min_Fields = {
+  __typename?: 'contacts_min_fields';
+  content?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamp']>;
+  customer_name?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  mail_address?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "contacts" */
+export type Contacts_Mutation_Response = {
+  __typename?: 'contacts_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<Contacts>;
+};
+
+/** on_conflict condition type for table "contacts" */
+export type Contacts_On_Conflict = {
+  constraint: Contacts_Constraint;
+  update_columns?: Array<Contacts_Update_Column>;
+  where?: InputMaybe<Contacts_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "contacts". */
+export type Contacts_Order_By = {
+  content?: InputMaybe<Order_By>;
+  created_at?: InputMaybe<Order_By>;
+  customer_name?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  mail_address?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: contacts */
+export type Contacts_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "contacts" */
+export enum Contacts_Select_Column {
+  /** column name */
+  Content = 'content',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  CustomerName = 'customer_name',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MailAddress = 'mail_address'
+}
+
+/** input type for updating data in table "contacts" */
+export type Contacts_Set_Input = {
+  content?: InputMaybe<Scalars['String']>;
+  created_at?: InputMaybe<Scalars['timestamp']>;
+  customer_name?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['Int']>;
+  mail_address?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Contacts_Stddev_Fields = {
+  __typename?: 'contacts_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Contacts_Stddev_Pop_Fields = {
+  __typename?: 'contacts_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Contacts_Stddev_Samp_Fields = {
+  __typename?: 'contacts_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Contacts_Sum_Fields = {
+  __typename?: 'contacts_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "contacts" */
+export enum Contacts_Update_Column {
+  /** column name */
+  Content = 'content',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  CustomerName = 'customer_name',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  MailAddress = 'mail_address'
+}
+
+/** aggregate var_pop on columns */
+export type Contacts_Var_Pop_Fields = {
+  __typename?: 'contacts_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Contacts_Var_Samp_Fields = {
+  __typename?: 'contacts_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Contacts_Variance_Fields = {
+  __typename?: 'contacts_variance_fields';
+  id?: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "home_banners" */
@@ -1376,6 +1584,10 @@ export type Mutation_Root = {
   delete_categories?: Maybe<Categories_Mutation_Response>;
   /** delete single row from the table: "categories" */
   delete_categories_by_pk?: Maybe<Categories>;
+  /** delete data from the table: "contacts" */
+  delete_contacts?: Maybe<Contacts_Mutation_Response>;
+  /** delete single row from the table: "contacts" */
+  delete_contacts_by_pk?: Maybe<Contacts>;
   /** delete data from the table: "home_banners" */
   delete_home_banners?: Maybe<Home_Banners_Mutation_Response>;
   /** delete single row from the table: "home_banners" */
@@ -1408,6 +1620,10 @@ export type Mutation_Root = {
   insert_categories?: Maybe<Categories_Mutation_Response>;
   /** insert a single row into the table: "categories" */
   insert_categories_one?: Maybe<Categories>;
+  /** insert data into the table: "contacts" */
+  insert_contacts?: Maybe<Contacts_Mutation_Response>;
+  /** insert a single row into the table: "contacts" */
+  insert_contacts_one?: Maybe<Contacts>;
   /** insert data into the table: "home_banners" */
   insert_home_banners?: Maybe<Home_Banners_Mutation_Response>;
   /** insert a single row into the table: "home_banners" */
@@ -1440,6 +1656,10 @@ export type Mutation_Root = {
   update_categories?: Maybe<Categories_Mutation_Response>;
   /** update single row of the table: "categories" */
   update_categories_by_pk?: Maybe<Categories>;
+  /** update data of the table: "contacts" */
+  update_contacts?: Maybe<Contacts_Mutation_Response>;
+  /** update single row of the table: "contacts" */
+  update_contacts_by_pk?: Maybe<Contacts>;
   /** update data of the table: "home_banners" */
   update_home_banners?: Maybe<Home_Banners_Mutation_Response>;
   /** update single row of the table: "home_banners" */
@@ -1487,6 +1707,18 @@ export type Mutation_RootDelete_CategoriesArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Categories_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_ContactsArgs = {
+  where: Contacts_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_Contacts_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -1588,6 +1820,20 @@ export type Mutation_RootInsert_CategoriesArgs = {
 export type Mutation_RootInsert_Categories_OneArgs = {
   object: Categories_Insert_Input;
   on_conflict?: InputMaybe<Categories_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_ContactsArgs = {
+  objects: Array<Contacts_Insert_Input>;
+  on_conflict?: InputMaybe<Contacts_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_Contacts_OneArgs = {
+  object: Contacts_Insert_Input;
+  on_conflict?: InputMaybe<Contacts_On_Conflict>;
 };
 
 
@@ -1704,6 +1950,22 @@ export type Mutation_RootUpdate_Categories_By_PkArgs = {
   _inc?: InputMaybe<Categories_Inc_Input>;
   _set?: InputMaybe<Categories_Set_Input>;
   pk_columns: Categories_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_ContactsArgs = {
+  _inc?: InputMaybe<Contacts_Inc_Input>;
+  _set?: InputMaybe<Contacts_Set_Input>;
+  where: Contacts_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdate_Contacts_By_PkArgs = {
+  _inc?: InputMaybe<Contacts_Inc_Input>;
+  _set?: InputMaybe<Contacts_Set_Input>;
+  pk_columns: Contacts_Pk_Columns_Input;
 };
 
 
@@ -2457,6 +2719,12 @@ export type Query_Root = {
   categories_aggregate: Categories_Aggregate;
   /** fetch data from the table: "categories" using primary key columns */
   categories_by_pk?: Maybe<Categories>;
+  /** fetch data from the table: "contacts" */
+  contacts: Array<Contacts>;
+  /** fetch aggregated fields from the table: "contacts" */
+  contacts_aggregate: Contacts_Aggregate;
+  /** fetch data from the table: "contacts" using primary key columns */
+  contacts_by_pk?: Maybe<Contacts>;
   /** fetch data from the table: "home_banners" */
   home_banners: Array<Home_Banners>;
   /** fetch aggregated fields from the table: "home_banners" */
@@ -2538,6 +2806,29 @@ export type Query_RootCategories_AggregateArgs = {
 
 
 export type Query_RootCategories_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Query_RootContactsArgs = {
+  distinct_on?: InputMaybe<Array<Contacts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Contacts_Order_By>>;
+  where?: InputMaybe<Contacts_Bool_Exp>;
+};
+
+
+export type Query_RootContacts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contacts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Contacts_Order_By>>;
+  where?: InputMaybe<Contacts_Bool_Exp>;
+};
+
+
+export type Query_RootContacts_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -2874,6 +3165,12 @@ export type Subscription_Root = {
   categories_aggregate: Categories_Aggregate;
   /** fetch data from the table: "categories" using primary key columns */
   categories_by_pk?: Maybe<Categories>;
+  /** fetch data from the table: "contacts" */
+  contacts: Array<Contacts>;
+  /** fetch aggregated fields from the table: "contacts" */
+  contacts_aggregate: Contacts_Aggregate;
+  /** fetch data from the table: "contacts" using primary key columns */
+  contacts_by_pk?: Maybe<Contacts>;
   /** fetch data from the table: "home_banners" */
   home_banners: Array<Home_Banners>;
   /** fetch aggregated fields from the table: "home_banners" */
@@ -2955,6 +3252,29 @@ export type Subscription_RootCategories_AggregateArgs = {
 
 
 export type Subscription_RootCategories_By_PkArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type Subscription_RootContactsArgs = {
+  distinct_on?: InputMaybe<Array<Contacts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Contacts_Order_By>>;
+  where?: InputMaybe<Contacts_Bool_Exp>;
+};
+
+
+export type Subscription_RootContacts_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Contacts_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Contacts_Order_By>>;
+  where?: InputMaybe<Contacts_Bool_Exp>;
+};
+
+
+export type Subscription_RootContacts_By_PkArgs = {
   id: Scalars['Int'];
 };
 
@@ -3094,6 +3414,19 @@ export type Subscription_RootSub_Categories_AggregateArgs = {
 
 export type Subscription_RootSub_Categories_By_PkArgs = {
   id: Scalars['Int'];
+};
+
+/** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
+export type Timestamp_Comparison_Exp = {
+  _eq?: InputMaybe<Scalars['timestamp']>;
+  _gt?: InputMaybe<Scalars['timestamp']>;
+  _gte?: InputMaybe<Scalars['timestamp']>;
+  _in?: InputMaybe<Array<Scalars['timestamp']>>;
+  _is_null?: InputMaybe<Scalars['Boolean']>;
+  _lt?: InputMaybe<Scalars['timestamp']>;
+  _lte?: InputMaybe<Scalars['timestamp']>;
+  _neq?: InputMaybe<Scalars['timestamp']>;
+  _nin?: InputMaybe<Array<Scalars['timestamp']>>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
@@ -3481,6 +3814,21 @@ export type CreateOrderItemRelationMutation = (
   & { insert_order_item_relations_one?: Maybe<(
     { __typename?: 'order_item_relations' }
     & Pick<Order_Item_Relations, 'id'>
+  )> }
+);
+
+export type CreateContactMutationVariables = Exact<{
+  content?: InputMaybe<Scalars['String']>;
+  customer_name?: InputMaybe<Scalars['String']>;
+  mail_address?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type CreateContactMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_contacts_one?: Maybe<(
+    { __typename?: 'contacts' }
+    & Pick<Contacts, 'id'>
   )> }
 );
 
@@ -4469,6 +4817,43 @@ export function useCreateOrderItemRelationMutation(baseOptions?: Apollo.Mutation
 export type CreateOrderItemRelationMutationHookResult = ReturnType<typeof useCreateOrderItemRelationMutation>;
 export type CreateOrderItemRelationMutationResult = Apollo.MutationResult<CreateOrderItemRelationMutation>;
 export type CreateOrderItemRelationMutationOptions = Apollo.BaseMutationOptions<CreateOrderItemRelationMutation, CreateOrderItemRelationMutationVariables>;
+export const CreateContactDocument = gql`
+    mutation CreateContact($content: String, $customer_name: String, $mail_address: String) {
+  insert_contacts_one(
+    object: {content: $content, customer_name: $customer_name, mail_address: $mail_address}
+  ) {
+    id
+  }
+}
+    `;
+export type CreateContactMutationFn = Apollo.MutationFunction<CreateContactMutation, CreateContactMutationVariables>;
+
+/**
+ * __useCreateContactMutation__
+ *
+ * To run a mutation, you first call `useCreateContactMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateContactMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createContactMutation, { data, loading, error }] = useCreateContactMutation({
+ *   variables: {
+ *      content: // value for 'content'
+ *      customer_name: // value for 'customer_name'
+ *      mail_address: // value for 'mail_address'
+ *   },
+ * });
+ */
+export function useCreateContactMutation(baseOptions?: Apollo.MutationHookOptions<CreateContactMutation, CreateContactMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateContactMutation, CreateContactMutationVariables>(CreateContactDocument, options);
+      }
+export type CreateContactMutationHookResult = ReturnType<typeof useCreateContactMutation>;
+export type CreateContactMutationResult = Apollo.MutationResult<CreateContactMutation>;
+export type CreateContactMutationOptions = Apollo.BaseMutationOptions<CreateContactMutation, CreateContactMutationVariables>;
 export const GetRecommendedItemsForHomeDocument = gql`
     query GetRecommendedItemsForHome($limit: Int, $_in: [Int!]) {
   items(
