@@ -121,8 +121,6 @@ export default function Cart() {
       customerName === "" || email === "" || phoneNumber === "" || postalCode === "" || city === "" || line1 === "" || line2 === "" ? true : false
   }, [errors, customerName, email, phoneNumber, postalCode, city, line1, line2]);
 
-  console.log("errors", errors)
-
   return (
     <Layout>
       <div className={styles.container}> 

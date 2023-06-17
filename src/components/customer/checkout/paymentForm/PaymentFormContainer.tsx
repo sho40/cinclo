@@ -75,7 +75,8 @@ const sendThanksMail = async (
   shippingFee: number,
   arraivalDate: string,
   returnDate: string,
-  orderId: string
+  orderId: string,
+  zipAddress: string
 ) => {
   const res = await fetch('/api/rental_success_mail', {
     body: JSON.stringify({
@@ -86,7 +87,8 @@ const sendThanksMail = async (
       shippingFee: shippingFee,
       arraivalDate: arraivalDate,
       returnDate: returnDate,
-      orderId: orderId
+      orderId: orderId,
+      zipAddress: zipAddress
     }),
     headers: {
       'Content-Type': 'application/json'
@@ -151,6 +153,7 @@ const PaymentForm = ({cartItems, purchaseInfo, amount, totalAmountWithoutTax, sh
     if (result.paymentIntent) {
       console.log(`注文完了 (order_id: ${result.paymentIntent.id})`)
       const orderId = uuidv4();
+      const zipAddress = purchaseInfo.city + purchaseInfo.line1 + purchaseInfo.line2;
       await createOrderAndUpdateItems({
         id: orderId,
         customer_name: purchaseInfo.customerName,
@@ -159,6 +162,8 @@ const PaymentForm = ({cartItems, purchaseInfo, amount, totalAmountWithoutTax, sh
         amount: amount,
         stripe_checkout_id: result.paymentIntent.id,
         specified_date: purchaseInfo.specifiedArraivalDate,
+        zip_code: purchaseInfo.postalCode,
+        zip_address: zipAddress
       });
 
       sendThanksMail(
@@ -169,7 +174,8 @@ const PaymentForm = ({cartItems, purchaseInfo, amount, totalAmountWithoutTax, sh
         shippingFee,
         purchaseInfo.specifiedArraivalDate,
         purchaseInfo.returnDate, // specifiedArraivalDateと同じYYYY-MM-DDの形式
-        orderId
+        orderId,
+        zipAddress,
       )
 
       // カートの中身をクリア

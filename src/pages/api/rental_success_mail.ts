@@ -15,7 +15,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const sgMail = require('@sendgrid/mail');
   sgMail.setApiKey(process.env.SENDGRID_APIKEY);
 
-  // TODO: 住所などのお届け先記載する？
   const msg = {
     to: req.body.email,
     bcc: '',
@@ -32,6 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       <p>
       ご注文番号: ${req.body.orderId}<br/>
       ご注文日: ${formatDateYYYYMMDDForDisplay(now)}<br/>
+      お届け先: ${req.body.zipAddress}<br/>
       お支払い合計: ${numberToPrice(totalAmountIncludesShippingFee)}<br/>
       到着予定日: ${req.body.arraivalDate}<br/>
       返却予定日: ${req.body.returnDate} ※お客様が発送する日<br/>
@@ -69,18 +69,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     `
   };
 
-
-  // (async () => {
-  //   try {
-  //     await sgMail.send(msg);
-  //     res.status(200)
-  //   } catch (error: any) {
-  //     console.error(error);
-  //     if (error.response) {
-  //       console.error(error.response.body)
-  //     }
-  //   }
-  // })();
   try {
     const response = await sgMail.send(msg);
 
