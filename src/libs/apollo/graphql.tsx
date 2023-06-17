@@ -2427,6 +2427,8 @@ export type Orders = {
   phone_number?: Maybe<Scalars['String']>;
   specified_date?: Maybe<Scalars['String']>;
   stripe_checkout_id?: Maybe<Scalars['String']>;
+  zip_address?: Maybe<Scalars['String']>;
+  zip_code?: Maybe<Scalars['String']>;
 };
 
 
@@ -2501,6 +2503,8 @@ export type Orders_Bool_Exp = {
   phone_number?: InputMaybe<String_Comparison_Exp>;
   specified_date?: InputMaybe<String_Comparison_Exp>;
   stripe_checkout_id?: InputMaybe<String_Comparison_Exp>;
+  zip_address?: InputMaybe<String_Comparison_Exp>;
+  zip_code?: InputMaybe<String_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "orders" */
@@ -2527,6 +2531,8 @@ export type Orders_Insert_Input = {
   phone_number?: InputMaybe<Scalars['String']>;
   specified_date?: InputMaybe<Scalars['String']>;
   stripe_checkout_id?: InputMaybe<Scalars['String']>;
+  zip_address?: InputMaybe<Scalars['String']>;
+  zip_code?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
@@ -2541,6 +2547,8 @@ export type Orders_Max_Fields = {
   phone_number?: Maybe<Scalars['String']>;
   specified_date?: Maybe<Scalars['String']>;
   stripe_checkout_id?: Maybe<Scalars['String']>;
+  zip_address?: Maybe<Scalars['String']>;
+  zip_code?: Maybe<Scalars['String']>;
 };
 
 /** aggregate min on columns */
@@ -2555,6 +2563,8 @@ export type Orders_Min_Fields = {
   phone_number?: Maybe<Scalars['String']>;
   specified_date?: Maybe<Scalars['String']>;
   stripe_checkout_id?: Maybe<Scalars['String']>;
+  zip_address?: Maybe<Scalars['String']>;
+  zip_code?: Maybe<Scalars['String']>;
 };
 
 /** response of any mutation on the table "orders" */
@@ -2592,6 +2602,8 @@ export type Orders_Order_By = {
   phone_number?: InputMaybe<Order_By>;
   specified_date?: InputMaybe<Order_By>;
   stripe_checkout_id?: InputMaybe<Order_By>;
+  zip_address?: InputMaybe<Order_By>;
+  zip_code?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: orders */
@@ -2618,7 +2630,11 @@ export enum Orders_Select_Column {
   /** column name */
   SpecifiedDate = 'specified_date',
   /** column name */
-  StripeCheckoutId = 'stripe_checkout_id'
+  StripeCheckoutId = 'stripe_checkout_id',
+  /** column name */
+  ZipAddress = 'zip_address',
+  /** column name */
+  ZipCode = 'zip_code'
 }
 
 /** input type for updating data in table "orders" */
@@ -2632,6 +2648,8 @@ export type Orders_Set_Input = {
   phone_number?: InputMaybe<Scalars['String']>;
   specified_date?: InputMaybe<Scalars['String']>;
   stripe_checkout_id?: InputMaybe<Scalars['String']>;
+  zip_address?: InputMaybe<Scalars['String']>;
+  zip_code?: InputMaybe<Scalars['String']>;
 };
 
 /** aggregate stddev on columns */
@@ -2681,7 +2699,11 @@ export enum Orders_Update_Column {
   /** column name */
   SpecifiedDate = 'specified_date',
   /** column name */
-  StripeCheckoutId = 'stripe_checkout_id'
+  StripeCheckoutId = 'stripe_checkout_id',
+  /** column name */
+  ZipAddress = 'zip_address',
+  /** column name */
+  ZipCode = 'zip_code'
 }
 
 /** aggregate var_pop on columns */
@@ -3789,6 +3811,8 @@ export type CreateOrderMutationVariables = Exact<{
   phone_number?: InputMaybe<Scalars['String']>;
   stripe_checkout_id?: InputMaybe<Scalars['String']>;
   specified_date?: InputMaybe<Scalars['String']>;
+  zip_code?: InputMaybe<Scalars['String']>;
+  zip_address?: InputMaybe<Scalars['String']>;
 }>;
 
 
@@ -4738,9 +4762,9 @@ export type UpdateItemsByOrderMutationHookResult = ReturnType<typeof useUpdateIt
 export type UpdateItemsByOrderMutationResult = Apollo.MutationResult<UpdateItemsByOrderMutation>;
 export type UpdateItemsByOrderMutationOptions = Apollo.BaseMutationOptions<UpdateItemsByOrderMutation, UpdateItemsByOrderMutationVariables>;
 export const CreateOrderDocument = gql`
-    mutation CreateOrder($amount: Int, $customer_name: String, $id: String, $mail_address: String, $phone_number: String, $stripe_checkout_id: String, $specified_date: String) {
+    mutation CreateOrder($amount: Int, $customer_name: String, $id: String, $mail_address: String, $phone_number: String, $stripe_checkout_id: String, $specified_date: String, $zip_code: String, $zip_address: String) {
   insert_orders_one(
-    object: {amount: $amount, customer_name: $customer_name, id: $id, mail_address: $mail_address, phone_number: $phone_number, stripe_checkout_id: $stripe_checkout_id, specified_date: $specified_date}
+    object: {amount: $amount, customer_name: $customer_name, id: $id, mail_address: $mail_address, phone_number: $phone_number, stripe_checkout_id: $stripe_checkout_id, specified_date: $specified_date, zip_code: $zip_code, zip_address: $zip_address}
   ) {
     id
   }
@@ -4768,6 +4792,8 @@ export type CreateOrderMutationFn = Apollo.MutationFunction<CreateOrderMutation,
  *      phone_number: // value for 'phone_number'
  *      stripe_checkout_id: // value for 'stripe_checkout_id'
  *      specified_date: // value for 'specified_date'
+ *      zip_code: // value for 'zip_code'
+ *      zip_address: // value for 'zip_address'
  *   },
  * });
  */

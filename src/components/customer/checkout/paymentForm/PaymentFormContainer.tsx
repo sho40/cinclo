@@ -9,17 +9,21 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSetRecoilState } from "recoil";
 import { CartItem, cartItemListState } from "@/atoms/CartAtom"
 import { addTax } from "@/logic/numberFormatter";
+import { PurchaseInfo } from "@/atoms/PurchaseInfoAtom";
+import classNames from "classnames";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY ?? "");
 
 interface PaymentFormContainer {
   cartItems: CartItem[];
+  purchaseInfo: PurchaseInfo;
   amount: number; // 税率をかけていない合計金額
   shippingFee: number; // 送料
   createOrderAndUpdateItems: (createOrderVariables: CreateOrderMutationVariables) => Promise<void>;
+  toggleDialogShown: () => void;
 }
 
-export default function PaymentFormContainer({cartItems, amount, shippingFee, createOrderAndUpdateItems}: PaymentFormContainer) {
+export default function PaymentFormContainer({cartItems, purchaseInfo, amount, shippingFee, createOrderAndUpdateItems, toggleDialogShown}: PaymentFormContainer) {
   const totalAmountIncludesShippingFee: number = Math.floor(addTax(amount) + shippingFee);
 
   const [piClientSecret, setPiClientSecret] = useState<string>('')
@@ -51,10 +55,12 @@ export default function PaymentFormContainer({cartItems, amount, shippingFee, cr
       <Elements stripe={stripePromise} options={{ clientSecret: piClientSecret }}>
         <PaymentForm
           cartItems={cartItems}
+          purchaseInfo={purchaseInfo}
           amount={totalAmountIncludesShippingFee}
           totalAmountWithoutTax={amount}
           shippingFee={shippingFee}
           createOrderAndUpdateItems={createOrderAndUpdateItems}
+          toggleDialogShown={toggleDialogShown}
         />
       </Elements>
     </div>
@@ -69,7 +75,8 @@ const sendThanksMail = async (
   shippingFee: number,
   arraivalDate: string,
   returnDate: string,
-  orderId: string
+  orderId: string,
+  zipAddress: string
 ) => {
   const res = await fetch('/api/rental_success_mail', {
     body: JSON.stringify({
@@ -80,7 +87,8 @@ const sendThanksMail = async (
       shippingFee: shippingFee,
       arraivalDate: arraivalDate,
       returnDate: returnDate,
-      orderId: orderId
+      orderId: orderId,
+      zipAddress: zipAddress
     }),
     headers: {
       'Content-Type': 'application/json'
@@ -93,38 +101,24 @@ const sendThanksMail = async (
 
 interface PaymentFormProps {
   cartItems: CartItem[];
+  purchaseInfo: PurchaseInfo;
   amount: number; // 税率・送料込みの金額
   totalAmountWithoutTax: number; // 税率・送料抜きの金額
   shippingFee: number; // 送料
   createOrderAndUpdateItems: (createOrderVariables: CreateOrderMutationVariables) => Promise<void>;
+  toggleDialogShown: () => void;
 }
 
-const PaymentForm = ({cartItems, amount, totalAmountWithoutTax, shippingFee, createOrderAndUpdateItems}: PaymentFormProps) => {
+const PaymentForm = ({cartItems, purchaseInfo, amount, totalAmountWithoutTax, shippingFee, createOrderAndUpdateItems, toggleDialogShown}: PaymentFormProps) => {
   const router = useRouter();
   const setCartItemList = useSetRecoilState(cartItemListState);
+  const [isConfirmChecked, setIsConfirmChecked] = useState<boolean>(false);
+  
+  const toggleChecked = () => {
+    setIsConfirmChecked(!isConfirmChecked);
+  }
 
   const [cardholderName, setCardholderName] = useState('');
-  const [customerName, setCustomerName] = useState('');
-  
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-
-  const defaultDate = new Date();
-  defaultDate.setDate(defaultDate.getDate() + 4);
-
-  const maxDate = new Date();
-  maxDate.setDate(maxDate.getDate() + 14);
-  const [specifiedArraivalDate, setSpecifiedArraivalDate] = useState(formatDateYYYYMMDDForDateForm(defaultDate));
-
-  const initReturnDate = new Date();
-  initReturnDate.setDate(initReturnDate.getDate() + 11)
-  const [returnDate, setReturnDate] = useState<Date>(initReturnDate);
-
-  useEffect(() => {
-    const nextDate = new Date(specifiedArraivalDate);
-    nextDate.setDate(nextDate.getDate() + 7)
-    setReturnDate(nextDate);
-  }, [specifiedArraivalDate]);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -159,25 +153,29 @@ const PaymentForm = ({cartItems, amount, totalAmountWithoutTax, shippingFee, cre
     if (result.paymentIntent) {
       console.log(`注文完了 (order_id: ${result.paymentIntent.id})`)
       const orderId = uuidv4();
+      const zipAddress = purchaseInfo.city + purchaseInfo.line1 + purchaseInfo.line2;
       await createOrderAndUpdateItems({
         id: orderId,
-        customer_name: customerName,
-        mail_address: email,
-        phone_number: phoneNumber,
+        customer_name: purchaseInfo.customerName,
+        mail_address: purchaseInfo.email,
+        phone_number: purchaseInfo.phoneNumber,
         amount: amount,
         stripe_checkout_id: result.paymentIntent.id,
-        specified_date: specifiedArraivalDate,
+        specified_date: purchaseInfo.specifiedArraivalDate,
+        zip_code: purchaseInfo.postalCode,
+        zip_address: zipAddress
       });
 
       sendThanksMail(
-        customerName,
-        email,
+        purchaseInfo.customerName,
+        purchaseInfo.email,
         cartItems,
         totalAmountWithoutTax,
         shippingFee,
-        specifiedArraivalDate,
-        formatDateYYYYMMDDForDateForm(returnDate), // specifiedArraivalDateと同じYYYY-MM-DDの形式
-        orderId
+        purchaseInfo.specifiedArraivalDate,
+        purchaseInfo.returnDate, // specifiedArraivalDateと同じYYYY-MM-DDの形式
+        orderId,
+        zipAddress,
       )
 
       // カートの中身をクリア
@@ -192,41 +190,6 @@ const PaymentForm = ({cartItems, amount, totalAmountWithoutTax, shippingFee, cre
     <form onSubmit={handleCheckout}>
       <div>
         <div>
-          <div className={styles.customerDataArea}>
-            <div className={styles.phoneNumber}>
-              <fieldset>
-                <p>電話番号</p>
-                <input
-                  type='tel'
-                  pattern="\d{2,4}-?\d{2,4}-?\d{3,4}"
-                  maxLength={11}
-                  required
-                  onChange={e => setPhoneNumber(e.target.value)}
-                />
-              </fieldset>
-            </div>
-            <div className={styles.email}>
-              <fieldset>
-                <p>Eメール</p>
-                <input
-                  type='email'
-                  required
-                  onChange={e => setEmail(e.target.value)}
-                />
-              </fieldset>
-            </div>
-            <AddressElement 
-              options={{
-                mode: 'shipping',
-                allowedCountries: ['JP'],
-              }}
-              onChange={e => {
-                if (e.complete) {
-                  setCustomerName(e.value.name)
-                }
-              }}
-            />
-          </div>
           <div className={styles.cardElementArea}>
             <div className={styles.cardholderName}>
               <fieldset>
@@ -251,28 +214,27 @@ const PaymentForm = ({cartItems, amount, totalAmountWithoutTax, shippingFee, cre
           </div>
         </div>
       </div>
-      <div className={styles.customerDataArea}>
-        <div className={styles.specifiedArraivalDate}>
-          <fieldset>
-            <p>指定到着日</p>
-            <p className={styles.subText}>本日より4日後が最短のお届け日となります。</p>
-            <input
-              type='date'
-              required
-              onChange={e => setSpecifiedArraivalDate(e.target.value)}
-              defaultValue={formatDateYYYYMMDDForDateForm(defaultDate)}
-              min={formatDateYYYYMMDDForDateForm(defaultDate)}
-              max={formatDateYYYYMMDDForDateForm(maxDate)}
-            />
-          </fieldset>
-          <div className={styles.returnDateArea}>
-            <span>{"返却日(伝票日付)"}</span>
-            <span className={styles.returnDate}>{formatDateYYYYMMDDForDisplay(returnDate)}</span>
-          </div>
+      <div className={styles.buttonArea}>
+        {/* TODO: 確認ダイアログ実装 */}
+        <div className={styles.confirmCheck}>
+          <input
+            type="checkbox"
+            onChange={() => toggleChecked()}
+            checked={isConfirmChecked}
+          />
+          <span onClick={() => toggleDialogShown()} className={styles.termsOfServiceLinkText}>
+            利用規約
+          </span>
+          <span>
+            を確認しました。
+          </span>
         </div>
-      </div>
-      <div className={styles.checkoutButton}>
-        <button type="submit">決済する</button>
+        <div className={classNames(styles.checkoutButton, {
+          [styles.disabled]: !isConfirmChecked
+        })}>
+          <button type="submit">決済する</button>
+        </div>
+        <div className={styles.warnningMessage}>※決済と同時にキャンセル料が発生いたします</div>
       </div>
     </form>
   )
