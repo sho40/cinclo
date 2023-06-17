@@ -5,6 +5,7 @@ import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import styles from './orderDetail.module.scss'
 import { formatDateYYYYMMDDHHmmss } from "@/logic/dateFormatter";
+import { numberToPrice } from "@/logic/numberFormatter";
 
 export default function OrderDetail() {
 
@@ -34,7 +35,7 @@ export default function OrderDetail() {
                 <tr>
                   <th>合計金額</th>
                   <td className={styles.description}>
-                    {orderDetail.amount}
+                    {numberToPrice(orderDetail.amount)}
                   </td>
                 </tr>
                 <tr>
@@ -58,6 +59,14 @@ export default function OrderDetail() {
                 <tr>
                   <th>電話番号</th>
                   <td>{orderDetail.phone_number}</td>
+                </tr> 
+                <tr>
+                  <th>郵便番号</th>
+                  <td>{orderDetail.zip_code}</td>
+                </tr> 
+                <tr>
+                  <th>住所</th>
+                  <td>{orderDetail.zip_address}</td>
                 </tr> 
                 <tr>
                   <th>指定日</th>
@@ -84,7 +93,7 @@ export default function OrderDetail() {
                       <tr>
                         <th>定価</th>
                         <td>
-                          {orderedItem?.regular_price}
+                          {orderedItem?.regular_price != null ? numberToPrice(orderedItem.regular_price): ""}
                         </td>
                       </tr>
                       <tr>
@@ -99,7 +108,7 @@ export default function OrderDetail() {
                           <button 
                             className='bg-gray-400 text-white' 
                             onClick={() => router.push(`/admin/item/detail/${orderedItem?.id}`) /* notnullなので必ず存在する */}
-                          >注文詳細</button>
+                          >商品詳細</button>
                         </div>
                       </tr>
                     </tbody>
@@ -136,6 +145,8 @@ gql`
         amount
         count
       }
+      zip_address
+      zip_code
     }
   }
 `
