@@ -7,6 +7,10 @@ import { gql } from '@apollo/client';
 import { CreateOrderMutationVariables, useCreateOrderItemRelationMutation, useCreateOrderMutation, useGetRecommendedItemsForHomeQuery, useUpdateItemsByOrderMutation } from '@/libs/apollo/graphql';
 import { calcTotalAmount } from '@/pages/cart';
 import { v4 as uuidv4 } from 'uuid';
+import { purchaseInfoState } from '@/atoms/PurchaseInfoAtom';
+import { getShippingFee } from '@/logic/getShippingFee';
+import { ReactNode, useEffect, useRef, useState } from 'react';
+import { TermsOfServiceComponent } from '@/components/customer/terms-of-service/termsOfService';
 
 // FIXME: 仮置き
 export type CheckoutInfo = {
@@ -41,16 +45,44 @@ const updateItemPrice = (currentPrice: number, nextCount: number): number => {
   }
 }
 
+const ConfirmDialog = (props: {
+  children: ReactNode;
+  onClose: () => void;
+}) => {
+
+  const dialogContainerElement = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const container = dialogContainerElement.current
+    if (dialogContainerElement != null && container != null) {
+    }
+  })
+
+  return (
+    <>
+      <div className={styles.overlay}/>
+      <div className={styles.dialogContainer} ref={dialogContainerElement}>
+        <div>{props.children}</div>
+        <div className={styles.closeButton} onClick={props.onClose}>
+          <button>close</button>
+        </div>
+      </div>
+    </>
+  )
+}
+
 export default function CheckoutInformation() {
   const cartItems = useRecoilValue(cartItemListState);
+  const purchaseInfo = useRecoilValue(purchaseInfoState);
   const [createOrderRecord] = useCreateOrderMutation();
   const [createOrderItemRelationRecord] = useCreateOrderItemRelationMutation();
   const [updateItemsByOrder] = useUpdateItemsByOrderMutation();
   
-  const totalAmount = calcTotalAmount(cartItems);
-  // FIXME: 配送料定義から取得
-  const shippingFee = 1400;
-  // FIXME: 金額は四捨五入か？
+  const shippingFee = getShippingFee(purchaseInfo.city);
+
+  const [isDialogShown, setDialogShown] = useState<boolean>(false);
+  const toggleDialogShown = () => {
+    setDialogShown(!isDialogShown)
+  }
 
   useGetRecommendedItemsForHomeQuery()
 
@@ -93,8 +125,17 @@ export default function CheckoutInformation() {
       <div className={styles.container}>
         <PaymentConfirm 
           cartItems={cartItems} 
+          purchaseInfo={purchaseInfo}
+          shippingFee={shippingFee}
           createOrderAndUpdateItems={createOrderAndUpdateItems}
+          toggleDialogShown={toggleDialogShown}
         />
+        {isDialogShown ? 
+          <ConfirmDialog onClose={() => setDialogShown(false)}>
+            <TermsOfServiceComponent classname={styles.termsOfServiceContainer} />
+          </ConfirmDialog> 
+          : <></>
+        }
       </div>
     </Layout>
   )

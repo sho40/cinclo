@@ -6,18 +6,19 @@ import { addTax, numberToPrice, numberToPriceCustomer } from "@/logic/numberForm
 import { calcTotalAmount } from "@/pages/cart";
 import PaymentFormContainer from "../paymentForm/PaymentFormContainer";
 import { CreateOrderMutationVariables } from "@/libs/apollo/graphql";
+import { PurchaseInfo } from "@/atoms/PurchaseInfoAtom";
 
 interface PaymentConfirmProps {
   cartItems: CartItem[];
+  purchaseInfo: PurchaseInfo;
+  shippingFee: number;
   createOrderAndUpdateItems: (createOrderVariables: CreateOrderMutationVariables) => Promise<void>;
+  toggleDialogShown: () => void;
 }
 
-export default function PaymentConfirm({cartItems, createOrderAndUpdateItems}: PaymentConfirmProps) {
+export default function PaymentConfirm({cartItems, purchaseInfo, shippingFee, createOrderAndUpdateItems, toggleDialogShown}: PaymentConfirmProps) {
 
   const totalAmount = calcTotalAmount(cartItems);
-
-  // FIXME: 配送料定義から取得
-  const shippingFee = 1400;
 
   useEffect(() => {
     window.scrollTo({top: 0, behavior: 'smooth'});
@@ -58,13 +59,48 @@ export default function PaymentConfirm({cartItems, createOrderAndUpdateItems}: P
             </div>
           </div>
         </div>
+        <div className={styles.purchaseInfoArea}>
+          <h2>お届けに関する情報</h2>
+          <div>
+            <table>
+              <tbody>
+                <tr>
+                  <th>お名前</th>
+                  <td>{`${purchaseInfo.customerName} 様`}</td>
+                </tr>
+                <tr>
+                  <th>お届け場所</th>
+                  <td>{`${purchaseInfo.city} ${purchaseInfo.line1} ${purchaseInfo.line2}`}</td>
+                </tr>
+                <tr>
+                  <th>電話暗号</th>
+                  <td>{`${purchaseInfo.phoneNumber}`}</td>
+                </tr>
+                <tr>
+                  <th>メールアドレス</th>
+                  <td>{`${purchaseInfo.email}`}</td>
+                </tr>
+                <tr>
+                  <th>指定到着日</th>
+                  <td>{`${purchaseInfo.specifiedArraivalDate}`}</td>
+                </tr>
+                <tr>
+                  <th>返却日</th>
+                  <td>{`${purchaseInfo.returnDate}`}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
         <div className={styles.formArea}>
-          <h2>決済・配送情報の入力</h2>
+          <h2>決済情報の入力</h2>
           <PaymentFormContainer
             cartItems={cartItems}
+            purchaseInfo={purchaseInfo}
             amount={totalAmount} 
             shippingFee={shippingFee}
             createOrderAndUpdateItems={createOrderAndUpdateItems}
+            toggleDialogShown={toggleDialogShown}
           />
         </div>
       </div>

@@ -56,3 +56,67 @@
     }
   }
 }
+
+.dialogContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 90vh;
+  width: 90%;
+  background: #fff;
+  padding: 1em;
+  z-index: 101;
+  overflow-y: auto;
+  border-radius: 5px;
+
+  .closeButton {
+    padding: 10px 0;
+    text-align: center;
+
+    & > button {
+      width: 40%;
+      height: 30px;
+      line-height: 30px;
+      margin: 0 auto;
+      background-color: #111;
+      color: #fff;
+      border-radius: 3px;
+      text-align: center;
+
+      &:hover {
+        opacity: .5;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  top:0;
+  left:0;
+  width:100vw;
+  height:100vh;
+  background-color:rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+// /components/customer/terms-of-service/termsOfService.tsx の構成に合わせて定義
+.termsOfServiceContainer {
+  h1 {
+    text-align: center;
+    padding: 0.75rem;
+  }
+
+  section {
+    padding: 1rem 0;
+  }
+
+  p {
+    font-size: .8rem;
+  }
+}
