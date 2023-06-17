@@ -137,6 +137,7 @@ gql`
       name
       next_lending_date
       regular_price
+      display_index
     }
   }
 `

@@ -2,7 +2,7 @@ import { HomeItemsContainer } from '@/components/HomeItemsContainer'
 import { SlideBunner } from '@/components/slideanner/SlideBanner'
 
 import { gql } from '@apollo/client'
-import { useGetRecommendedItemsForHomeQuery, useGetNewArrivalItemsQuery, useGetAllItemCountQuery, useGetAllItemListQuery } from '../libs/apollo/graphql'
+import { useGetRecommendedItemsForHomeQuery, useGetNewArrivalItemsQuery, useGetAllItemCountQuery, useGetAllItemListQuery, Items } from '../libs/apollo/graphql'
 import { Layout } from '@/components/customer/Layout'
 import { ItemCard } from '@/components/customer/item-card/ItemCard'
 import styles from "./home.module.scss"
@@ -71,11 +71,35 @@ const GenderSwitch = () => {
 //   )
 // }
 
+/**
+ * display_index順に商品を並び替える。
+ * nullの場合は最後に来るようにする。
+ */
+const sortItems = (items: Partial<Items>[] | undefined) => {
+  if (items == null) {
+    return []
+  } else {
+    return [...items].sort((a, b) => {
+      if (a.display_index == null) {
+        return 1;
+      }
+      if (b.display_index == null) {
+        return -1
+      }
+      if (a.display_index === b.display_index) {
+        return 0
+      }
+      return a.display_index < b.display_index ? -1 : 1
+    })
+  }
+}
+
 const AllItems = () => {
   const itemCount = useGetAllItemCountQuery();
   const allItemCount: number = itemCount.data?.items_aggregate.aggregate?.count ?? 0;
 
   const { data, loading } = useGetAllItemListQuery();
+  const sortedItems = sortItems(data?.items);
 
   return (
     <div className='py-7'>
@@ -87,7 +111,7 @@ const AllItems = () => {
       <div className={styles.container}>
         {loading ? <>loading ...</> : (
           <ul className='flex flex-wrap justify-between text-sm'>
-            {data?.items.map((item, index) => 
+            {sortedItems.map((item, index) => 
               <li key={index} className='mb-7' style={{ width: 'calc((100% - 16px) / 2)' }}>
                 <ItemCard item={item}/>
               </li>
