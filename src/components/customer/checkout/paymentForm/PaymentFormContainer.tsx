@@ -11,6 +11,7 @@ import { CartItem, cartItemListState } from "@/atoms/CartAtom"
 import { addTax } from "@/logic/numberFormatter";
 import { PurchaseInfo } from "@/atoms/PurchaseInfoAtom";
 import classNames from "classnames";
+import { loadingState } from "@/atoms/LoadingAtom";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_API_KEY ?? "");
 
@@ -113,6 +114,7 @@ const PaymentForm = ({cartItems, purchaseInfo, amount, totalAmountWithoutTax, sh
   const router = useRouter();
   const setCartItemList = useSetRecoilState(cartItemListState);
   const [isConfirmChecked, setIsConfirmChecked] = useState<boolean>(false);
+  const setLoading = useSetRecoilState(loadingState);
   
   const toggleChecked = () => {
     setIsConfirmChecked(!isConfirmChecked);
@@ -129,7 +131,11 @@ const PaymentForm = ({cartItems, purchaseInfo, amount, totalAmountWithoutTax, sh
     e.preventDefault();
     if (!stripe || !elements) return;
 
-    const confirm = window.confirm("決済してもよろしいですか？")
+    const confirm = window.confirm("決済してもよろしいですか？");
+
+    // 画面にloading表示
+    setLoading(true);
+
     const result = confirm ? await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -180,10 +186,13 @@ const PaymentForm = ({cartItems, purchaseInfo, amount, totalAmountWithoutTax, sh
 
       // カートの中身をクリア
       setCartItemList([]);
-      router.push("/checkout/success/")
+      router.push("/checkout/success/");
     } else {
       window.alert(`注文完了`)
     }
+
+    // loading解除
+    setLoading(false);
   }
 
   return (
@@ -215,7 +224,6 @@ const PaymentForm = ({cartItems, purchaseInfo, amount, totalAmountWithoutTax, sh
         </div>
       </div>
       <div className={styles.buttonArea}>
-        {/* TODO: 確認ダイアログ実装 */}
         <div className={styles.confirmCheck}>
           <input
             type="checkbox"
