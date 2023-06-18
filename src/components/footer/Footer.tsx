@@ -1,4 +1,4 @@
-import { IconButton } from "@/utils/IconButton";
+import { IconButton, IconLink } from "@/utils/IconButton";
 import Link from "next/link";
 import {
   faInstagram
@@ -40,10 +40,9 @@ export default function Footer() {
               </li>
             </ul>
           </li>
-          {/* TODO: 開設したら表示
           <li className= {styles.snsIcon}>
-            <IconButton onClick={() => {console.log("clicked")}} icon={faInstagram as IconDefinition}/>
-          </li> */}
+            <IconLink link="https://instagram.com/cinderella_closet0403?igshid=MmIzYWVlNDQ5Yg==" icon={faInstagram as IconDefinition}/>
+          </li>
         </ul>
       </div>
       <div className={styles.copyright}>
