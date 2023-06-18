@@ -12,9 +12,11 @@ export default function CheckoutSuccess() {
         <h1>お問合せを受け付けました。</h1>
         <section>
           <h3>お問合せありがとうございます。</h3>
-          <p>※ご入力いただいたメールアドレスへお問合せ内容確認メールを送信しました。</p>
-          <p>※万が一メールが届かない場合・ご不明な点がございましたらお手数ですが下記までご連絡ください。</p>
-          <p>※メアドを記載</p>
+          <p>
+            ※ご入力いただいたメールアドレスへお問合せ内容確認メールを送信しました。<br/>
+            ※万が一メールが届かない場合・ご不明な点がございましたらお手数ですが下記までご連絡ください。<br/>
+            admin@cinclo.jp
+          </p>
         </section>
         <section>
           <div className={styles.contactPageLinkButton}>

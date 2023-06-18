@@ -4,10 +4,13 @@ import { useForm } from 'react-hook-form'
 import { gql } from "@apollo/client";
 import { CreateContactMutationVariables, useCreateContactMutation } from "@/libs/apollo/graphql";
 import { useRouter } from "next/router";
+import { useSetRecoilState } from "recoil";
+import { loadingState } from "@/atoms/LoadingAtom";
 
 export default function Contact() {
   const router = useRouter();
   const [createContact] = useCreateContactMutation();
+  const setLoading = useSetRecoilState(loadingState);
 
   const {
     register,
@@ -17,6 +20,9 @@ export default function Contact() {
   } = useForm<CreateContactMutationVariables>()
 
   const onCreateContact = async (data: CreateContactMutationVariables) => {
+
+    // 画面にloading表示
+    setLoading(true);
 
     await createContact({variables: {
       customer_name: data.customer_name,
@@ -41,6 +47,9 @@ export default function Contact() {
 
     // 受付完了画面へ遷移
     router.push("/contact/success/")
+
+    // loading解除
+    setLoading(false);
   }
 
   return (
