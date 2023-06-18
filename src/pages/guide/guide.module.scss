@@ -2,22 +2,20 @@
   padding: 10px 5px;
 
   h1 {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: bold;
+    text-align: center;
   }
 
   section {
-    margin: 10px 0;
-
-    h2 {
-      font-size: 14px;
-    }
+    margin: 20px 0;
 
     h3 {
-      font-size: 13px;
+      font-size: 16px;
+      font-weight: bold;
     }
     p {
-      font-size: 12px;
+      font-size: 14px;
     }
 
     span {
@@ -41,7 +39,7 @@
 
     .shippingFee {
       table, th, td {
-        border: .5px solid #666;
+        border: 1px solid #666;
       }
       table {
         margin: 10px 0;
