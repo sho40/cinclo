@@ -4,13 +4,23 @@ export default function handler(req: any, res: any) {
     sgMail.setApiKey(process.env.SENDGRID_APIKEY);
 
     const replacedMessage = req.body.message.replace(/(\r\n|\n|\r)/gm, '<br>');
-    console.log("req.body.message", replacedMessage)
      
     const msg = {
       to: req.body.mail_address,
+      bcc: 'admin@cinclo.jp', 
       from: 'support-system@cinclo.jp',
       subject: 'お問合せを受け付けました。',
-      text: `お問合せを受け付けました。\n回答をお待ちください。\n${req.body.message}`,
+      text: `
+        お問合せを受け付けました。\n
+        ${req.body.customer_name}様\n
+        いつもCINCLOをご利用いただき、ありがとうございます。\n
+        下記お問合せを受け付けました。\n
+        お問合せ内容を確認後、スタッフよりメールにてご連絡させていただきます。\n
+        ====== お問い合わせ内容 ======\n
+        ${req.body.message}\n
+        ===========================\n\n
+        ■ 本メールは送信専用のため、ご返信いただきましても対応致しかねます。\n\n
+        SELECT SHOP SoLuNa`,
       html: `
         <strong>お問合せありがとうございます。</strong>
         <br />
