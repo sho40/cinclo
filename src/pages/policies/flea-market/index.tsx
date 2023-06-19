@@ -9,8 +9,10 @@ export default function FleaMarket() {
           <h1>古物営業法に基づく表示</h1>
         </div>
         <section>
-          <p>■古物商許可証番号</p>
-          <p>東京都公安委員会 第号</p>
+          <p>
+            ■古物商許可証番号<br/>
+            埼玉県公安委員会 第431120060461号
+          </p>
         </section>
       </div>
     </Layout>
