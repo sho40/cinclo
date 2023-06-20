@@ -138,6 +138,7 @@ gql`
       next_lending_date
       regular_price
       display_index
+      is_rental_available
     }
   }
 `

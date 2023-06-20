@@ -3965,7 +3965,7 @@ export type GetAllItemListQuery = (
   { __typename?: 'query_root' }
   & { items: Array<(
     { __typename?: 'items' }
-    & Pick<Items, 'current_count' | 'current_price' | 'id' | 'gender' | 'name' | 'next_lending_date' | 'regular_price' | 'display_index'>
+    & Pick<Items, 'current_count' | 'current_price' | 'id' | 'gender' | 'name' | 'next_lending_date' | 'regular_price' | 'display_index' | 'is_rental_available'>
     & { images: Array<(
       { __typename?: 'images' }
       & Pick<Images, 'id' | 'url'>
@@ -5135,6 +5135,7 @@ export const GetAllItemListDocument = gql`
     next_lending_date
     regular_price
     display_index
+    is_rental_available
   }
 }
     `;
