@@ -1,4 +1,10 @@
 .container {
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    opacity: .7;
+  }
 
   .itemImage {
     position: relative;
@@ -37,5 +43,22 @@
 
   .priceArea {
     padding-top: 5px;
+  }
+
+  .mask {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: .5;
+    display: flex;
+    align-items: center;
+
+    p {
+      color: #fff;
+      margin: 0 auto;
+      font-size: 18px;
+    }
   }
 }

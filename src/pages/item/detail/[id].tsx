@@ -95,7 +95,8 @@ export default function ItemDetail() {
     setCartItemList([...cartItemList, target])
   }
 
-  const isCartDisabled = cartItemList.some(cartItem => cartItem.id === item.id);
+  const isCartAdded = cartItemList.some(cartItem => cartItem.id === item.id);
+  const isCartDisabled = isCartAdded || !item.is_rental_available
 
   return (
     <Layout>
@@ -133,7 +134,8 @@ export default function ItemDetail() {
             <div onClick={() => addCart()}>
               カートに追加する
             </div>
-            {isCartDisabled ? <p className={`${styles.cartDisableMessage} text-red-400`}>現在カートに含まれています</p> : <></>}
+            {isCartAdded ? <p className={`${styles.cartDisableMessage} text-red-400`}>現在カートに含まれています</p> : <></>}
+            {!item.is_rental_available ? <p className={`${styles.cartDisableMessage}`}>この商品は貸出中です</p> : <></>}
           </div>
           <div className={styles.description}>
             {item.description != null ? escapeDescription(item.description) : ""}
