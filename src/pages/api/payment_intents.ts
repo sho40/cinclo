@@ -13,6 +13,9 @@ export default async function handler(req: any, res: any) {
       amount,
       currency,
       description: "Order from PaymentIntents API",
+      automatic_payment_methods: {
+        enabled: true,
+      },
     })
 
     return res.status(201).json({
