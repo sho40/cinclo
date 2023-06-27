@@ -1,5 +1,70 @@
 .container {
 
+  .actionButtonArea {
+    display: flex;
+    justify-content: end;
+
+    & > div:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    .prepare {
+      button {
+        background-color: #2EA9DF;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        color: #fff;
+  
+        &:hover {
+          opacity: .5;
+        }
+      }
+    }
+
+    .shipped {
+      button {
+        background-color: #1B813E;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        color: #fff;
+  
+        &:hover {
+          opacity: .5;
+        }
+      }
+    }
+
+    .penalty {
+      button {
+        background-color: #FFC408;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        color: #333;
+  
+        &:hover {
+          opacity: .5;
+        }
+      }
+    }
+
+    .recieved {
+      button {
+        background-color: #828282;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        color: #fff;
+  
+        &:hover {
+          opacity: .5;
+        }
+      }
+    }
+  }
+
   .imageArea {
     width: 100%;
     display: flex;

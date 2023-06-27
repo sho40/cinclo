@@ -6,21 +6,12 @@ import { numberToPrice } from "@/logic/numberFormatter";
 import { formatDateYYYYMMDDHHmmss } from "@/logic/dateFormatter";
 import { getLayout } from "@/components/admin/layout";
 import Router from 'next/router'
+import { orderStatusConverter } from "@/logic/admin/orderStatusConverter";
 
 export default function OrderList() {
 
   const { data, loading } = useGetOrderListQuery();
   const items = data?.orders;
-  const convertOrderStatus = (status: number) => {
-    switch (status) {
-      case 0:
-        return "発送待ち"
-      case 1:
-        "返送待ち"
-      default:
-        "不明"
-    }
-  }
 
   return (
     <div>
@@ -54,7 +45,7 @@ export default function OrderList() {
                           <td>{item.amount && numberToPrice(item.amount)}</td>
                           <td>{item.specified_date}</td>
                           <td>{item.stripe_checkout_id}</td>
-                          <td>{item.order_status && convertOrderStatus(item.order_status)}</td>
+                          <td>{item.order_status != null ? orderStatusConverter(item.order_status) : ""}</td>
                           <td>{item.created_at ? formatDateYYYYMMDDHHmmss(item.created_at) : "-"}</td>
                           <td>
                             <div className={styles.detailButton}>

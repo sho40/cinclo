@@ -3666,7 +3666,7 @@ export type GetOrderDetailQuery = (
   { __typename?: 'query_root' }
   & { orders_by_pk?: Maybe<(
     { __typename?: 'orders' }
-    & Pick<Orders, 'amount' | 'created_at' | 'customer_name' | 'id' | 'mail_address' | 'phone_number' | 'specified_date' | 'stripe_checkout_id' | 'zip_address' | 'zip_code'>
+    & Pick<Orders, 'amount' | 'created_at' | 'customer_name' | 'id' | 'mail_address' | 'phone_number' | 'specified_date' | 'order_status' | 'stripe_checkout_id' | 'zip_address' | 'zip_code'>
     & { items: Array<(
       { __typename?: 'order_item_relations' }
       & Pick<Order_Item_Relations, 'amount' | 'count'>
@@ -3675,6 +3675,20 @@ export type GetOrderDetailQuery = (
         & Pick<Items, 'name' | 'regular_price' | 'gender' | 'id'>
       )> }
     )> }
+  )> }
+);
+
+export type UpdateOrderStatusMutationVariables = Exact<{
+  id: Scalars['String'];
+  order_status?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type UpdateOrderStatusMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_orders_by_pk?: Maybe<(
+    { __typename?: 'orders' }
+    & Pick<Orders, 'id' | 'order_status'>
   )> }
 );
 
@@ -4342,6 +4356,7 @@ export const GetOrderDetailDocument = gql`
     mail_address
     phone_number
     specified_date
+    order_status
     stripe_checkout_id
     items {
       item {
@@ -4386,6 +4401,41 @@ export function useGetOrderDetailLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetOrderDetailQueryHookResult = ReturnType<typeof useGetOrderDetailQuery>;
 export type GetOrderDetailLazyQueryHookResult = ReturnType<typeof useGetOrderDetailLazyQuery>;
 export type GetOrderDetailQueryResult = Apollo.QueryResult<GetOrderDetailQuery, GetOrderDetailQueryVariables>;
+export const UpdateOrderStatusDocument = gql`
+    mutation UpdateOrderStatus($id: String!, $order_status: Int) {
+  update_orders_by_pk(pk_columns: {id: $id}, _set: {order_status: $order_status}) {
+    id
+    order_status
+  }
+}
+    `;
+export type UpdateOrderStatusMutationFn = Apollo.MutationFunction<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>;
+
+/**
+ * __useUpdateOrderStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateOrderStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOrderStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOrderStatusMutation, { data, loading, error }] = useUpdateOrderStatusMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      order_status: // value for 'order_status'
+ *   },
+ * });
+ */
+export function useUpdateOrderStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>(UpdateOrderStatusDocument, options);
+      }
+export type UpdateOrderStatusMutationHookResult = ReturnType<typeof useUpdateOrderStatusMutation>;
+export type UpdateOrderStatusMutationResult = Apollo.MutationResult<UpdateOrderStatusMutation>;
+export type UpdateOrderStatusMutationOptions = Apollo.BaseMutationOptions<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>;
 export const GetOrderListDocument = gql`
     query GetOrderList {
   orders(order_by: {created_at: desc}) {
