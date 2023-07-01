@@ -169,7 +169,8 @@ const PaymentForm = ({cartItems, purchaseInfo, amount, totalAmountWithoutTax, sh
         stripe_checkout_id: result.paymentIntent.id,
         specified_date: purchaseInfo.specifiedArraivalDate,
         zip_code: purchaseInfo.postalCode,
-        zip_address: zipAddress
+        zip_address: zipAddress,
+        shipping_fee: shippingFee
       });
 
       sendThanksMail(

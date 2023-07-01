@@ -1,18 +1,51 @@
 import { getLayout } from "@/components/admin/layout";
 import PageTitle from "@/components/admin/pageTitle/PageTitle";
-import { useGetOrderDetailQuery } from "@/libs/apollo/graphql";
+import { UpdateOrderStatusMutationVariables, useGetOrderDetailQuery, useUpdateOrderStatusMutation } from "@/libs/apollo/graphql";
 import { gql } from "@apollo/client";
 import { useRouter } from "next/router";
 import styles from './orderDetail.module.scss'
-import { formatDateYYYYMMDDHHmmss } from "@/logic/dateFormatter";
+import { formatDateYYYYMMDDForDateForm, formatDateYYYYMMDDHHmmss } from "@/logic/dateFormatter";
 import { numberToPrice } from "@/logic/numberFormatter";
+import { useMemo } from "react";
+import { orderStatusConverter } from "@/logic/admin/orderStatusConverter";
 
 export default function OrderDetail() {
 
   const router = useRouter();
   const { id } = router.query;
   const {data, loading} = useGetOrderDetailQuery({variables: {id: id as string}});
-  const orderDetail = data?.orders_by_pk
+  const orderDetail = data?.orders_by_pk;
+
+  const returnDate = useMemo(() => {
+    if (orderDetail == null) {
+      return null;
+    }
+    const specifiedDate = orderDetail.specified_date != null ? new Date(orderDetail.specified_date) : null;
+    if (specifiedDate != null) {
+      specifiedDate.setDate(specifiedDate.getDate() + 7)
+      return specifiedDate;
+    } else {
+      return null
+    }
+  }, [orderDetail]);
+
+  const [updateStatus] = useUpdateOrderStatusMutation();
+
+  const onUpdateOrderStatus = async (id: string, status: number) => {
+
+    const params: UpdateOrderStatusMutationVariables = {
+      id: id,
+      order_status: status
+    }
+
+    try {
+      await updateStatus({variables: params})
+    } catch (error) {
+      console.log({error})
+    }
+
+    
+  }
   
   if (loading) return <div>...loading</div>
   if (orderDetail == null) return <></>
@@ -21,6 +54,20 @@ export default function OrderDetail() {
     <>
       <PageTitle title='注文詳細'/>
       <div className={styles.container}>
+        <div className={styles.actionButtonArea}>
+          <div className={styles.prepare}>
+            <button onClick={() => onUpdateOrderStatus(orderDetail.id, 0)}>発送準備中にする</button>
+          </div>
+          <div className={styles.shipped}>
+            <button onClick={() => onUpdateOrderStatus(orderDetail.id, 1)}>発送済にする</button>
+          </div>
+          <div className={styles.penalty}>
+            <button onClick={() => onUpdateOrderStatus(orderDetail.id, 2)}>延滞金支払い待ちにする</button>
+          </div>
+          <div className={styles.recieved}>
+            <button onClick={() => onUpdateOrderStatus(orderDetail.id, 3)}>商品受取り済にする</button>
+          </div>
+        </div>
         <div className={styles.basicInfoArea}>
           <div className='bg-gray-200'>
             <table>
@@ -33,9 +80,15 @@ export default function OrderDetail() {
                   </td>
                 </tr>
                 <tr>
-                  <th>合計金額</th>
+                  <th>{`合計金額(配送料含む)`}</th>
                   <td className={styles.description}>
                     {numberToPrice(orderDetail.amount)}
+                  </td>
+                </tr>
+                <tr>
+                  <th>配送料</th>
+                  <td>
+                    {orderDetail.shipping_fee != null ? numberToPrice(orderDetail.shipping_fee) : "-"}
                   </td>
                 </tr>
                 <tr>
@@ -71,6 +124,14 @@ export default function OrderDetail() {
                 <tr>
                   <th>指定日</th>
                   <td>{orderDetail.specified_date}</td>
+                </tr> 
+                <tr>
+                  <th>返却日</th>
+                  <td>{returnDate != null ? formatDateYYYYMMDDForDateForm(returnDate) : ""}</td>
+                </tr> 
+                <tr>
+                  <th>ステータス</th>
+                  <td>{orderStatusConverter(orderDetail.order_status)}</td>
                 </tr> 
               </tbody>
             </table>
@@ -134,6 +195,7 @@ gql`
       mail_address
       phone_number
       specified_date
+      order_status
       stripe_checkout_id
       items {
         item {
@@ -147,6 +209,16 @@ gql`
       }
       zip_address
       zip_code
+      shipping_fee
+    }
+  }
+`
+
+gql`
+  mutation UpdateOrderStatus($id: String!, $order_status: Int) {
+    update_orders_by_pk(pk_columns: {id: $id}, _set: {order_status: $order_status}) {
+      id
+      order_status
     }
   }
 `

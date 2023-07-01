@@ -2447,6 +2447,7 @@ export type Orders = {
   mail_address: Scalars['String'];
   order_status: Scalars['Int'];
   phone_number?: Maybe<Scalars['String']>;
+  shipping_fee?: Maybe<Scalars['Int']>;
   specified_date?: Maybe<Scalars['String']>;
   stripe_checkout_id?: Maybe<Scalars['String']>;
   zip_address?: Maybe<Scalars['String']>;
@@ -2508,6 +2509,7 @@ export type Orders_Avg_Fields = {
   __typename?: 'orders_avg_fields';
   amount?: Maybe<Scalars['Float']>;
   order_status?: Maybe<Scalars['Float']>;
+  shipping_fee?: Maybe<Scalars['Float']>;
 };
 
 /** Boolean expression to filter rows from the table "orders". All fields are combined with a logical 'AND'. */
@@ -2523,6 +2525,7 @@ export type Orders_Bool_Exp = {
   mail_address?: InputMaybe<String_Comparison_Exp>;
   order_status?: InputMaybe<Int_Comparison_Exp>;
   phone_number?: InputMaybe<String_Comparison_Exp>;
+  shipping_fee?: InputMaybe<Int_Comparison_Exp>;
   specified_date?: InputMaybe<String_Comparison_Exp>;
   stripe_checkout_id?: InputMaybe<String_Comparison_Exp>;
   zip_address?: InputMaybe<String_Comparison_Exp>;
@@ -2539,6 +2542,7 @@ export enum Orders_Constraint {
 export type Orders_Inc_Input = {
   amount?: InputMaybe<Scalars['Int']>;
   order_status?: InputMaybe<Scalars['Int']>;
+  shipping_fee?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "orders" */
@@ -2551,6 +2555,7 @@ export type Orders_Insert_Input = {
   mail_address?: InputMaybe<Scalars['String']>;
   order_status?: InputMaybe<Scalars['Int']>;
   phone_number?: InputMaybe<Scalars['String']>;
+  shipping_fee?: InputMaybe<Scalars['Int']>;
   specified_date?: InputMaybe<Scalars['String']>;
   stripe_checkout_id?: InputMaybe<Scalars['String']>;
   zip_address?: InputMaybe<Scalars['String']>;
@@ -2567,6 +2572,7 @@ export type Orders_Max_Fields = {
   mail_address?: Maybe<Scalars['String']>;
   order_status?: Maybe<Scalars['Int']>;
   phone_number?: Maybe<Scalars['String']>;
+  shipping_fee?: Maybe<Scalars['Int']>;
   specified_date?: Maybe<Scalars['String']>;
   stripe_checkout_id?: Maybe<Scalars['String']>;
   zip_address?: Maybe<Scalars['String']>;
@@ -2583,6 +2589,7 @@ export type Orders_Min_Fields = {
   mail_address?: Maybe<Scalars['String']>;
   order_status?: Maybe<Scalars['Int']>;
   phone_number?: Maybe<Scalars['String']>;
+  shipping_fee?: Maybe<Scalars['Int']>;
   specified_date?: Maybe<Scalars['String']>;
   stripe_checkout_id?: Maybe<Scalars['String']>;
   zip_address?: Maybe<Scalars['String']>;
@@ -2622,6 +2629,7 @@ export type Orders_Order_By = {
   mail_address?: InputMaybe<Order_By>;
   order_status?: InputMaybe<Order_By>;
   phone_number?: InputMaybe<Order_By>;
+  shipping_fee?: InputMaybe<Order_By>;
   specified_date?: InputMaybe<Order_By>;
   stripe_checkout_id?: InputMaybe<Order_By>;
   zip_address?: InputMaybe<Order_By>;
@@ -2650,6 +2658,8 @@ export enum Orders_Select_Column {
   /** column name */
   PhoneNumber = 'phone_number',
   /** column name */
+  ShippingFee = 'shipping_fee',
+  /** column name */
   SpecifiedDate = 'specified_date',
   /** column name */
   StripeCheckoutId = 'stripe_checkout_id',
@@ -2668,6 +2678,7 @@ export type Orders_Set_Input = {
   mail_address?: InputMaybe<Scalars['String']>;
   order_status?: InputMaybe<Scalars['Int']>;
   phone_number?: InputMaybe<Scalars['String']>;
+  shipping_fee?: InputMaybe<Scalars['Int']>;
   specified_date?: InputMaybe<Scalars['String']>;
   stripe_checkout_id?: InputMaybe<Scalars['String']>;
   zip_address?: InputMaybe<Scalars['String']>;
@@ -2679,6 +2690,7 @@ export type Orders_Stddev_Fields = {
   __typename?: 'orders_stddev_fields';
   amount?: Maybe<Scalars['Float']>;
   order_status?: Maybe<Scalars['Float']>;
+  shipping_fee?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -2686,6 +2698,7 @@ export type Orders_Stddev_Pop_Fields = {
   __typename?: 'orders_stddev_pop_fields';
   amount?: Maybe<Scalars['Float']>;
   order_status?: Maybe<Scalars['Float']>;
+  shipping_fee?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -2693,6 +2706,7 @@ export type Orders_Stddev_Samp_Fields = {
   __typename?: 'orders_stddev_samp_fields';
   amount?: Maybe<Scalars['Float']>;
   order_status?: Maybe<Scalars['Float']>;
+  shipping_fee?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate sum on columns */
@@ -2700,6 +2714,7 @@ export type Orders_Sum_Fields = {
   __typename?: 'orders_sum_fields';
   amount?: Maybe<Scalars['Int']>;
   order_status?: Maybe<Scalars['Int']>;
+  shipping_fee?: Maybe<Scalars['Int']>;
 };
 
 /** update columns of table "orders" */
@@ -2719,6 +2734,8 @@ export enum Orders_Update_Column {
   /** column name */
   PhoneNumber = 'phone_number',
   /** column name */
+  ShippingFee = 'shipping_fee',
+  /** column name */
   SpecifiedDate = 'specified_date',
   /** column name */
   StripeCheckoutId = 'stripe_checkout_id',
@@ -2733,6 +2750,7 @@ export type Orders_Var_Pop_Fields = {
   __typename?: 'orders_var_pop_fields';
   amount?: Maybe<Scalars['Float']>;
   order_status?: Maybe<Scalars['Float']>;
+  shipping_fee?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate var_samp on columns */
@@ -2740,6 +2758,7 @@ export type Orders_Var_Samp_Fields = {
   __typename?: 'orders_var_samp_fields';
   amount?: Maybe<Scalars['Float']>;
   order_status?: Maybe<Scalars['Float']>;
+  shipping_fee?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate variance on columns */
@@ -2747,6 +2766,7 @@ export type Orders_Variance_Fields = {
   __typename?: 'orders_variance_fields';
   amount?: Maybe<Scalars['Float']>;
   order_status?: Maybe<Scalars['Float']>;
+  shipping_fee?: Maybe<Scalars['Float']>;
 };
 
 export type Query_Root = {
@@ -3666,7 +3686,7 @@ export type GetOrderDetailQuery = (
   { __typename?: 'query_root' }
   & { orders_by_pk?: Maybe<(
     { __typename?: 'orders' }
-    & Pick<Orders, 'amount' | 'created_at' | 'customer_name' | 'id' | 'mail_address' | 'phone_number' | 'specified_date' | 'stripe_checkout_id' | 'zip_address' | 'zip_code'>
+    & Pick<Orders, 'amount' | 'created_at' | 'customer_name' | 'id' | 'mail_address' | 'phone_number' | 'specified_date' | 'order_status' | 'stripe_checkout_id' | 'zip_address' | 'zip_code' | 'shipping_fee'>
     & { items: Array<(
       { __typename?: 'order_item_relations' }
       & Pick<Order_Item_Relations, 'amount' | 'count'>
@@ -3675,6 +3695,20 @@ export type GetOrderDetailQuery = (
         & Pick<Items, 'name' | 'regular_price' | 'gender' | 'id'>
       )> }
     )> }
+  )> }
+);
+
+export type UpdateOrderStatusMutationVariables = Exact<{
+  id: Scalars['String'];
+  order_status?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type UpdateOrderStatusMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_orders_by_pk?: Maybe<(
+    { __typename?: 'orders' }
+    & Pick<Orders, 'id' | 'order_status'>
   )> }
 );
 
@@ -3836,6 +3870,7 @@ export type CreateOrderMutationVariables = Exact<{
   specified_date?: InputMaybe<Scalars['String']>;
   zip_code?: InputMaybe<Scalars['String']>;
   zip_address?: InputMaybe<Scalars['String']>;
+  shipping_fee?: InputMaybe<Scalars['Int']>;
 }>;
 
 
@@ -4342,6 +4377,7 @@ export const GetOrderDetailDocument = gql`
     mail_address
     phone_number
     specified_date
+    order_status
     stripe_checkout_id
     items {
       item {
@@ -4355,6 +4391,7 @@ export const GetOrderDetailDocument = gql`
     }
     zip_address
     zip_code
+    shipping_fee
   }
 }
     `;
@@ -4386,6 +4423,41 @@ export function useGetOrderDetailLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type GetOrderDetailQueryHookResult = ReturnType<typeof useGetOrderDetailQuery>;
 export type GetOrderDetailLazyQueryHookResult = ReturnType<typeof useGetOrderDetailLazyQuery>;
 export type GetOrderDetailQueryResult = Apollo.QueryResult<GetOrderDetailQuery, GetOrderDetailQueryVariables>;
+export const UpdateOrderStatusDocument = gql`
+    mutation UpdateOrderStatus($id: String!, $order_status: Int) {
+  update_orders_by_pk(pk_columns: {id: $id}, _set: {order_status: $order_status}) {
+    id
+    order_status
+  }
+}
+    `;
+export type UpdateOrderStatusMutationFn = Apollo.MutationFunction<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>;
+
+/**
+ * __useUpdateOrderStatusMutation__
+ *
+ * To run a mutation, you first call `useUpdateOrderStatusMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateOrderStatusMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateOrderStatusMutation, { data, loading, error }] = useUpdateOrderStatusMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      order_status: // value for 'order_status'
+ *   },
+ * });
+ */
+export function useUpdateOrderStatusMutation(baseOptions?: Apollo.MutationHookOptions<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>(UpdateOrderStatusDocument, options);
+      }
+export type UpdateOrderStatusMutationHookResult = ReturnType<typeof useUpdateOrderStatusMutation>;
+export type UpdateOrderStatusMutationResult = Apollo.MutationResult<UpdateOrderStatusMutation>;
+export type UpdateOrderStatusMutationOptions = Apollo.BaseMutationOptions<UpdateOrderStatusMutation, UpdateOrderStatusMutationVariables>;
 export const GetOrderListDocument = gql`
     query GetOrderList {
   orders(order_by: {created_at: desc}) {
@@ -4789,9 +4861,9 @@ export type UpdateItemsByOrderMutationHookResult = ReturnType<typeof useUpdateIt
 export type UpdateItemsByOrderMutationResult = Apollo.MutationResult<UpdateItemsByOrderMutation>;
 export type UpdateItemsByOrderMutationOptions = Apollo.BaseMutationOptions<UpdateItemsByOrderMutation, UpdateItemsByOrderMutationVariables>;
 export const CreateOrderDocument = gql`
-    mutation CreateOrder($amount: Int, $customer_name: String, $id: String, $mail_address: String, $phone_number: String, $stripe_checkout_id: String, $specified_date: String, $zip_code: String, $zip_address: String) {
+    mutation CreateOrder($amount: Int, $customer_name: String, $id: String, $mail_address: String, $phone_number: String, $stripe_checkout_id: String, $specified_date: String, $zip_code: String, $zip_address: String, $shipping_fee: Int) {
   insert_orders_one(
-    object: {amount: $amount, customer_name: $customer_name, id: $id, mail_address: $mail_address, phone_number: $phone_number, stripe_checkout_id: $stripe_checkout_id, specified_date: $specified_date, zip_code: $zip_code, zip_address: $zip_address}
+    object: {amount: $amount, customer_name: $customer_name, id: $id, mail_address: $mail_address, phone_number: $phone_number, stripe_checkout_id: $stripe_checkout_id, specified_date: $specified_date, zip_code: $zip_code, zip_address: $zip_address, shipping_fee: $shipping_fee}
   ) {
     id
   }
@@ -4821,6 +4893,7 @@ export type CreateOrderMutationFn = Apollo.MutationFunction<CreateOrderMutation,
  *      specified_date: // value for 'specified_date'
  *      zip_code: // value for 'zip_code'
  *      zip_address: // value for 'zip_address'
+ *      shipping_fee: // value for 'shipping_fee'
  *   },
  * });
  */
