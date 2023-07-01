@@ -80,9 +80,15 @@ export default function OrderDetail() {
                   </td>
                 </tr>
                 <tr>
-                  <th>合計金額</th>
+                  <th>{`合計金額(配送料含む)`}</th>
                   <td className={styles.description}>
                     {numberToPrice(orderDetail.amount)}
+                  </td>
+                </tr>
+                <tr>
+                  <th>配送料</th>
+                  <td>
+                    {orderDetail.shipping_fee != null ? numberToPrice(orderDetail.shipping_fee) : "-"}
                   </td>
                 </tr>
                 <tr>
@@ -203,6 +209,7 @@ gql`
       }
       zip_address
       zip_code
+      shipping_fee
     }
   }
 `
