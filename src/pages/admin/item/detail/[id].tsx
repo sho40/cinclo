@@ -35,6 +35,17 @@ type ItemDetailType = Maybe<(
   )> }
 )>
 
+export const escapeDescription = (description: string) => {
+  const text = description.split(/(\n)/).map((item, index) => {
+    return (
+      <div key={index}>
+        {item.match(/\n/) ? <br /> : item}
+      </div>
+    );
+  })
+  return <div>{text}</div>
+}
+
 export default function ItemDetail() {
   const router = useRouter();
   const itemId = Number(router.query.id);
@@ -75,17 +86,6 @@ export default function ItemDetail() {
       // FIXME: 削除後に画面に即反映する
       deleteImage({variables: {id: imageId}});
     }
-  }
-
-  const escapeDescription = (description: string) => {
-    const text = description.split(/(\n)/).map((item, index) => {
-      return (
-        <div key={index}>
-          {item.match(/\n/) ? <br /> : item}
-        </div>
-      );
-    })
-    return <div>{text}</div>
   }
 
   const date = item?.next_lending_date != null ? new Date(item?.next_lending_date) : new Date();

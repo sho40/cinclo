@@ -471,6 +471,7 @@ export type Contacts = {
   customer_name: Scalars['String'];
   id: Scalars['Int'];
   mail_address: Scalars['String'];
+  replied_flg: Scalars['Boolean'];
 };
 
 /** aggregated selection of "contacts" */
@@ -519,6 +520,7 @@ export type Contacts_Bool_Exp = {
   customer_name?: InputMaybe<String_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   mail_address?: InputMaybe<String_Comparison_Exp>;
+  replied_flg?: InputMaybe<Boolean_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "contacts" */
@@ -539,6 +541,7 @@ export type Contacts_Insert_Input = {
   customer_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   mail_address?: InputMaybe<Scalars['String']>;
+  replied_flg?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** aggregate max on columns */
@@ -584,6 +587,7 @@ export type Contacts_Order_By = {
   customer_name?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   mail_address?: InputMaybe<Order_By>;
+  replied_flg?: InputMaybe<Order_By>;
 };
 
 /** primary key columns input for table: contacts */
@@ -602,7 +606,9 @@ export enum Contacts_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  MailAddress = 'mail_address'
+  MailAddress = 'mail_address',
+  /** column name */
+  RepliedFlg = 'replied_flg'
 }
 
 /** input type for updating data in table "contacts" */
@@ -612,6 +618,7 @@ export type Contacts_Set_Input = {
   customer_name?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['Int']>;
   mail_address?: InputMaybe<Scalars['String']>;
+  replied_flg?: InputMaybe<Scalars['Boolean']>;
 };
 
 /** aggregate stddev on columns */
@@ -649,7 +656,9 @@ export enum Contacts_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  MailAddress = 'mail_address'
+  MailAddress = 'mail_address',
+  /** column name */
+  RepliedFlg = 'replied_flg'
 }
 
 /** aggregate var_pop on columns */
@@ -3506,6 +3515,31 @@ export type Timestamptz_Comparison_Exp = {
   _nin?: InputMaybe<Array<Scalars['timestamptz']>>;
 };
 
+export type FetchContactsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchContactsQuery = (
+  { __typename?: 'query_root' }
+  & { contacts: Array<(
+    { __typename?: 'contacts' }
+    & Pick<Contacts, 'id' | 'customer_name' | 'mail_address' | 'created_at' | 'content' | 'replied_flg'>
+  )> }
+);
+
+export type UpdateRepliedFlgMutationVariables = Exact<{
+  id: Scalars['Int'];
+  replied_flg?: InputMaybe<Scalars['Boolean']>;
+}>;
+
+
+export type UpdateRepliedFlgMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_contacts_by_pk?: Maybe<(
+    { __typename?: 'contacts' }
+    & Pick<Contacts, 'replied_flg' | 'id'>
+  )> }
+);
+
 export type GetItemListByAdminContainerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -4081,6 +4115,80 @@ export const ItemDetailFragmentDoc = gql`
   display_index
 }
     `;
+export const FetchContactsDocument = gql`
+    query FetchContacts {
+  contacts(order_by: {created_at: desc}) {
+    id
+    customer_name
+    mail_address
+    created_at
+    content
+    replied_flg
+  }
+}
+    `;
+
+/**
+ * __useFetchContactsQuery__
+ *
+ * To run a query within a React component, call `useFetchContactsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchContactsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchContactsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFetchContactsQuery(baseOptions?: Apollo.QueryHookOptions<FetchContactsQuery, FetchContactsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FetchContactsQuery, FetchContactsQueryVariables>(FetchContactsDocument, options);
+      }
+export function useFetchContactsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FetchContactsQuery, FetchContactsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FetchContactsQuery, FetchContactsQueryVariables>(FetchContactsDocument, options);
+        }
+export type FetchContactsQueryHookResult = ReturnType<typeof useFetchContactsQuery>;
+export type FetchContactsLazyQueryHookResult = ReturnType<typeof useFetchContactsLazyQuery>;
+export type FetchContactsQueryResult = Apollo.QueryResult<FetchContactsQuery, FetchContactsQueryVariables>;
+export const UpdateRepliedFlgDocument = gql`
+    mutation updateRepliedFlg($id: Int!, $replied_flg: Boolean) {
+  update_contacts_by_pk(pk_columns: {id: $id}, _set: {replied_flg: $replied_flg}) {
+    replied_flg
+    id
+  }
+}
+    `;
+export type UpdateRepliedFlgMutationFn = Apollo.MutationFunction<UpdateRepliedFlgMutation, UpdateRepliedFlgMutationVariables>;
+
+/**
+ * __useUpdateRepliedFlgMutation__
+ *
+ * To run a mutation, you first call `useUpdateRepliedFlgMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRepliedFlgMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRepliedFlgMutation, { data, loading, error }] = useUpdateRepliedFlgMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      replied_flg: // value for 'replied_flg'
+ *   },
+ * });
+ */
+export function useUpdateRepliedFlgMutation(baseOptions?: Apollo.MutationHookOptions<UpdateRepliedFlgMutation, UpdateRepliedFlgMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateRepliedFlgMutation, UpdateRepliedFlgMutationVariables>(UpdateRepliedFlgDocument, options);
+      }
+export type UpdateRepliedFlgMutationHookResult = ReturnType<typeof useUpdateRepliedFlgMutation>;
+export type UpdateRepliedFlgMutationResult = Apollo.MutationResult<UpdateRepliedFlgMutation>;
+export type UpdateRepliedFlgMutationOptions = Apollo.BaseMutationOptions<UpdateRepliedFlgMutation, UpdateRepliedFlgMutationVariables>;
 export const GetItemListByAdminContainerDocument = gql`
     query getItemListByAdminContainer {
   items {
