@@ -43,8 +43,6 @@ export default function OrderDetail() {
     } catch (error) {
       console.log({error})
     }
-
-    
   }
   
   if (loading) return <div>...loading</div>
