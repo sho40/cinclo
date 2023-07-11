@@ -96,7 +96,6 @@ export default function Cart() {
   const handleRemoveItem = (targetItemId: number) => {
     
     const newItemList = cartItems.filter(item => item.id !== targetItemId);
-    console.log("deleted newItemList", newItemList)
     setCartItems(newItemList)
   }
 
