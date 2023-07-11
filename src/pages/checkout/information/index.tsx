@@ -9,7 +9,7 @@ import { calcTotalAmount } from '@/pages/cart';
 import { v4 as uuidv4 } from 'uuid';
 import { purchaseInfoState } from '@/atoms/PurchaseInfoAtom';
 import { getShippingFee } from '@/logic/getShippingFee';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { TermsOfServiceComponent } from '@/components/customer/terms-of-service/termsOfService';
 
 // FIXME: 仮置き
@@ -28,16 +28,16 @@ export type CheckoutInfo = {
 /**
  * 注文に伴い更新する金額を算出する 
  * 
- * 更新後のレンタルカウントが15回目未満の場合は、現在価格 * 0.9
- * 15回目の場合は、* 0.5
- * 16回目以上は変更しない
+ * 更新後のレンタルカウントが10回目未満の場合は、現在価格 * 0.9
+ * 10回目の場合は、* 0.5
+ * 11回目以上は変更しない
  * 小数点が発生する場合は、小数点第一位を切り上げする。
 */
 const updateItemPrice = (currentPrice: number, nextCount: number): number => {
-  if (nextCount < 15) {
+  if (nextCount <= 9) {
     const nextPrice = currentPrice * 0.95;
     return Math.ceil(nextPrice);
-  } else if (nextCount === 15) {
+  } else if (nextCount === 10) {
     const nextPrice = currentPrice * 0.5;
     return Math.ceil(nextPrice);
   } else {
@@ -77,7 +77,16 @@ export default function CheckoutInformation() {
   const [createOrderItemRelationRecord] = useCreateOrderItemRelationMutation();
   const [updateItemsByOrder] = useUpdateItemsByOrderMutation();
   
-  const shippingFee = getShippingFee(purchaseInfo.city);
+  const shippingFee = useMemo(() => {
+    const regularShippingFee = getShippingFee(purchaseInfo.city);
+    if (cartItems.length >= 3) {
+      return 0
+    } else if (cartItems.length === 2) {
+      return regularShippingFee / 2
+    } else {
+      return regularShippingFee
+    }
+  }, [purchaseInfo.city, cartItems]);
 
   const [isDialogShown, setDialogShown] = useState<boolean>(false);
   const toggleDialogShown = () => {
@@ -112,7 +121,7 @@ export default function CheckoutInformation() {
         id: cartItem.id,
         current_count: nextCount,
         current_price: updateItemPrice(cartItem.current_price, nextCount),
-        can_sale: nextCount === 15,
+        can_sale: nextCount === 10,
         next_lending_date: null
       }});
     });

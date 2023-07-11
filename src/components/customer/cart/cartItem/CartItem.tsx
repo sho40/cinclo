@@ -23,8 +23,8 @@ const discountPercentCalc = (currentPrice: number, regularPrice: number) => {
 
 const getDiscountAmount = (regularPrice: number | undefined | null, currentPrice: number) => {
   if (regularPrice == null) return undefined;
-  // 1回目は定価の80%off
-  const firstPrice = regularPrice * .2;
+  // 1回目は定価の70%off
+  const firstPrice = regularPrice * .3;
   return firstPrice - currentPrice;
 }
 
@@ -65,7 +65,7 @@ export const CartItemComponent = ({item, canDelete, handleRemoveItem}: CartItemP
         </div>
         <div className={styles.price}>
           <div><span className={styles.currentPrice}>{numberToPriceCustomer(item.current_price)}</span><span style={{fontSize: "8px", paddingLeft: "2px"}}>{"(税込)"}</span></div>
-          <div><span style={{fontSize: "11px",}} className='text-red-400'>{`定価から80%off ${discountAmount != null && item.current_count > 1 ? `+ ${numberToPrice(discountAmount)}引き(レンタル${item.current_count}回目割引)` : ""}`}</span></div>
+          <div><span style={{fontSize: "11px",}} className='text-red-400'>{`定価から70%off ${discountAmount != null && item.current_count > 1 ? `+ ${numberToPrice(discountAmount)}引き(レンタル${item.current_count}回目割引)` : ""}`}</span></div>
         </div>
       </div>
     </div>
