@@ -2,7 +2,6 @@ import { Items } from "@/libs/apollo/graphql"
 import styles from "./itemCard.module.scss"
 import { isValidUrl } from "@/logic/checkUrl"
 import Image from 'next/image';
-import Link from "next/link";
 import { numberToPriceCustomer } from "@/logic/numberFormatter";
 import { useRouter } from "next/router";
 
@@ -12,7 +11,6 @@ interface ItemCardProps {
 
 export const ItemCard = ({item}: ItemCardProps) => {
   const router = useRouter();
-  console.log("item", item)
   return (
     <div className={styles.container} onClick={() => router.push(`/item/detail/${item.id}`)}>
       {!item.is_rental_available ? 

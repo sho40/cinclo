@@ -157,7 +157,6 @@ const PaymentForm = ({cartItems, purchaseInfo, amount, totalAmountWithoutTax, sh
       return
     }
     if (result.paymentIntent) {
-      console.log(`注文完了 (order_id: ${result.paymentIntent.id})`)
       const orderId = uuidv4();
       const zipAddress = purchaseInfo.city + purchaseInfo.line1 + purchaseInfo.line2;
       await createOrderAndUpdateItems({
