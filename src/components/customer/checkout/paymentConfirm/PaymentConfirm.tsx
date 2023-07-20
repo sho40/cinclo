@@ -50,7 +50,7 @@ export default function PaymentConfirm({cartItems, purchaseInfo, shippingFee, cr
               </div>
               <div>
                 <div><span>送料</span></div>
-                <div><span>{numberToPrice(shippingFee)}</span></div>
+                <div><span>{shippingFee === 0 ? "送料無料" : numberToPrice(shippingFee)}</span></div>
               </div>
               <div className={styles.totalAmountRow}>
                 <p>合計金額</p>

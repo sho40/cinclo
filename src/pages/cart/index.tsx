@@ -120,6 +120,20 @@ export default function Cart() {
       customerName === "" || email === "" || phoneNumber === "" || postalCode === "" || city === "" || line1 === "" || line2 === "" ? true : false
   }, [errors, customerName, email, phoneNumber, postalCode, city, line1, line2]);
 
+  const shippingFeeSuText: string | undefined = useMemo(() => {
+    if (cartItems.length < 1) {
+      return undefined
+    } else if (cartItems.length < 2) {
+      return "あと1点で送料半額"
+    } else if (cartItems.length < 3) {
+      return "あと2点で送料無料"
+    } else if (cartItems.length < 4) {
+      return "あと1点で送料無料"
+    } else {
+      return undefined
+    }
+  }, [cartItems]);
+
   return (
     <Layout>
       <div className={styles.container}> 
@@ -161,7 +175,12 @@ export default function Cart() {
                 </div>
                 <div>
                   <div><span>送料</span></div>
-                  <div><span>送料別</span></div>
+                  <div><span>{cartItems.length > 3 ? "送料無料" : "送料別"}</span></div>
+                </div>
+                <div style={{justifyContent: "end"}}>
+                  <span className='text-red-400'>
+                    {shippingFeeSuText ?? ""}
+                  </span>
                 </div>
               </div>
               <div>
