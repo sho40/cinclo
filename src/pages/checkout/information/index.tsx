@@ -34,11 +34,8 @@ export type CheckoutInfo = {
  * 小数点が発生する場合は、小数点第一位を切り上げする。
 */
 const updateItemPrice = (currentPrice: number, nextCount: number): number => {
-  if (nextCount <= 9) {
+  if (nextCount <= 10) {
     const nextPrice = currentPrice * 0.95;
-    return Math.ceil(nextPrice);
-  } else if (nextCount === 10) {
-    const nextPrice = currentPrice * 0.5;
     return Math.ceil(nextPrice);
   } else {
     return currentPrice
@@ -121,7 +118,7 @@ export default function CheckoutInformation() {
         id: cartItem.id,
         current_count: nextCount,
         current_price: updateItemPrice(cartItem.current_price, nextCount),
-        can_sale: nextCount === 10,
+        can_sale: nextCount > 10,
         next_lending_date: null
       }});
     });
