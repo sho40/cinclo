@@ -126,6 +126,14 @@ export default function ItemDetail() {
     const can_sale = data.can_sale as unknown === "TRUE" ? true : false;
     const next_lending_date = stringToDate(data.next_lending_date);
     const is_recommend = data.is_recommend as unknown === "TRUE" ? true : false;
+    
+    const current_price = data.current_price != null ? Number(data.current_price) : undefined;
+    const regular_price = data.regular_price != null ? Number(data.regular_price) : undefined;
+    const category_id = data.category_id != null ? Number(data.category_id) : undefined;
+    const brand_id = data.brand_id != null ? Number(data.brand_id) : undefined;
+    const gender = data.gender != null ? Number(data.gender) : undefined;
+    const current_count = data.current_count != null ? Number(data.current_count) : undefined;
+    const display_index = data.display_index != null ? Number(data.display_index) : undefined;
 
     try {
 
@@ -144,20 +152,20 @@ export default function ItemDetail() {
       console.log({data})
       const payload: EditItemsMutationVariables = {
         id: itemId,
-        brand_id: data.brand_id ?? item?.brand?.id,
+        brand_id: brand_id ?? item?.brand?.id,
         can_sale: can_sale ?? item?.can_sale,
-        category_id: data.category_id ?? item?.category?.id,
-        current_count: data.current_count ?? item?.current_count,
-        current_price: data.current_price ?? item?.current_price,
+        category_id: category_id ?? item?.category?.id,
+        current_count: current_count ?? item?.current_count,
+        current_price: current_price ?? item?.current_price,
         description: data.description ?? item?.description,
-        gender: data.gender ?? item?.gender,
+        gender: gender ?? item?.gender,
         is_rental_available: is_rental_available ?? item?.is_rental_available,
         name: data.name ?? item?.name,
         next_lending_date: next_lending_date ?? item?.next_lending_date,
-        regular_price: data.regular_price ?? item?.regular_price,
+        regular_price: regular_price ?? item?.regular_price,
         updated_at: now,
         is_recommend,
-        display_index: data.display_index
+        display_index: display_index
       }
       console.log("payload", payload)
       await editItem({variables: payload})
