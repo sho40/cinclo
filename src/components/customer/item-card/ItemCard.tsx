@@ -15,7 +15,7 @@ export const ItemCard = ({item}: ItemCardProps) => {
     <div className={styles.container} onClick={() => router.push(`/item/detail/${item.id}`)}>
       {!item.is_rental_available ? 
         <div className={styles.mask}>
-          <p>Coming soon...</p>
+          <p>Now Lending...</p>
         </div>
         :
         <></>

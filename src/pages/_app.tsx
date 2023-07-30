@@ -32,7 +32,6 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
   return (
     getLayout(
       <>
-        <Meta />
         <ApolloProvider client={apolloClient}>
           <RecoilRoot>
             <main className={openSans.className}>
