@@ -4,8 +4,7 @@ export default function handler(req: any, res: any) {
     sgMail.setApiKey(process.env.SENDGRID_APIKEY);
      
     const msg = {
-      to: "kanazawa.sho40@gmail.com",
-      // to: req.body.mailAddress,
+      to: req.body.mailAddress,
       bcc: 'admin@cinclo.jp', 
       from: 'support-system@cinclo.jp',
       subject: '延滞金のお支払いをお願いいたします。',
