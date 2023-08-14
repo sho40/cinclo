@@ -6,8 +6,34 @@ import { useRouter } from "next/router";
 import styles from './orderDetail.module.scss'
 import { formatDateYYYYMMDDForDateForm, formatDateYYYYMMDDHHmmss } from "@/logic/dateFormatter";
 import { numberToPrice } from "@/logic/numberFormatter";
-import { useMemo } from "react";
+import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { orderStatusConverter } from "@/logic/admin/orderStatusConverter";
+import { AdditionalChargeDialog } from "@/components/admin/additionalChargeDialog/additionalChargeDialog";
+
+const ConfirmDialog = (props: {
+  children: ReactNode;
+  onClose: () => void;
+}) => {
+
+  const dialogContainerElement = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const container = dialogContainerElement.current
+    if (dialogContainerElement != null && container != null) {
+    }
+  })
+
+  return (
+    <>
+      <div className={styles.overlay}/>
+      <div className={styles.dialogContainer} ref={dialogContainerElement}>
+        <div>{props.children}</div>
+        <div className={styles.closeButton} onClick={props.onClose}>
+          <button>close</button>
+        </div>
+      </div>
+    </>
+  )
+}
 
 export default function OrderDetail() {
 
@@ -44,26 +70,41 @@ export default function OrderDetail() {
       console.log({error})
     }
   }
+
+  const [isDialogShown, setDialogShown] = useState<boolean>(false);
+  const toggleDialogShown = () => {
+    setDialogShown(!isDialogShown)
+  }
   
   if (loading) return <div>...loading</div>
   if (orderDetail == null) return <></>
+
+  // 配送料含まない合計金額
+  const totalAmount = orderDetail.items.reduce((acc, currentItem) => acc + currentItem.amount, 0);
 
   return (
     <>
       <PageTitle title='注文詳細'/>
       <div className={styles.container}>
-        <div className={styles.actionButtonArea}>
-          <div className={styles.prepare}>
-            <button onClick={() => onUpdateOrderStatus(orderDetail.id, 0)}>発送準備中にする</button>
+        <div className={styles.buttonArea}>
+          <div className={styles.additionalChargeMailArea}>
+            <div className={styles.additionalChargeMailButton}>
+              <button onClick={() => toggleDialogShown()}>延滞金請求</button>
+            </div>
           </div>
-          <div className={styles.shipped}>
-            <button onClick={() => onUpdateOrderStatus(orderDetail.id, 1)}>発送済にする</button>
-          </div>
-          <div className={styles.penalty}>
-            <button onClick={() => onUpdateOrderStatus(orderDetail.id, 2)}>延滞金支払い待ちにする</button>
-          </div>
-          <div className={styles.recieved}>
-            <button onClick={() => onUpdateOrderStatus(orderDetail.id, 3)}>商品受取り済にする</button>
+          <div className={styles.actionButtonArea}>
+            <div className={styles.prepare}>
+              <button onClick={() => onUpdateOrderStatus(orderDetail.id, 0)}>発送準備中にする</button>
+            </div>
+            <div className={styles.shipped}>
+              <button onClick={() => onUpdateOrderStatus(orderDetail.id, 1)}>発送済にする</button>
+            </div>
+            <div className={styles.penalty}>
+              <button onClick={() => onUpdateOrderStatus(orderDetail.id, 2)}>延滞金支払い待ちにする</button>
+            </div>
+            <div className={styles.recieved}>
+              <button onClick={() => onUpdateOrderStatus(orderDetail.id, 3)}>商品受取り済にする</button>
+            </div>
           </div>
         </div>
         <div className={styles.basicInfoArea}>
@@ -102,7 +143,7 @@ export default function OrderDetail() {
                   </td>
                 </tr> 
                 <tr>
-                  <th>メアド</th>
+                  <th>メールアドレス</th>
                   <td>
                     {orderDetail.mail_address}
                   </td>
@@ -177,6 +218,18 @@ export default function OrderDetail() {
           })}
         </div>
       </div>
+      {isDialogShown ? 
+        <ConfirmDialog onClose={() => setDialogShown(false)}>
+          <AdditionalChargeDialog 
+            customerName={orderDetail.customer_name} 
+            mailAddress={orderDetail.mail_address} 
+            returnDate={returnDate != null ? formatDateYYYYMMDDForDateForm(returnDate) : ""} 
+            totalAmount={totalAmount}
+            closeDialog={() => setDialogShown(false)}
+          />
+        </ConfirmDialog> 
+        : <></>
+      }
     </>
   )
 }

@@ -1,0 +1,53 @@
+.container {
+  margin-bottom: 30px;
+
+  .formContainer {
+    margin-top: 10px;
+
+    input {
+      margin-left: 20px;
+      border-bottom: 1px #666 solid;
+    }
+  }
+
+  .errorMessage {
+    margin-top: 20px;
+    color: red;
+    font-weight: bold;
+  }
+
+  .confirmArea {
+    margin-top: 50px;
+
+    .title {
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .content {
+      border: 1px #666 solid;
+      border-radius: 10px;
+      padding: 20px 10px;
+    }
+  }
+
+  .sendButton {
+    padding: 20px 0 0 0;
+    text-align: center;
+
+    button {
+      width: 250px;
+      height: 60px;
+      background-color: #219DDD;
+      color: #fff;
+      border: 2px solid #219DDD;
+      border-radius: 5px;
+
+      &:hover {
+        opacity: 0.5;
+        cursor: pointer;
+      }
+    }
+  }
+}
