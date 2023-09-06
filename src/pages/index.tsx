@@ -6,23 +6,29 @@ import { useGetRecommendedItemsForHomeQuery, useGetNewArrivalItemsQuery, useGetA
 import { Layout } from '@/components/customer/Layout'
 import { ItemCard } from '@/components/customer/item-card/ItemCard'
 import styles from "./home.module.scss"
+import { Seo } from '@/components/util/seo/Seo'
 
 export default function Home() {
   // MEMO _in === gender
   return (
     <>
       <Layout>
-      {/* <GenderSwitch /> */}
-      <SlideBunner />
-      {/* <div className='px-2'>
-        <Recommend />
-      </div>
-      <div className='px-2'>
-        <NewArrival />
-      </div> */}
-      <div>
-        <AllItems />
-      </div>
+        <Seo 
+          pageTitle='サイトトップ・商品一覧ページ'
+          pageDescription='シンクロは弊社おすすめのセレクトブランドを1週間レンタルできるサービスになっております。さらに、レンタル回数に応じて割引率が変動!'
+          pagePath='https://cinclo.jp/'
+        />
+        {/* <GenderSwitch /> */}
+        <SlideBunner />
+        {/* <div className='px-2'>
+          <Recommend />
+        </div>
+        <div className='px-2'>
+          <NewArrival />
+        </div> */}
+        <div>
+          <AllItems />
+        </div>
       </Layout>
     </>
   )
