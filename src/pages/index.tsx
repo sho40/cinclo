@@ -17,7 +17,7 @@ export default function Home() {
         <Meta />
         <Seo 
           pageTitle='サイトトップ・商品一覧ページ'
-          pageDescription='シンクロは弊社おすすめのセレクトブランドを1週間レンタルできるサービスになっております。さらに、レンタル回数に応じて割引率が変動!'
+          pageDescription='CINCLOは会員登録不要!人気ブランドの洋服が定価70%OFFで1週間ずつ短期レンタル可能なサービスです。更にレンタルされる毎に5%ずつ安くなる!(最低価格¥622)'
           pagePath='https://cinclo.jp/'
         />
         {/* <GenderSwitch /> */}
